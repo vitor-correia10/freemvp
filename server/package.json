@@ -1,8 +1,14 @@
 {
     "name": "freemvp",
     "version": "0.0.1",
-    "description": "",
+    "description": "App to connect good ideas to junior developers",
     "main": "server.js",
+    "keywords": [
+        "webdeveloper",
+        "freeMVP",
+        "react",
+        "node"
+    ],
     "scripts": {
         "start": "node server.js",
         "dev": "nodemon server.js"
