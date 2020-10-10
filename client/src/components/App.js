@@ -1,6 +1,8 @@
 import React from 'react';
 import GlobalStyles from './style/GlobalStyles';
-import Logo from '../components/Logo';
+
+import Header from './Header';
+import Home from './Home';
 
 import {
   BrowserRouter as Router,
@@ -12,9 +14,10 @@ import {
 function App() {
   return (
     <Router>
+      <Header />
       <Switch>
         <Route exact path="/">
-          <Logo />
+          <Home />
         </Route>
       </Switch>
       <GlobalStyles />

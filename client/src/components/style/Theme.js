@@ -1,8 +1,7 @@
 export const THEME = {
-    black: '#000000',
+    black: '#172b2b',
     white: '#ffffff',
-    primary: '#B2B2B2',
-    secondary: '#FBB03B',
-    tertiary: '#636060',
+    primary: '#d95b2e',
+    secondary: '#3bad67',
     mobile: '699px',
 }
