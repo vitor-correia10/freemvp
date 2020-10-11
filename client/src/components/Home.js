@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import { Link } from 'react-router-dom';
 import { THEME } from '../components/style/Theme';
 
 import ProjectSrc from './../assets/project_img.jpg';
@@ -12,17 +13,17 @@ const Home = () => {
                 <Header type={projectHeader}>
                     Do you have any project?
                 </Header>
-                <button>
+                <Link to="/form-project">
                     Submit a project
-                </button>
+                </Link>
             </Banner>
             <Banner type={developer}>
                 <Header type={developerHeader}>
                     Let's get your project off the paper!
                 </Header>
-                <button>
+                <Link to="/form-developer">
                     Developer subscription
-                </button>
+                </Link>
             </Banner>
         </Wrapper>
     )

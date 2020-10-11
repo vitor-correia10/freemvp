@@ -3,6 +3,8 @@ import GlobalStyles from './style/GlobalStyles';
 
 import Header from './Header';
 import Home from './Home';
+import FormProject from './forms/FormProject';
+import FormDeveloper from './forms/FormDeveloper';
 
 import {
   BrowserRouter as Router,
@@ -18,6 +20,12 @@ function App() {
       <Switch>
         <Route exact path="/">
           <Home />
+        </Route>
+        <Route path="/form-project">
+          <FormProject />
+        </Route>
+        <Route path="/form-developer">
+          <FormDeveloper />
         </Route>
       </Switch>
       <GlobalStyles />
