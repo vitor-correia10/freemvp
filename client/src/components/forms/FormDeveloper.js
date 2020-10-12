@@ -3,11 +3,24 @@ import styled from 'styled-components/macro';
 
 import { useForm } from "react-hook-form";
 
+//Redux
+import { addDeveloper } from '../../Actions';
+import { useSelector, useDispatch } from "react-redux";
+
+
 const FormDeveloper = () => {
+    const { register, errors, handleSubmit } = useForm();
+    const firstName = useSelector((state) => state.Developer.firstName);
+    const lastName = useSelector((state) => state.Developer.lastName);
+    const email = useSelector((state) => state.Developer.email);
+    const technologies = useSelector((state) => state.Developer.technologies);
+    const about = useSelector((state) => state.Developer.about);
+    const dispatch = useDispatch();
+
     const onSubmit = (data) => {
         console.log(data)
     };
-    const { register, errors, handleSubmit } = useForm();
+
     return (
         <Wrapper>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -24,16 +37,18 @@ const FormDeveloper = () => {
                 <input name="email" type="email" ref={register({ required: true })} />
 
                 <label>Technologies</label>
-                <input type="checkbox" name="technology" value="Javascript" ref={register({ required: false })} />Javascript
-                <input type="checkbox" name="technology" value="React" ref={register({ required: false })} />React
-                <input type="checkbox" name="technology" value="Node" ref={register({ required: false })} />Node
-                <input type="checkbox" name="technology" value="Mongo" ref={register({ required: false })} />Mongo
+                <input type="checkbox" name="technologies" value="Javascript" ref={register({ required: false })} />Javascript
+                <input type="checkbox" name="technologies" value="React" ref={register({ required: false })} />React
+                <input type="checkbox" name="technologies" value="Node" ref={register({ required: false })} />Node
+                <input type="checkbox" name="technologies" value="Mongo" ref={register({ required: false })} />Mongo
 
                 <label >About you</label>
                 <textarea name="about" ref={register({ required: true })} />
                 {errors.about && "About you is required"}
 
-                <input type="submit" />
+                <button type="submit" onClick={() => dispatch(addDeveloper(firstName, lastName, email, technologies, about))}>
+                    Submit
+                </button>
             </form>
         </Wrapper>
     )

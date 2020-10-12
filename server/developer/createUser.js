@@ -15,9 +15,10 @@ const createUser = async (req, res) => {
         const {
             firstName,
             lastName,
+            email,
             image,
             about,
-            technology,
+            technologies,
         } = req.body;
 
         await client.connect();
@@ -28,9 +29,10 @@ const createUser = async (req, res) => {
         const r = await db.collection("developers").insertOne({
             firstName,
             lastName,
+            email,
             image,
             about,
-            technology,
+            technologies,
         });
         assert.strictEqual(1, r.insertedCount);
 
