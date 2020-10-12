@@ -10,6 +10,10 @@ const PORT = process.env.PORT || 8080;
 //Project
 const {
     createProject,
+    getProject,
+    getProjects,
+    deleteProject,
+    updateProject,
 } = require("./project/db");
 
 //Developer
@@ -38,6 +42,10 @@ express()
 
     //Project endpoint
     .post('/project', createProject)
+    .get('/project/:name', getProject)
+    .get('/project', getProjects)
+    .delete('/project/:name', deleteProject)
+    .put('/project/:name', updateProject)
 
 
     // handle 404s

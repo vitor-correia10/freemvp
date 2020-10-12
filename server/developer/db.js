@@ -21,7 +21,7 @@ const createDeveloper = async (req, res) => {
             password,
             image,
             about,
-
+            technologies: [],
         } = req.body;
 
         await client.connect();
@@ -36,7 +36,7 @@ const createDeveloper = async (req, res) => {
             password,
             image,
             about,
-
+            technologies: [],
         });
         assert.strictEqual(1, r.insertedCount);
 
@@ -99,12 +99,12 @@ const deleteDeveloper = async (req, res) => {
     console.log("connected!");
 
     try {
-        const email = req.params.email;
+        const { email } = req.params;
 
         const d = await db.collection("developers").deleteOne({ email });
         assert.strictEqual(1, d.deletedCount);
 
-        res.status(204).json({ status: 204 });
+        res.status(204).json({ status: 204, email });
     } catch (err) {
         res.status(500).json({ status: 500, message: err.message });
     }
@@ -119,22 +119,11 @@ const updateDeveloper = async (req, res) => {
     const db = client.db('freemvp');
     console.log("connected!");
 
-    const email = req.params.email;
-    const firstName = req.body.firstName;
-    console.log(req.body);
-
-    // if (!firstName) {
-    //     res.status(400).json({
-    //         status: 400,
-    //         data: req.body,
-    //         message: 'There is not a "firstName".',
-    //     });
-    //     return;
-    // }
+    const { email } = req.params;
 
     try {
         const query = { email };
-        const newValues = { $set: { firstName, lastName } };
+        const newValues = { $set: { ...req.body } };
 
         const u = await db.collection("developers").updateOne(query, newValues);
         assert.strictEqual(1, u.matchedCount);
