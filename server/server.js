@@ -7,13 +7,19 @@ const morgan = require("morgan");
 
 const PORT = process.env.PORT || 8080;
 
+//Project
 const {
     createProject,
-} = require("./project/createProject");
+} = require("./project/db");
 
+//Developer
 const {
-    createUser,
-} = require("./developer/createUser");
+    createDeveloper,
+    getDeveloper,
+    getDevelopers,
+    deleteDeveloper,
+    updateDeveloper,
+} = require("./developer/db")
 
 express()
     .use(morgan("tiny"))
@@ -23,8 +29,16 @@ express()
     .use("/", express.static(__dirname + "/"))
     .use(cors())
 
+    //Developer endpoint
+    .post('/developer', createDeveloper)
+    .get('/developer/:email', getDeveloper)
+    .get('/developer', getDevelopers)
+    .delete('/developer/:email', deleteDeveloper)
+    .put('/developer/:email', updateDeveloper)
+
+    //Project endpoint
     .post('/project', createProject)
-    .post('/developer', createUser)
+
 
     // handle 404s
     .use((req, res) => res.status(404).type("txt").send("Error 404"))

@@ -14,10 +14,12 @@ const createProject = async (req, res) => {
     try {
         const {
             name,
-            description,
             image,
+            description,
+            technologies,
             contact: {
                 email,
+                password,
                 phone,
                 country,
                 province,
@@ -31,10 +33,12 @@ const createProject = async (req, res) => {
 
         const r = await db.collection("projects").insertOne({
             name,
-            description,
             image,
+            description,
+            technologies,
             contact: {
                 email,
+                password,
                 phone,
                 country,
                 province,
