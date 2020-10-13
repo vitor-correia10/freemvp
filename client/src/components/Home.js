@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { Link } from 'react-router-dom';
 import { THEME } from '../components/style/Theme';
 
 import ProjectSrc from './../assets/project_img.jpg';
@@ -13,17 +12,17 @@ const Home = () => {
                 <Header type={projectHeader}>
                     Do you have any project?
                 </Header>
-                <Link to="/form-project">
+                <MainAnchor type={projectColor} href="/form-project">
                     Submit a project
-                </Link>
+                </MainAnchor>
             </Banner>
             <Banner type={developer}>
                 <Header type={developerHeader}>
                     Let's get your project off the paper!
                 </Header>
-                <Link to="/form-developer">
+                <MainAnchor type={developerColor} href="/form-developer">
                     Developer subscription
-                </Link>
+                </MainAnchor>
             </Banner>
         </Wrapper>
     )
@@ -32,6 +31,21 @@ const Home = () => {
 const Wrapper = styled.div`
     width: 100%;
     display: flex;
+`
+
+const MainAnchor = styled.a`
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: ${props => props.type.main};
+    color: #000000;
+    text-decoration: inherit;
+    font-size: 18px;
+
+    &:hover {
+    transform: scale(1.05);
+    transition: 0.4s ease-out;
+    box-shadow: 0px 0px 3px 2px rgba(23,43,43,0.3);
+  }
 `
 
 const Header = styled.h2`
@@ -60,7 +74,6 @@ const Banner = styled.div`
     align-items: center;
     justify-content: space-around;
     flex-direction: column;
-    filter: grayscale(1);
 `
 
 const project = {
@@ -69,6 +82,14 @@ const project = {
 
 const developer = {
     main: DeveloperSrc,
+};
+
+const projectColor = {
+    main: '#d95b2e',
+};
+
+const developerColor = {
+    main: '#3bad67',
 };
 
 export default Home;

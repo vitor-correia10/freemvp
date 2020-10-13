@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import { THEME } from '../style/Theme';
 
 import { useForm } from "react-hook-form";
 
@@ -7,6 +8,11 @@ import { useForm } from "react-hook-form";
 import { addDeveloper } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
+//Components
+import { ErrorMessage } from '../ErrorMessage';
+import { FormLabel } from '../Labels';
+import { MainHeader } from '../style/Headings';
+import { FormSubmitButton } from '../Buttons';
 
 const FormDeveloper = () => {
     const { register, errors, handleSubmit } = useForm();
@@ -23,39 +29,54 @@ const FormDeveloper = () => {
 
     return (
         <Wrapper>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <h1>Developer</h1>
-                <label>First Name</label>
-                <input name="firstName" ref={register({ required: true })} />
-                {errors.firstName && <p>First name is required.</p>}
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <MainHeader>Developer</MainHeader>
 
-                <label>Last Name</label>
-                <input name="lastName" ref={register({ required: true })} />
-                {errors.lastName && <p>Last name is required.</p>}
+                <FormSection>
+                    <FormLabel>First Name</FormLabel>
+                    <Input name="firstName" ref={register({ required: true })} />
+                    {errors.firstName && <ErrorMessage>First name is required.</ErrorMessage>}
+                </FormSection>
 
-                <label>Email</label>
-                <input name="email" type="email" ref={register({ required: true })} />
-                {errors.email && <p>Email is required.</p>}
+                <FormSection>
+                    <FormLabel>Last Name</FormLabel>
+                    <Input name="lastName" ref={register({ required: true })} />
+                    {errors.lastName && <ErrorMessage>Last name is required.</ErrorMessage>}
+                </FormSection>
 
-                <label>Password</label>
-                <input name="password" type="password" ref={register({ required: true })} />
-                {errors.email && <p>Password is required.</p>}
+                <FormSection>
+                    <FormLabel>Email</FormLabel>
+                    <Input name="email" type="email" ref={register({ required: true })} />
+                    {errors.email && <ErrorMessage>Email is required.</ErrorMessage>}
+                </FormSection>
 
-                <label>Technologies</label>
-                <input type="checkbox" name="technologies" value="Javascript" ref={register({ required: false })} />Javascript
-                <input type="checkbox" name="technologies" value="React" ref={register({ required: false })} />React
-                <input type="checkbox" name="technologies" value="Node" ref={register({ required: false })} />Node
-                <input type="checkbox" name="technologies" value="Mongo" ref={register({ required: false })} />Mongo
+                <FormSection>
+                    <FormLabel>Password</FormLabel>
+                    <Input name="password" type="password" ref={register({ required: true })} />
+                    {errors.email && <ErrorMessage>Password is required.</ErrorMessage>}
+                </FormSection>
 
-                <label >About you</label>
-                <textarea name="about" ref={register({ required: true, minLength: 5 })} />
-                {errors.about && errors.about.type === "required" && <p>"About you" is required.</p>}
-                {errors.about && errors.about.type === "minLength" && <p>This field required min length of 5 characters.</p>}
+                <FormSection>
+                    <FormLabel>Technologies</FormLabel>
+                    <div>
+                        <InputCheckbox type="checkbox" name="technologies" value="Javascript" ref={register({ required: false })} />Javascript
+                        <InputCheckbox type="checkbox" name="technologies" value="React" ref={register({ required: false })} />React
+                        <InputCheckbox type="checkbox" name="technologies" value="Node" ref={register({ required: false })} />Node
+                        <InputCheckbox type="checkbox" name="technologies" value="Mongo" ref={register({ required: false })} />Mongo
+                    </div>
+                </FormSection>
 
-                <button type="submit" onClick={() => dispatch(addDeveloper(firstName, lastName, email, technologies, about))}>
+                <FormSection>
+                    <FormLabel >About you</FormLabel>
+                    <TextArea name="about" ref={register({ required: true, minLength: 5 })} />
+                    {errors.about && errors.about.type === "required" && <ErrorMessage>"About you" is required.</ErrorMessage>}
+                    {errors.about && errors.about.type === "minLength" && <ErrorMessage>This field required min length of 5 characters.</ErrorMessage>}
+                </FormSection>
+
+                <FormSubmitButton type="submit" onClick={() => dispatch(addDeveloper(firstName, lastName, email, technologies, about))}>
                     Submit
-                </button>
-            </form>
+                </FormSubmitButton>
+            </Form>
         </Wrapper>
     )
 }
@@ -65,7 +86,40 @@ const Wrapper = styled.div`
     width: 100%;
     position: sticky;
     top: 0;
-    z-index: 10;
+`
+
+const Form = styled.form`
+    width: 60%;
+    margin: 15px auto;
+    padding: 10px;
+    background: #3bad67;
+    border-radius: 20px;
+    border: 5px double ${THEME.dark}
+`
+
+const FormSection = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+`
+
+const Input = styled.input`
+    height: 25px;
+    width: 25%;
+    min-width: 200px;
+`
+
+const TextArea = styled.textarea`
+    height: 50px;
+    width: 45%;
+    min-width: 250px;
+    max-width: 500px;
+`
+
+const InputCheckbox = styled.input`
+    margin-left: 20px;
 `
 
 export default FormDeveloper;
