@@ -17,11 +17,11 @@ const createDeveloper = async (req, res) => {
         const {
             firstName,
             lastName,
+            image,
             email,
             password,
-            image,
-            about,
             technologies: [],
+            about,
         } = req.body;
 
         await client.connect();
@@ -32,11 +32,11 @@ const createDeveloper = async (req, res) => {
         const r = await db.collection("developers").insertOne({
             firstName,
             lastName,
+            image,
             email,
             password,
-            image,
-            about,
             technologies: [],
+            about,
         });
         assert.strictEqual(1, r.insertedCount);
 

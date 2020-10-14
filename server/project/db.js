@@ -19,13 +19,12 @@ const createProject = async (req, res) => {
             image,
             description,
             technologies,
-            // contact: {
-            //     email,
-            //     password,
-            //     phone,
-            //     country,
-            //     province,
-            // }
+            contact: {
+                email,
+                password,
+                phone,
+                country,
+            }
         } = req.body;
 
         await client.connect();
@@ -38,13 +37,12 @@ const createProject = async (req, res) => {
             image,
             description,
             technologies,
-            // contact: {
-            //     email,
-            //     password,
-            //     phone,
-            //     country,
-            //     province,
-            // }
+            contact: {
+                email,
+                password,
+                phone,
+                country,
+            }
         });
         assert.strictEqual(1, r.insertedCount);
 

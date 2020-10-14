@@ -1,6 +1,7 @@
 const initialState = {
     firstName: "",
     lastName: "",
+    image: null,
     email: "",
     technologies: [],
     about: "",
@@ -12,6 +13,7 @@ const Developer = (state = initialState, action) => {
             return {
                 firstName: action.firstName,
                 lastName: action.lastName,
+                image: action.image,
                 email: action.email,
                 technologies: action.technologies,
                 about: action.about,

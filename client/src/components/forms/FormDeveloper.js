@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { THEME } from '../style/Theme';
-
 import { useForm } from "react-hook-form";
 
 //Redux
@@ -18,13 +17,14 @@ const FormDeveloper = () => {
     const { register, errors, handleSubmit } = useForm();
     const firstName = useSelector((state) => state.Developer.firstName);
     const lastName = useSelector((state) => state.Developer.lastName);
+    const image = useSelector((state) => state.Developer.image);
     const email = useSelector((state) => state.Developer.email);
     const technologies = useSelector((state) => state.Developer.technologies);
     const about = useSelector((state) => state.Developer.about);
     const dispatch = useDispatch();
 
     const onSubmit = (data) => {
-        dispatch(addDeveloper(data.firstName, data.lastName, data.email, data.technologies, data.about))
+        dispatch(addDeveloper(data.firstName, data.lastName, data.image, data.email, data.technologies, data.about))
     }
 
     return (
@@ -42,6 +42,11 @@ const FormDeveloper = () => {
                     <FormLabel>Last Name</FormLabel>
                     <Input name="lastName" ref={register({ required: true })} />
                     {errors.lastName && <ErrorMessage>Last name is required.</ErrorMessage>}
+                </FormSection>
+
+                <FormSection>
+                    <FormLabel>Profile Image</FormLabel>
+                    <Input type="file" name="image" ref={register({ required: false })} />
                 </FormSection>
 
                 <FormSection>
@@ -92,7 +97,7 @@ const Form = styled.form`
     width: 60%;
     margin: 15px auto;
     padding: 10px;
-    background: #3bad67;
+    background: ${THEME.secondary};
     border-radius: 20px;
     border: 5px double ${THEME.dark}
 `
