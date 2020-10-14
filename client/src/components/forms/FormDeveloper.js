@@ -24,12 +24,12 @@ const FormDeveloper = () => {
     const dispatch = useDispatch();
 
     const onSubmit = (data) => {
-        console.log(data)
-    };
+        dispatch(addDeveloper(data.firstName, data.lastName, data.email, data.technologies, data.about))
+    }
 
     return (
         <Wrapper>
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmit)} action="/developer" method="post">
                 <MainHeader>Developer</MainHeader>
 
                 <FormSection>
@@ -73,7 +73,7 @@ const FormDeveloper = () => {
                     {errors.about && errors.about.type === "minLength" && <ErrorMessage>This field required min length of 5 characters.</ErrorMessage>}
                 </FormSection>
 
-                <FormSubmitButton type="submit" onClick={() => dispatch(addDeveloper(firstName, lastName, email, technologies, about))}>
+                <FormSubmitButton type="submit">
                     Submit
                 </FormSubmitButton>
             </Form>

@@ -1,31 +1,33 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import Logo from './Logo';
+import { useSelector, useDispatch } from "react-redux";
 
-import { THEME } from '../components/style/Theme';
-
+import { toggleLogin } from "../Actions";
 
 const Navbar = () => {
-    const [appUser, setAppUser] = React.useState(false);
+    const dispatch = useDispatch();
+    const isLogin = useSelector((state) => state.login.isLogin);
+
     return (
         <Wrapper>
             <Logo />
-            <StyledHeader>
-                {appUser ? (
+            <nav>
+                {isLogin ? (
                     <StyledUserContainer>
                         <p>
-                            {appUser.name}
+                            name
                         </p>
                         <button
-                            onClick={() => setAppUser(!appUser)}
+                            onClick={() => dispatch(toggleLogin())}
                         >Log out</button>
                     </StyledUserContainer>
                 ) : (
                         <button
-                            onClick={() => setAppUser(!appUser)}
+                            onClick={() => dispatch(toggleLogin())}
                         >Log In</button>
                     )}
-            </StyledHeader>
+            </nav>
         </Wrapper >
     )
 }
@@ -40,12 +42,11 @@ const Wrapper = styled.div`
     padding: 0 20px 0 10px;
 `
 
-const StyledHeader = styled.nav`
-`;
-
 const StyledUserContainer = styled.div`
   display: flex;
   align-items: center;
 `;
+
+
 
 export default Navbar;

@@ -8,3 +8,9 @@ export const addDeveloper = (firstName, lastName, email, technologies, about) =>
         about,
     };
 };
+
+export const toggleLogin = () => {
+    return {
+        type: "TOGGLE",
+    };
+};

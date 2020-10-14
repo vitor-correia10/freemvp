@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { THEME } from '../components/style/Theme';
 
 import ProjectSrc from './../assets/project_img.jpg';
 import DeveloperSrc from './../assets/developer_img.jpg';
