@@ -1,12 +1,8 @@
-export const addDeveloper = (firstName, lastName, image, email, technologies, about) => {
+export const addDeveloper = (value, key) => {
     return {
         type: "ADD-DEVELOPER",
-        firstName,
-        lastName,
-        image,
-        email,
-        technologies,
-        about,
+        key,
+        value,
     };
 };
 

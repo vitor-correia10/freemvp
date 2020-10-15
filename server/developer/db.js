@@ -20,7 +20,7 @@ const createDeveloper = async (req, res) => {
             image,
             email,
             password,
-            technologies: [],
+            technologies,
             about,
         } = req.body;
 
