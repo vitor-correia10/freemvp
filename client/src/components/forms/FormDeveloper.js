@@ -27,6 +27,7 @@ const FormDeveloper = () => {
     return (
         <Wrapper>
             <Form
+                // onSubmit={handleSubmit()}
                 onSubmit={data => {
                     data.preventDefault();
 
@@ -67,6 +68,8 @@ const FormDeveloper = () => {
                     <FormLabel>First Name</FormLabel>
                     <Input
                         type="text"
+                        name="firstName"
+                        value="firstName"
                         onChange={(event) => {
                             dispatch(addDeveloper(event.target.value, 'firstName'));
                         }}
@@ -79,6 +82,7 @@ const FormDeveloper = () => {
                     <FormLabel>Last Name</FormLabel>
                     <Input
                         type="text"
+                        name="lastName"
                         onChange={(event) => {
                             dispatch(addDeveloper(event.target.value, 'lastName'));
                         }}
@@ -90,16 +94,20 @@ const FormDeveloper = () => {
                 <FormSection>
                     <FormLabel>Profile Image</FormLabel>
                     <Input type="file"
+                        name="image"
+                        accept="image/*"
                         onChange={(event) => {
                             dispatch(addDeveloper(event.target.value, 'image'));
                         }}
                         value={image}
-                        ref={register({ required: false })} />
+                        ref={register({ required: false })}
+                    />
                 </FormSection>
 
                 <FormSection>
                     <FormLabel>Email</FormLabel>
                     <Input type="email"
+                        name="email"
                         onChange={(event) => {
                             dispatch(addDeveloper(event.target.value, 'email'));
                         }}
@@ -111,6 +119,7 @@ const FormDeveloper = () => {
                 <FormSection>
                     <FormLabel>Password</FormLabel>
                     <Input type="password"
+                        name="password"
                         onChange={(event) => {
                             dispatch(addDeveloper(event.target.value, 'password'));
                         }}

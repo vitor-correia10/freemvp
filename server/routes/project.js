@@ -1,5 +1,7 @@
 'use strict';
 
+const router = require("express").Router();
+
 const { MongoClient } = require("mongodb");
 const assert = require("assert");
 
@@ -143,4 +145,11 @@ const updateProject = async (req, res) => {
     console.log("disconnected!");
 }
 
-module.exports = { createProject, getProject, getProjects, deleteProject, updateProject };
+//Project endpoint
+router.post('/project', createProject)
+router.get('/project/:name', getProject)
+router.get('/project', getProjects)
+router.delete('/project/:name', deleteProject)
+router.put('/project/:name', updateProject)
+
+module.exports = router;

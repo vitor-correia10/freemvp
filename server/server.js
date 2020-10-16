@@ -7,25 +7,18 @@ const morgan = require("morgan");
 
 const PORT = process.env.PORT || 8080;
 
-//Project
-const {
-    createProject,
-    getProject,
-    getProjects,
-    deleteProject,
-    updateProject,
-} = require("./project/db");
-
-//Developer
-const {
-    createDeveloper,
-    getDeveloper,
-    getDevelopers,
-    deleteDeveloper,
-    updateDeveloper,
-} = require("./developer/db")
-
 express()
+    .use(function (req, res, next) {
+        res.header(
+            "Access-Control-Allow-Methods",
+            "OPTIONS, HEAD, GET, PUT, POST, DELETE"
+        );
+        res.header(
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept"
+        );
+        next();
+    })
     .use(morgan("tiny"))
     .use(express.static("public"))
     .use(bodyParser.json())
@@ -33,20 +26,8 @@ express()
     .use("/", express.static(__dirname + "/"))
     .use(cors())
 
-    //Developer endpoint
-    .post('/developer', createDeveloper)
-    .get('/developer/:email', getDeveloper)
-    .get('/developer', getDevelopers)
-    .delete('/developer/:email', deleteDeveloper)
-    .put('/developer/:email', updateDeveloper)
-
-    //Project endpoint
-    .post('/project', createProject)
-    .get('/project/:name', getProject)
-    .get('/project', getProjects)
-    .delete('/project/:name', deleteProject)
-    .put('/project/:name', updateProject)
-
+    .use(require("./routes/developer"))
+    .use(require("./routes/project"))
 
     // handle 404s
     .use((req, res) => res.status(404).type("txt").send("Error 404"))

@@ -40,7 +40,12 @@ const FormProject = () => {
 
                 <FormSection>
                     <FormLabel>Project Image</FormLabel>
-                    <Input type="file" name="image" ref={register({ required: false })} />
+                    <Input type="file"
+                        valur="image"
+                        name="image"
+                        accept="image/*"
+                        ref={register({ required: false })}
+                    />
                 </FormSection>
 
                 <FormSection>
