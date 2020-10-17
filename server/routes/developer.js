@@ -4,6 +4,8 @@ const router = require("express").Router();
 
 const { MongoClient } = require("mongodb");
 const assert = require("assert");
+const fs = require('file-system');
+const multer = require("multer");
 
 require("dotenv").config();
 const { MONGO_URI } = process.env;
@@ -12,6 +14,17 @@ const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 };
+
+const storage = multer.diskStorage({
+    destination: function (req, image, cb) {
+        cb(null, 'uploads')
+    },
+    filename: function (req, image, cb) {
+        cb(null, file.originalName)
+    }
+})
+
+const uploads = multer({ storage });
 
 const createDeveloper = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);

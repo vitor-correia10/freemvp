@@ -104,7 +104,6 @@ const FormProject = () => {
 const Wrapper = styled.div`
     text-align: center;
     width: 100%;
-    position: sticky;
     top: 0;
 `
 

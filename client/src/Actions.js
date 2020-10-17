@@ -11,3 +11,9 @@ export const toggleLogin = () => {
         type: "TOGGLE",
     };
 };
+
+export const toggleModal = () => {
+    return {
+        type: "TOGGLE",
+    };
+};

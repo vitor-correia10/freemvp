@@ -12,6 +12,7 @@ import { ErrorMessage } from '../ErrorMessage';
 import { FormLabel } from '../Labels';
 import { MainHeader } from '../style/Headings';
 import { FormSubmitButton } from '../Buttons';
+import { useHistory } from 'react-router-dom';
 
 const FormDeveloper = () => {
     const { register, errors, handleSubmit } = useForm();
@@ -23,6 +24,7 @@ const FormDeveloper = () => {
     const technologies = useSelector((state) => state.Developer.technologies);
     const about = useSelector((state) => state.Developer.about);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     return (
         <Wrapper>
@@ -30,6 +32,7 @@ const FormDeveloper = () => {
                 // onSubmit={handleSubmit()}
                 onSubmit={data => {
                     data.preventDefault();
+                    history.push("/developer");
 
                     fetch('http://localhost:8080/developer', {
                         method: 'POST',
@@ -51,7 +54,7 @@ const FormDeveloper = () => {
                         .then(json => {
                             console.log('here', json)
                             if (json.success) {
-                                handleSubmit(dispatch(addDeveloper(data.firstName, data.lastName, data.image, data.email, data.password, data.technologies, data.about)))
+                                handleSubmit(dispatch(addDeveloper(data.firstName, data.lastName, data.image, data.email, data.password, data.technologies, data.about)));
                             } else {
                                 console.log('Error');
                             }
@@ -69,7 +72,6 @@ const FormDeveloper = () => {
                     <Input
                         type="text"
                         name="firstName"
-                        value="firstName"
                         onChange={(event) => {
                             dispatch(addDeveloper(event.target.value, 'firstName'));
                         }}
@@ -177,7 +179,6 @@ const FormDeveloper = () => {
 const Wrapper = styled.div`
     text-align: center;
     width: 100%;
-    position: sticky;
     top: 0;
 `
 
