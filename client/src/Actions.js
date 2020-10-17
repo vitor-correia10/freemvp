@@ -6,9 +6,17 @@ export const addDeveloper = (value, key) => {
     };
 };
 
+export const addTechnologies = (value, key) => {
+    return {
+        type: "ADD-TECHNOLOGIES",
+        key,
+        value,
+    };
+}
+
 export const toggleLogin = () => {
     return {
-        type: "TOGGLE",
+        type: "TOGGLE-LOGIN",
     };
 };
 

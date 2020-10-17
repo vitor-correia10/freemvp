@@ -6,7 +6,7 @@ const LoginTogglerReducer = (state = initialState, action) => {
     const newState = { ...state };
 
     switch (action.type) {
-        case "TOGGLE": {
+        case "TOGGLE-LOGIN": {
             return {
                 isLogin: !newState.isLogin,
             };

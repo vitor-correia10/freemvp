@@ -4,32 +4,32 @@ import { useSelector, useDispatch } from "react-redux";
 
 import LoginModal from "../Login/LoginModal";
 
-import { toggleLogin } from "../../Actions";
+import { toggleLogin, toggleModal } from "../../Actions";
 
 const Navbar = () => {
     const dispatch = useDispatch();
     const isLogin = useSelector((state) => state.login.isLogin);
+    const isOpen = useSelector((state) => state.modal.isOpen);
 
     return (
         <>
             <nav>
-                {isLogin ? (
+                {isOpen ? (
                     <LoginModal />
                 ) : (
-                        <button
-                            onClick={() => dispatch(toggleLogin())}
-                        >Log In</button>
-                    )}
+                        isLogin ? (
+                            <button
+                                onClick={() => dispatch(toggleLogin())}
+                            >Log Out</button>
+                        )
+                            : <button
+                                onClick={() => dispatch(toggleModal())}
+                            >Log In</button>
+                    )
+                }
             </nav>
         </ >
     )
 }
-
-const StyledUserContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-
 
 export default Navbar;

@@ -4,7 +4,7 @@ const initialState = {
     image: "",
     email: "",
     password: "",
-    technologies: [],
+    technologies: {},
     about: "",
 };
 
@@ -13,7 +13,16 @@ const Developer = (state = initialState, action) => {
         case 'ADD-DEVELOPER': {
             return {
                 ...state,
-                [action.key]: action.value,
+                [action.key]: action.value
+                // == 'technologies'
+                // ? { ...state.technologies, [action.value]: !state.technologies[action.value] }
+                // : action.value,
+            }
+        }
+        case 'ADD-TECHNOLOGIES': {
+            return {
+                ...state,
+                technologies: { ...state.technologies, [action.value]: !state.technologies[action.value] },
             }
         }
         default: {

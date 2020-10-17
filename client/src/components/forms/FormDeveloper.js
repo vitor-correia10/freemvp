@@ -4,7 +4,7 @@ import { THEME } from '../style/Theme';
 import { useForm } from "react-hook-form";
 
 //Redux
-import { addDeveloper } from '../../Actions';
+import { addDeveloper, addTechnologies, toggleLogin } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
@@ -23,47 +23,41 @@ const FormDeveloper = () => {
     const password = useSelector((state) => state.Developer.password);
     const technologies = useSelector((state) => state.Developer.technologies);
     const about = useSelector((state) => state.Developer.about);
+    let isLogin = useSelector((state) => state.login.isLogin);
     const dispatch = useDispatch();
     const history = useHistory();
+    const onSubmit = (data) => {
+        const formData = new FormData();
+
+        formData.append("image", image)
+        formData.append("firstName", firstName)
+        formData.append("lastName", lastName)
+        formData.append("email", email)
+        formData.append("password", password)
+        formData.append("technologies", JSON.stringify(Object.keys(technologies)))
+        formData.append("about", about)
+
+        fetch('http://localhost:8080/developer', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(res => res.json())
+            .then((responseBody) => {
+                const { status } = responseBody;
+                if (status === 'success') {
+                    history.push("/developer");
+                    let isLogin = true;
+
+                } else {
+                    console.log('Error');
+                }
+            })
+    }
+
 
     return (
         <Wrapper>
-            <Form
-                // onSubmit={handleSubmit()}
-                onSubmit={data => {
-                    data.preventDefault();
-                    history.push("/developer");
-
-                    fetch('http://localhost:8080/developer', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            firstName,
-                            lastName,
-                            image,
-                            email,
-                            password,
-                            technologies: [],
-                            about
-                        }),
-                    })
-                        .then(res => res.json())
-
-                        .then(json => {
-                            console.log('here', json)
-                            if (json.success) {
-                                handleSubmit(dispatch(addDeveloper(data.firstName, data.lastName, data.image, data.email, data.password, data.technologies, data.about)));
-                            } else {
-                                console.log('Error');
-                            }
-                        })
-                        .catch(err => {
-                            console.error(err);
-                        });
-                }}
-            >
+            <Form enctype="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
 
                 <MainHeader>Developer</MainHeader>
 
@@ -99,9 +93,9 @@ const FormDeveloper = () => {
                         name="image"
                         accept="image/*"
                         onChange={(event) => {
-                            dispatch(addDeveloper(event.target.value, 'image'));
+                            console.log(event.target.files[0]);
+                            dispatch(addDeveloper(event.target.files[0], 'image'));
                         }}
-                        value={image}
                         ref={register({ required: false })}
                     />
                 </FormSection>
@@ -135,22 +129,22 @@ const FormDeveloper = () => {
                     <div>
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addDeveloper(event.target.value, 'technologies'));
+                                dispatch(addTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Javascript" ref={register({ required: false })} />Javascript
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addDeveloper(event.target.value, 'technologies'));
+                                dispatch(addTechnologies(event.target.value, 'technologies'));
                             }}
                             value="React" ref={register({ required: false })} />React
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addDeveloper(event.target.value, 'technologies'));
+                                dispatch(addTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Node" ref={register({ required: false })} />Node
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addDeveloper(event.target.value, 'technologies'));
+                                dispatch(addTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Mongo" ref={register({ required: false })} />Mongo
                     </div>
@@ -168,7 +162,7 @@ const FormDeveloper = () => {
                     {errors.about && errors.about.type === "minLength" && <ErrorMessage>This field required min length of 5 characters.</ErrorMessage>}
                 </FormSection>
 
-                <FormSubmitButton type="submit">
+                <FormSubmitButton type="submit" onClick={() => dispatch(toggleLogin())}>
                     Submit
                 </FormSubmitButton>
             </Form>

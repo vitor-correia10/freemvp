@@ -7,7 +7,7 @@ import { THEME } from "../style/Theme";
 import { FormLabel } from '../Labels';
 
 const LoginModal = ({ onClick }) => {
-  const isOpen = useSelector((state) => state.modal.isOpen);
+
   const dispatch = useDispatch();
 
   return (

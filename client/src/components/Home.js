@@ -32,21 +32,21 @@ const Home = () => {
                 </Banner>
             </Slideshow>
             <MainSection>
-                <div>
+                <Content>
                     <StyledIdeaIcon />
                     <h3>Want start a business?</h3>
                     <p>Junior developers will...</p>
-                </div>
-                <div>
+                </Content>
+                <Content>
                     <StyledDeveloperIcon />
                     <h3>Make it happens!</h3>
                     <p>Build real projects and Grow a networking...</p>
-                </div>
-                <div>
+                </Content>
+                <Content>
                     <StyledRocketIcon />
                     <h3>FREE MVP</h3>
                     <p>Let's launch a project together!</p>
-                </div>
+                </Content>
             </MainSection>
         </>
     )
@@ -90,7 +90,7 @@ const developerHeader = {
 
 const Banner = styled.div`
     width: 50%;
-    height: 70vh;
+    height: 55vh;
     background-image: url(${props => props.type.main});
     background-size: cover;
     background-repeat: no-repeat;
@@ -118,7 +118,7 @@ const developerColor = {
 
 const MainSection = styled.section`
     display: flex;
-    justify-content: space-around;
+    height: 35vh;
 `
 
 const StyledIdeaIcon = styled(FcIdea)`
@@ -132,5 +132,18 @@ const StyledDeveloperIcon = styled(MdDeveloperMode)`
 const StyledRocketIcon = styled(GoRocket)`
     font-size: ${socialIconDim.fontSize};
 `;
+
+const Content = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &:not(:last-child){
+        border-right: 1px black dashed;
+    }
+`
 
 export default Home;

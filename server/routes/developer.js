@@ -6,6 +6,7 @@ const { MongoClient } = require("mongodb");
 const assert = require("assert");
 const fs = require('file-system');
 const multer = require("multer");
+const { userInfo } = require("os");
 
 require("dotenv").config();
 const { MONGO_URI } = process.env;
@@ -15,19 +16,12 @@ const options = {
     useUnifiedTopology: true,
 };
 
-const storage = multer.diskStorage({
-    destination: function (req, image, cb) {
-        cb(null, 'uploads')
-    },
-    filename: function (req, image, cb) {
-        cb(null, file.originalName)
-    }
-})
+const upload = multer({ dest: __dirname + '/uploads' })
 
-const uploads = multer({ storage });
-
-const createDeveloper = async (req, res) => {
+const createDeveloper = async (req, res, next) => {
     const client = await MongoClient(MONGO_URI, options);
+    console.log(req.body);
+    console.log(req.file);
     try {
         const {
             firstName,
@@ -42,27 +36,34 @@ const createDeveloper = async (req, res) => {
         await client.connect();
 
         const db = client.db('freemvp');
-        console.log("connected!");
 
+        // db.collection("developers").findOne({ email }, (err, previousUser) => {
+        //     if (err) {
+        //         res.status(500).json({ status: 500, data: "Server  error" });
+        //     } else if (previousUser) {
+        //         res.status(404).json({ status: 404, data: "User already exist." })
+        //     }
+
+        // });
         const r = await db.collection("developers").insertOne({
             firstName,
             lastName,
-            image,
+            image: req.file.path,
             email,
             password,
-            technologies: [],
+            technologies: JSON.parse(technologies),
             about,
         });
         assert.strictEqual(1, r.insertedCount);
 
-        res.status(201).json({ status: 201, data: req.body });
+        res.status(201).json({ status: "success", data: req.body });
 
     } catch (err) {
         console.log(err.stack);
-        res.status(500).json({ status: 500, message: err.message });
+        res.status(500).json({ status: "error", message: err.message });
     }
     client.close();
-    console.log("disconnected!");
+
 };
 
 const getDeveloper = async (req, res) => {
@@ -153,7 +154,7 @@ const updateDeveloper = async (req, res) => {
 }
 
 //Developer endpoint
-router.post('/developer', createDeveloper)
+router.post('/developer', upload.single('image'), createDeveloper)
 router.get('/developer/:email', getDeveloper)
 router.get('/developer', getDevelopers)
 router.delete('/developer/:email', deleteDeveloper)
