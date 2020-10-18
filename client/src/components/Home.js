@@ -22,11 +22,11 @@ const Home = () => {
                         Submit a project
                 </MainAnchor>
                 </Banner>
-                <Banner type={developer}>
-                    <Header type={developerHeader}>
+                <Banner type={user}>
+                    <Header type={userHeader}>
                         Let's make it happen!
                 </Header>
-                    <MainAnchor type={developerColor} href="/form-developer">
+                    <MainAnchor type={userColor} href="/form-user">
                         Developer subscription
                 </MainAnchor>
                 </Banner>
@@ -38,7 +38,7 @@ const Home = () => {
                     <p>Junior developers will...</p>
                 </Content>
                 <Content>
-                    <StyledDeveloperIcon />
+                    <StyledUserIcon />
                     <h3>Make it happens!</h3>
                     <p>Build real projects and Grow a networking...</p>
                 </Content>
@@ -84,7 +84,7 @@ const projectHeader = {
     main: '#000000',
 };
 
-const developerHeader = {
+const userHeader = {
     main: '#ffffff',
 };
 
@@ -104,7 +104,7 @@ const project = {
     main: ProjectSrc,
 };
 
-const developer = {
+const user = {
     main: DeveloperSrc,
 };
 
@@ -112,7 +112,7 @@ const projectColor = {
     main: '#d95b2e',
 };
 
-const developerColor = {
+const userColor = {
     main: '#3bad67',
 };
 
@@ -125,7 +125,7 @@ const StyledIdeaIcon = styled(FcIdea)`
     font-size: ${socialIconDim.fontSize};
 `;
 
-const StyledDeveloperIcon = styled(MdDeveloperMode)`
+const StyledUserIcon = styled(MdDeveloperMode)`
     font-size: ${socialIconDim.fontSize};
 `;
 

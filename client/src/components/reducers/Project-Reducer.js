@@ -1,22 +1,20 @@
 const initialState = {
-    firstName: "",
-    lastName: "",
+    name: "",
+    description: "",
     image: "",
     email: "",
     password: "",
+    phone: "",
+    country: "",
     technologies: {},
-    about: "",
 };
 
-const Developer = (state = initialState, action) => {
+const Project = (state = initialState, action) => {
     switch (action.type) {
-        case 'ADD-DEVELOPER': {
+        case 'ADD-PROJECT': {
             return {
                 ...state,
                 [action.key]: action.value
-                // == 'technologies'
-                // ? { ...state.technologies, [action.value]: !state.technologies[action.value] }
-                // : action.value,
             }
         }
         case 'ADD-TECHNOLOGIES': {
@@ -31,4 +29,4 @@ const Developer = (state = initialState, action) => {
     }
 }
 
-export default Developer;
+export default Project;

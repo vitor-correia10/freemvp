@@ -1,11 +1,13 @@
 import { combineReducers } from "redux";
 
-import Developer from "./Developer-Reducer";
+import User from "./User-Reducer";
+import Project from "./Project-Reducer";
 import LoginTogglerReducer from "./ToggleLogin";
 import modalTogglerReducer from "./ToggleModal";
 
 const allReducers = combineReducers({
-    Developer,
+    User,
+    Project,
     login: LoginTogglerReducer,
     modal: modalTogglerReducer,
 });

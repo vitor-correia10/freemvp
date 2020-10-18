@@ -4,9 +4,7 @@ const router = require("express").Router();
 
 const { MongoClient } = require("mongodb");
 const assert = require("assert");
-const fs = require('file-system');
 const multer = require("multer");
-const { userInfo } = require("os");
 
 require("dotenv").config();
 const { MONGO_URI } = process.env;
@@ -18,12 +16,11 @@ const options = {
 
 const upload = multer({ dest: __dirname + '/uploads' })
 
-const createDeveloper = async (req, res, next) => {
+const createUser = async (req, res, next) => {
     const client = await MongoClient(MONGO_URI, options);
-    console.log(req.body);
-    console.log(req.file);
     try {
         const {
+            type,
             firstName,
             lastName,
             image,
@@ -31,13 +28,14 @@ const createDeveloper = async (req, res, next) => {
             password,
             technologies,
             about,
+            projectID,
         } = req.body;
 
         await client.connect();
 
         const db = client.db('freemvp');
 
-        // db.collection("developers").findOne({ email }, (err, previousUser) => {
+        // db.collection("users").findOne({ email }, (err, previousUser) => {
         //     if (err) {
         //         res.status(500).json({ status: 500, data: "Server  error" });
         //     } else if (previousUser) {
@@ -45,7 +43,8 @@ const createDeveloper = async (req, res, next) => {
         //     }
 
         // });
-        const r = await db.collection("developers").insertOne({
+        const r = await db.collection("users").insertOne({
+            type,
             firstName,
             lastName,
             image: req.file.path,
@@ -53,6 +52,7 @@ const createDeveloper = async (req, res, next) => {
             password,
             technologies: JSON.parse(technologies),
             about,
+            projectID,
         });
         assert.strictEqual(1, r.insertedCount);
 
@@ -66,7 +66,7 @@ const createDeveloper = async (req, res, next) => {
 
 };
 
-const getDeveloper = async (req, res) => {
+const getUser = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
     const { email } = req.params;
 
@@ -74,7 +74,7 @@ const getDeveloper = async (req, res) => {
     const db = client.db('freemvp');
     console.log("connected!");
 
-    db.collection("developers").findOne({ email }, (err, result) => {
+    db.collection("users").findOne({ email }, (err, result) => {
         result
             ? res.status(200).json({ status: 200, data: result })
             : res.status(404).json({ status: 404, data: "Not Found" });
@@ -84,14 +84,14 @@ const getDeveloper = async (req, res) => {
     });
 };
 
-const getDevelopers = async (req, res) => {
+const getUsers = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
 
     await client.connect();
     const db = client.db('freemvp');
     console.log("connected!");
 
-    const developers = await db.collection("developers").find().toArray((err, result) => {
+    const users = await db.collection("users").find().toArray((err, result) => {
         if (result.length) {
             let start = Number(req.query.start) || 0;
             let limit = start + Number(req.query.limit) || 10;
@@ -107,7 +107,7 @@ const getDevelopers = async (req, res) => {
     });
 };
 
-const deleteDeveloper = async (req, res) => {
+const deleteUser = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
 
     await client.connect();
@@ -117,7 +117,7 @@ const deleteDeveloper = async (req, res) => {
     try {
         const { email } = req.params;
 
-        const d = await db.collection("developers").deleteOne({ email });
+        const d = await db.collection("users").deleteOne({ email });
         assert.strictEqual(1, d.deletedCount);
 
         res.status(204).json({ status: 204, email });
@@ -128,7 +128,7 @@ const deleteDeveloper = async (req, res) => {
     console.log("disconnected!");
 };
 
-const updateDeveloper = async (req, res) => {
+const updateUser = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
 
     await client.connect();
@@ -141,7 +141,7 @@ const updateDeveloper = async (req, res) => {
         const query = { email };
         const newValues = { $set: { ...req.body } };
 
-        const u = await db.collection("developers").updateOne(query, newValues);
+        const u = await db.collection("users").updateOne(query, newValues);
         assert.strictEqual(1, u.matchedCount);
         assert.strictEqual(1, u.modifiedCount);
 
@@ -153,11 +153,11 @@ const updateDeveloper = async (req, res) => {
     console.log("disconnected!");
 }
 
-//Developer endpoint
-router.post('/developer', upload.single('image'), createDeveloper)
-router.get('/developer/:email', getDeveloper)
-router.get('/developer', getDevelopers)
-router.delete('/developer/:email', deleteDeveloper)
-router.put('/developer/:email', updateDeveloper)
+//user endpoint
+router.post('/user', upload.single('image'), createUser)
+router.get('/user/:email', getUser)
+router.get('/user', getUsers)
+router.delete('/user/:email', deleteUser)
+router.put('/user/:email', updateUser)
 
 module.exports = router;

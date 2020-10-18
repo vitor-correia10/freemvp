@@ -4,7 +4,7 @@ import { THEME } from '../style/Theme';
 import { useForm } from "react-hook-form";
 
 //Redux
-import { addDeveloper, addTechnologies, toggleLogin } from '../../Actions';
+import { addUser, addTechnologies, toggleLogin } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
@@ -14,16 +14,16 @@ import { MainHeader } from '../style/Headings';
 import { FormSubmitButton } from '../Buttons';
 import { useHistory } from 'react-router-dom';
 
-const FormDeveloper = () => {
+const FormUser = () => {
     const { register, errors, handleSubmit } = useForm();
-    const firstName = useSelector((state) => state.Developer.firstName);
-    const lastName = useSelector((state) => state.Developer.lastName);
-    const image = useSelector((state) => state.Developer.image);
-    const email = useSelector((state) => state.Developer.email);
-    const password = useSelector((state) => state.Developer.password);
-    const technologies = useSelector((state) => state.Developer.technologies);
-    const about = useSelector((state) => state.Developer.about);
-    let isLogin = useSelector((state) => state.login.isLogin);
+    const firstName = useSelector((state) => state.User.firstName);
+    const lastName = useSelector((state) => state.User.lastName);
+    const image = useSelector((state) => state.User.image);
+    const email = useSelector((state) => state.User.email);
+    const password = useSelector((state) => state.User.password);
+    const technologies = useSelector((state) => state.User.technologies);
+    const about = useSelector((state) => state.User.about);
+    const isLogin = useSelector((state) => state.login.isLogin);
     const dispatch = useDispatch();
     const history = useHistory();
     const onSubmit = (data) => {
@@ -37,7 +37,7 @@ const FormDeveloper = () => {
         formData.append("technologies", JSON.stringify(Object.keys(technologies)))
         formData.append("about", about)
 
-        fetch('http://localhost:8080/developer', {
+        fetch('http://localhost:8080/user', {
             method: 'POST',
             body: formData,
         })
@@ -45,9 +45,9 @@ const FormDeveloper = () => {
             .then((responseBody) => {
                 const { status } = responseBody;
                 if (status === 'success') {
-                    history.push("/developer");
+                    history.push("/user");
                     let isLogin = true;
-
+                    dispatch(toggleLogin());
                 } else {
                     console.log('Error');
                 }
@@ -57,17 +57,17 @@ const FormDeveloper = () => {
 
     return (
         <Wrapper>
-            <Form enctype="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmit)}>
 
-                <MainHeader>Developer</MainHeader>
+                <MainHeader>Developer Profile</MainHeader>
 
                 <FormSection>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>First Name*</FormLabel>
                     <Input
                         type="text"
                         name="firstName"
                         onChange={(event) => {
-                            dispatch(addDeveloper(event.target.value, 'firstName'));
+                            dispatch(addUser(event.target.value, 'firstName'));
                         }}
                         value={firstName}
                         ref={register({ required: true })} />
@@ -75,37 +75,39 @@ const FormDeveloper = () => {
                 </FormSection>
 
                 <FormSection>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel>Last Name*</FormLabel>
                     <Input
                         type="text"
                         name="lastName"
                         onChange={(event) => {
-                            dispatch(addDeveloper(event.target.value, 'lastName'));
+                            dispatch(addUser(event.target.value, 'lastName'));
                         }}
                         value={lastName}
-                        ref={register({ required: true })} />
+                        ref={register({ required: true })}
+                    />
                     {errors.lastName && <ErrorMessage>Last name is required.</ErrorMessage>}
                 </FormSection>
 
                 <FormSection>
-                    <FormLabel>Profile Image</FormLabel>
+                    <FormLabel>Profile Image*</FormLabel>
                     <Input type="file"
                         name="image"
                         accept="image/*"
                         onChange={(event) => {
                             console.log(event.target.files[0]);
-                            dispatch(addDeveloper(event.target.files[0], 'image'));
+                            dispatch(addUser(event.target.files[0], 'image'));
                         }}
-                        ref={register({ required: false })}
+                        ref={register({ required: true })}
                     />
+                    {errors.image && <ErrorMessage>Image is required.</ErrorMessage>}
                 </FormSection>
 
                 <FormSection>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Email*</FormLabel>
                     <Input type="email"
                         name="email"
                         onChange={(event) => {
-                            dispatch(addDeveloper(event.target.value, 'email'));
+                            dispatch(addUser(event.target.value, 'email'));
                         }}
                         value={email}
                         ref={register({ required: true })} />
@@ -113,15 +115,16 @@ const FormDeveloper = () => {
                 </FormSection>
 
                 <FormSection>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Password*</FormLabel>
                     <Input type="password"
                         name="password"
                         onChange={(event) => {
-                            dispatch(addDeveloper(event.target.value, 'password'));
+                            dispatch(addUser(event.target.value, 'password'));
                         }}
                         value={password}
-                        ref={register({ required: true })} />
-                    {errors.email && <ErrorMessage>Password is required.</ErrorMessage>}
+                        ref={register({ required: true, minLength: 8 })} />
+                    {errors.password && errors.password.type === "required" && <ErrorMessage>Password is required.</ErrorMessage>}
+                    {errors.password && errors.password.type === "minLength" && <ErrorMessage>This field required min length of 8 characters.</ErrorMessage>}
                 </FormSection>
 
                 <FormSection>
@@ -154,15 +157,13 @@ const FormDeveloper = () => {
                     <FormLabel >About you</FormLabel>
                     <TextArea name="about"
                         onChange={(event) => {
-                            dispatch(addDeveloper(event.target.value, 'about'));
+                            dispatch(addUser(event.target.value, 'about'));
                         }}
                         value={about}
-                        ref={register({ required: true, minLength: 5 })} />
-                    {errors.about && errors.about.type === "required" && <ErrorMessage>"About you" is required.</ErrorMessage>}
-                    {errors.about && errors.about.type === "minLength" && <ErrorMessage>This field required min length of 5 characters.</ErrorMessage>}
+                        ref={register({ required: false })} />
                 </FormSection>
 
-                <FormSubmitButton type="submit" onClick={() => dispatch(toggleLogin())}>
+                <FormSubmitButton type="submit">
                     Submit
                 </FormSubmitButton>
             </Form>
@@ -210,4 +211,4 @@ const InputCheckbox = styled.input`
     margin-left: 20px;
 `
 
-export default FormDeveloper;
+export default FormUser;

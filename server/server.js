@@ -26,7 +26,7 @@ express()
     .use("/", express.static(__dirname + "/"))
     .use(cors())
 
-    .use(require("./routes/developer"))
+    .use(require("./routes/user"))
     .use(require("./routes/project"))
 
     // handle 404s

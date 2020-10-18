@@ -1,14 +1,39 @@
 import { createStore } from "redux";
 import allReducers from "./components/reducers";
 
-export default function configureStore(initialState) {
-    // const persistedState = loadFromLocalStorage();
+function saveToLocalStorage(state) {
+    try {
+        const serializedState = JSON.stringify(state.User)
+        localStorage.setItem('state', serializedState)
+    } catch (err) {
+        console.log(err)
+    }
+}
 
-    // if (persistedState) {
-    //     initialState = {
-    //         ...initialState,
-    //     }
-    // }
+function loadFromLocalStorage() {
+    try {
+        const serializedState = localStorage.getItem('state')
+        if (serializedState === null) {
+            return undefined
+        }
+        else {
+            return JSON.parse(serializedState)
+        }
+    } catch (err) {
+        console.log(err)
+        return undefined
+    }
+}
+
+export default function configureStore(initialState) {
+    const persistedState = loadFromLocalStorage();
+
+    if (persistedState) {
+        initialState = {
+            ...initialState,
+            User: persistedState
+        }
+    }
 
     const store = createStore(
         allReducers,

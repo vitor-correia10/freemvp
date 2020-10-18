@@ -1,6 +1,6 @@
-export const addDeveloper = (value, key) => {
+export const addUser = (value, key) => {
     return {
-        type: "ADD-DEVELOPER",
+        type: "ADD-USER",
         key,
         value,
     };
@@ -13,6 +13,14 @@ export const addTechnologies = (value, key) => {
         value,
     };
 }
+
+export const addProject = (value, key) => {
+    return {
+        type: "ADD-PROJECT",
+        key,
+        value,
+    };
+};
 
 export const toggleLogin = () => {
     return {
