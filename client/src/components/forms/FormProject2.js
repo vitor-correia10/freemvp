@@ -16,6 +16,7 @@ import { useHistory } from 'react-router-dom';
 
 const FormProject2 = () => {
     const { register, errors, handleSubmit } = useForm();
+    const email = useSelector((state) => state.User.email);
     const name = useSelector((state) => state.Project.name);
     const image = useSelector((state) => state.Project.image);
     const description = useSelector((state) => state.Project.description);
@@ -28,6 +29,7 @@ const FormProject2 = () => {
         const formData = new FormData();
 
         formData.append("name", name)
+        formData.append("email", email)
         formData.append("image", image)
         formData.append("description", description)
         formData.append("technologies", JSON.stringify(Object.keys(technologies)))

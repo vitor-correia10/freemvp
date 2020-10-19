@@ -16,9 +16,6 @@ const User = (state = initialState, action) => {
             return {
                 ...state,
                 [action.key]: action.value
-                // == 'technologies'
-                // ? { ...state.technologies, [action.value]: !state.technologies[action.value] }
-                // : action.value,
             }
         }
         case 'ADD-TECHNOLOGIES': {

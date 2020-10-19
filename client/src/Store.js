@@ -12,7 +12,7 @@ function saveToLocalStorage(state) {
 
 function loadFromLocalStorage() {
     try {
-        const serializedState = localStorage.getItem('state')
+        const serializedState = localStorage.getUser('state')
         if (serializedState === null) {
             return undefined
         }
@@ -41,7 +41,7 @@ export default function configureStore(initialState) {
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );
 
-    // store.subscribe(() => saveToLocalStorage(store.getState()))
+    store.subscribe(() => saveToLocalStorage(store.getState()))
 
     return store;
 }
