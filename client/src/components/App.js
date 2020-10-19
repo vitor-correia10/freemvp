@@ -11,7 +11,8 @@ import Header from './Header/Header';
 import Home from './Home';
 import User from './User';
 import Project from './Project';
-import FormProject from './forms/FormProject';
+import FormProject1 from './forms/FormProject1';
+import FormProject2 from './forms/FormProject2';
 import FormUser from './forms/FormUser';
 import Footer from './Footer';
 
@@ -23,8 +24,11 @@ function App() {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/form-project">
-          <FormProject />
+        <Route path="/form-project-1">
+          <FormProject1 />
+        </Route>
+        <Route path="/form-project-2">
+          <FormProject2 />
         </Route>
         <Route path="/project">
           <Project />

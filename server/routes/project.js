@@ -4,6 +4,7 @@ const router = require("express").Router();
 
 const { MongoClient } = require("mongodb");
 const assert = require("assert");
+const multer = require("multer");
 
 require("dotenv").config();
 const { MONGO_URI } = process.env;
@@ -13,46 +14,42 @@ const options = {
     useUnifiedTopology: true,
 };
 
+const upload = multer({ dest: __dirname + '/uploads' })
+
 const createProject = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
+    console.log(req.body);
     try {
         const {
             name,
             image,
             description,
             technologies,
-            email,
-            password,
-            phone,
-            country,
-
+            admin,
+            developers,
         } = req.body;
 
         await client.connect();
 
         const db = client.db('freemvp');
-        console.log("connected!");
 
         const r = await db.collection("projects").insertOne({
             name,
-            image,
+            image: req.file.path,
             description,
-            technologies,
-            email,
-            password,
-            phone,
-            country,
+            technologies: JSON.parse(technologies),
+            admin,
+            developers,
         });
         assert.strictEqual(1, r.insertedCount);
 
-        res.status(201).json({ status: 201, data: req.body });
+        res.status(201).json({ status: "success", data: req.body });
 
     } catch (err) {
         console.log(err.stack);
-        res.status(500).json({ status: 500, message: err.message });
+        res.status(500).json({ status: "error", message: err.message });
     }
     client.close();
-    console.log("disconnected!");
 };
 
 const getProject = async (req, res) => {
@@ -61,7 +58,6 @@ const getProject = async (req, res) => {
 
     await client.connect();
     const db = client.db('freemvp');
-    console.log("connected!");
 
     db.collection("projects").findOne({ name }, (err, result) => {
         result
@@ -69,7 +65,6 @@ const getProject = async (req, res) => {
             : res.status(404).json({ status: 404, data: "Not Found" });
 
         client.close();
-        console.log("disconnected!");
     });
 };
 
@@ -78,7 +73,6 @@ const getProjects = async (req, res) => {
 
     await client.connect();
     const db = client.db('freemvp');
-    console.log("connected!");
 
     const projects = await db.collection("projects").find().toArray((err, result) => {
         if (result.length) {
@@ -92,7 +86,6 @@ const getProjects = async (req, res) => {
             res.status(500).json({ status: 500, message: err.message });
         }
         client.close();
-        console.log("disconnected!");
     });
 };
 
@@ -101,7 +94,6 @@ const deleteProject = async (req, res) => {
 
     await client.connect();
     const db = client.db('freemvp');
-    console.log("connected!");
 
     try {
         const { name } = req.params;
@@ -114,7 +106,6 @@ const deleteProject = async (req, res) => {
         res.status(500).json({ status: 500, message: err.message });
     }
     client.close();
-    console.log("disconnected!");
 };
 
 const updateProject = async (req, res) => {
@@ -122,7 +113,6 @@ const updateProject = async (req, res) => {
 
     await client.connect();
     const db = client.db('freemvp');
-    console.log("connected!");
 
     const { name } = req.params;
 
@@ -139,11 +129,10 @@ const updateProject = async (req, res) => {
         res.status(500).json({ status: 500, message: err.message });
     }
     client.close();
-    console.log("disconnected!");
 }
 
 //Project endpoint
-router.post('/project', createProject)
+router.post('/project', upload.single('image'), createProject)
 router.get('/project/:name', getProject)
 router.get('/project', getProjects)
 router.delete('/project/:name', deleteProject)

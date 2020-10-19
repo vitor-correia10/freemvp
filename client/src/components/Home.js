@@ -18,7 +18,7 @@ const Home = () => {
                     <Header type={projectHeader}>
                         Do you have any project?
                 </Header>
-                    <MainAnchor type={projectColor} href="/form-project">
+                    <MainAnchor type={projectColor} href="/form-project-1">
                         Submit a project
                 </MainAnchor>
                 </Banner>

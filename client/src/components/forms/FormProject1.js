@@ -37,7 +37,7 @@ const FormUser = () => {
         formData.append("technologies", JSON.stringify(Object.keys(technologies)))
         formData.append("about", about)
 
-        fetch('http://localhost:8080/user', {
+        fetch('http://localhost:8080/form-project-2', {
             method: 'POST',
             body: formData,
         })
@@ -45,7 +45,7 @@ const FormUser = () => {
             .then((responseBody) => {
                 const { status } = responseBody;
                 if (status === 'success') {
-                    history.push("/user");
+                    history.push("/form-project-2");
                     dispatch(toggleLogin());
                 } else {
                     console.log('Error');
@@ -58,7 +58,7 @@ const FormUser = () => {
         <Wrapper>
             <Form onSubmit={handleSubmit(onSubmit)}>
 
-                <MainHeader>Developer Profile</MainHeader>
+                <MainHeader>User Profile</MainHeader>
 
                 <FormSection>
                     <FormLabel>First Name*</FormLabel>
@@ -162,7 +162,7 @@ const FormUser = () => {
                 </FormSection>
 
                 <FormSubmitButton type="submit">
-                    Submit
+                    Next
                 </FormSubmitButton>
             </Form>
         </Wrapper >
@@ -179,7 +179,7 @@ const Form = styled.form`
     width: 60%;
     margin: 15px auto;
     padding: 10px;
-    background: ${THEME.secondary};
+    background: ${THEME.primary};
     border-radius: 20px;
     border: 5px double ${THEME.dark}
 `

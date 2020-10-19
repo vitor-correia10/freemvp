@@ -2,11 +2,9 @@ const initialState = {
     name: "",
     description: "",
     image: "",
-    email: "",
-    password: "",
-    phone: "",
-    country: "",
-    technologies: {},
+    technologies: [],
+    admin: null,
+    developers: [],
 };
 
 const Project = (state = initialState, action) => {

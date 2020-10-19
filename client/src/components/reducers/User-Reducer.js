@@ -1,4 +1,5 @@
 const initialState = {
+    type: ['developer'],
     firstName: "",
     lastName: "",
     image: "",
@@ -6,6 +7,7 @@ const initialState = {
     password: "",
     technologies: [],
     about: "",
+    projectID: null,
 };
 
 const User = (state = initialState, action) => {

@@ -16,7 +16,7 @@ const options = {
 
 const upload = multer({ dest: __dirname + '/uploads' })
 
-const createUser = async (req, res, next) => {
+const createUser = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
     try {
         const {
@@ -44,7 +44,7 @@ const createUser = async (req, res, next) => {
 
         // });
         const r = await db.collection("users").insertOne({
-            type,
+            type: ['developer'],
             firstName,
             lastName,
             image: req.file.path,
@@ -72,7 +72,6 @@ const getUser = async (req, res) => {
 
     await client.connect();
     const db = client.db('freemvp');
-    console.log("connected!");
 
     db.collection("users").findOne({ email }, (err, result) => {
         result
@@ -80,7 +79,6 @@ const getUser = async (req, res) => {
             : res.status(404).json({ status: 404, data: "Not Found" });
 
         client.close();
-        console.log("disconnected!");
     });
 };
 
@@ -89,7 +87,6 @@ const getUsers = async (req, res) => {
 
     await client.connect();
     const db = client.db('freemvp');
-    console.log("connected!");
 
     const users = await db.collection("users").find().toArray((err, result) => {
         if (result.length) {
@@ -103,7 +100,6 @@ const getUsers = async (req, res) => {
             res.status(500).json({ status: 500, message: err.message });
         }
         client.close();
-        console.log("disconnected!");
     });
 };
 
@@ -112,7 +108,6 @@ const deleteUser = async (req, res) => {
 
     await client.connect();
     const db = client.db('freemvp');
-    console.log("connected!");
 
     try {
         const { email } = req.params;
@@ -125,7 +120,6 @@ const deleteUser = async (req, res) => {
         res.status(500).json({ status: 500, message: err.message });
     }
     client.close();
-    console.log("disconnected!");
 };
 
 const updateUser = async (req, res) => {
@@ -133,7 +127,6 @@ const updateUser = async (req, res) => {
 
     await client.connect();
     const db = client.db('freemvp');
-    console.log("connected!");
 
     const { email } = req.params;
 
@@ -150,11 +143,11 @@ const updateUser = async (req, res) => {
         res.status(500).json({ status: 500, message: err.message });
     }
     client.close();
-    console.log("disconnected!");
 }
 
 //user endpoint
 router.post('/user', upload.single('image'), createUser)
+router.post('/form-project-2', upload.single('image'), createUser)
 router.get('/user/:email', getUser)
 router.get('/user', getUsers)
 router.delete('/user/:email', deleteUser)

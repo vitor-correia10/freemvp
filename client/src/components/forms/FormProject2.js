@@ -14,16 +14,12 @@ import { MainHeader } from '../style/Headings';
 import { FormSubmitButton } from '../Buttons';
 import { useHistory } from 'react-router-dom';
 
-const FormProject = () => {
+const FormProject2 = () => {
     const { register, errors, handleSubmit } = useForm();
     const name = useSelector((state) => state.Project.name);
     const image = useSelector((state) => state.Project.image);
     const description = useSelector((state) => state.Project.description);
     const technologies = useSelector((state) => state.Project.technologies);
-    const email = useSelector((state) => state.Project.email);
-    const password = useSelector((state) => state.Project.password);
-    const phone = useSelector((state) => state.Project.phone);
-    const country = useSelector((state) => state.Project.country);
     const isLogin = useSelector((state) => state.login.isLogin);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -34,10 +30,6 @@ const FormProject = () => {
         formData.append("name", name)
         formData.append("image", image)
         formData.append("description", description)
-        formData.append("email", email)
-        formData.append("phone", phone)
-        formData.append("password", password)
-        formData.append("country", country)
         formData.append("technologies", JSON.stringify(Object.keys(technologies)))
 
         fetch('http://localhost:8080/project', {
@@ -50,7 +42,6 @@ const FormProject = () => {
                 const { status } = responseBody;
                 if (status === 'success') {
                     history.push("/project");
-                    let isLogin = true;
                     dispatch(toggleLogin());
                 } else {
                     console.log('Error');
@@ -60,12 +51,13 @@ const FormProject = () => {
 
     return (
         <Wrapper>
-            <Form onSubmit={handleSubmit(onSubmit)} action="/project" method="post">
-                <MainHeader>Send Your Project</MainHeader>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <MainHeader>About Your Project</MainHeader>
 
                 <FormSection>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Title</FormLabel>
                     <Input
+                        type="text"
                         name="name"
                         onChange={(event) => {
                             dispatch(addProject(event.target.value, 'name'));
@@ -86,58 +78,6 @@ const FormProject = () => {
                         ref={register({ required: true })}
                     />
                     {errors.image && <ErrorMessage>Image is required.</ErrorMessage>}
-                </FormSection>
-
-                <FormSection>
-                    <FormLabel>Phone</FormLabel>
-                    <Input
-                        name="phone"
-                        type="number"
-                        onChange={(event) => {
-                            dispatch(addProject(event.target.value, 'phone'));
-                        }}
-                        value={phone}
-                        ref={register({ required: false, minLength: 10 })}
-                    />
-                    {errors.phone && errors.phone.type === "minLength" && <ErrorMessage>This field requires 10 numbers.</ErrorMessage>}
-                </FormSection>
-
-                <FormSection>
-                    <FormLabel>Country</FormLabel>
-                    <SelectOptions name="country"
-                        onChange={(event) => {
-                            dispatch(addProject(event.target.value, 'country'));
-                        }}
-                    >
-                        <option value="CA" seleted>Canada</option>
-                        <option value="US">United States</option>
-                    </SelectOptions>
-                </FormSection>
-
-
-                <FormSection>
-                    <FormLabel>Email</FormLabel>
-                    <Input type="email"
-                        name="email"
-                        onChange={(event) => {
-                            dispatch(addProject(event.target.value, 'email'));
-                        }}
-                        value={email}
-                        ref={register({ required: true })} />
-                    {errors.email && <ErrorMessage>Email is required.</ErrorMessage>}
-                </FormSection>
-
-                <FormSection>
-                    <FormLabel>Password</FormLabel>
-                    <Input type="password"
-                        name="password"
-                        onChange={(event) => {
-                            dispatch(addProject(event.target.value, 'password'));
-                        }}
-                        value={password}
-                        ref={register({ required: true, minLength: 8 })} />
-                    {errors.password && errors.password.type === "required" && <ErrorMessage>Password is required.</ErrorMessage>}
-                    {errors.password && errors.password.type === "minLength" && <ErrorMessage>This field required min length of 8 characters.</ErrorMessage>}
                 </FormSection>
 
                 <FormSection>
@@ -215,16 +155,10 @@ const Input = styled.input`
     min-width: 200px;
 `
 
-const SelectOptions = styled.select`
-    height: 25px;
-    width: 25%;
-    min-width: 200px;
-`
-
 const TextArea = styled.textarea`
-    height: 50px;
-    width: 45%;
-    min-width: 250px;
+    height: 70px;
+    width: 50%;
+    min-width: 300px;
     max-width: 500px;
 `
 
@@ -232,4 +166,4 @@ const InputCheckbox = styled.input`
     margin-left: 20px;
 `
 
-export default FormProject;
+export default FormProject2;
