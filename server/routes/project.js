@@ -35,6 +35,13 @@ const createProject = async (req, res) => {
 
         const db = client.db('freemvp');
 
+        let projectAlreadyExist = await db.collection("projects").findOne({ name })
+        console.log('projectAlreadyExist', projectAlreadyExist)
+        if (projectAlreadyExist) {
+            res.status(404).json({ status: "projectExist", data: "Project already exist." });
+            return;
+        }
+
         const user = await db.collection("users").findOne({ email });
 
         const r = await db.collection("projects").insertOne({

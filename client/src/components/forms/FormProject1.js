@@ -26,6 +26,8 @@ const FormUser = () => {
     const isLogin = useSelector((state) => state.login.isLogin);
     const dispatch = useDispatch();
     const history = useHistory();
+    const [userExist, setUserExist] = React.useState(false);
+
     const onSubmit = (data) => {
         const formData = new FormData();
 
@@ -47,6 +49,8 @@ const FormUser = () => {
                 if (status === 'success') {
                     history.push("/form-project-2");
                     dispatch(toggleLogin());
+                } else if (status === 'userExist') {
+                    setUserExist(true);
                 } else {
                     console.log('Error');
                 }
@@ -161,6 +165,11 @@ const FormUser = () => {
                         ref={register({ required: false })} />
                 </FormSection>
 
+                {userExist ?
+                    <FormSection>
+                        <ErrorMessage>User Already Exist. </ErrorMessage>
+                    </FormSection>
+                    : ''}
                 <FormSubmitButton type="submit">
                     Next
                 </FormSubmitButton>

@@ -24,6 +24,7 @@ const FormProject2 = () => {
     const isLogin = useSelector((state) => state.login.isLogin);
     const dispatch = useDispatch();
     const history = useHistory();
+    const [projectExist, setProjectExist] = React.useState(false);
 
     const onSubmit = (data) => {
         const formData = new FormData();
@@ -45,6 +46,8 @@ const FormProject2 = () => {
                 if (status === 'success') {
                     history.push("/project");
                     dispatch(toggleLogin());
+                } else if (status === 'projectExist') {
+                    setProjectExist(true);
                 } else {
                     console.log('Error');
                 }
@@ -120,6 +123,11 @@ const FormProject2 = () => {
                     {errors.description && errors.description.type === "minLength" && <ErrorMessage>This field required min length of 5 characters.</ErrorMessage>}
                 </FormSection>
 
+                {projectExist ?
+                    <FormSection>
+                        <ErrorMessage>Project's Name Already Exist. </ErrorMessage>
+                    </FormSection>
+                    : ''}
                 <FormSubmitButton type="submit">
                     Submit
                 </FormSubmitButton>

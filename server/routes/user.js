@@ -35,14 +35,12 @@ const createUser = async (req, res) => {
 
         const db = client.db('freemvp');
 
-        // db.collection("users").findOne({ email }, (err, previousUser) => {
-        //     if (err) {
-        //         res.status(500).json({ status: 500, data: "Server  error" });
-        //     } else if (previousUser) {
-        //         res.status(404).json({ status: 404, data: "User already exist." })
-        //     }
+        let userAlreadyExist = await db.collection("users").findOne({ email })
+        if (userAlreadyExist) {
+            res.status(404).json({ status: "userExist", data: "User already exist." });
+            return;
+        }
 
-        // });
         const r = await db.collection("users").insertOne({
             type: ['developer'],
             firstName,
