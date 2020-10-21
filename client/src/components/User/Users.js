@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 
-const User = () => {
+const Users = () => {
     return (
         <>
             "Hello Dev"
@@ -12,4 +12,4 @@ const User = () => {
 
 
 
-export default User;
+export default Users;

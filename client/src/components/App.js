@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Profiler } from 'react';
 import GlobalStyles from './style/GlobalStyles';
 import {
   BrowserRouter as Router,
@@ -9,7 +9,8 @@ import {
 //Components
 import Header from './Header/Header';
 import Home from './Home';
-import User from './User';
+import Users from './User/Users';
+import Profile from './User/Profile';
 import Project from './Project';
 import FormProject1 from './forms/FormProject1';
 import FormProject2 from './forms/FormProject2';
@@ -36,8 +37,11 @@ function App() {
         <Route path="/form-user">
           <FormUser />
         </Route>
-        <Route path="/user">
-          <User />
+        <Route path="/users">
+          <Users />
+        </Route>
+        <Route path="/user/:email">
+          <Profile />
         </Route>
       </Switch>
       <Footer />
