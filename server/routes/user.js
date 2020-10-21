@@ -64,6 +64,29 @@ const createUser = async (req, res) => {
 
 };
 
+const login = async (req, res) => {
+    const client = await MongoClient(MONGO_URI, options);
+    const { email } = req.body;
+    const { password } = req.body;
+
+    await client.connect();
+    const db = client.db('freemvp');
+
+    let findUser = await db.collection("users").findOne({ email })
+    if (findUser) {
+        if (findUser.password == password) {
+            res.status(200).json({ status: "success", data: findUser })
+        } else {
+            res.status(404).json({ status: "invalid", message: "Invalid data" })
+        }
+    } else {
+        res.status(404).json({ status: "noUser", data: "User Not Found" });
+        return
+    }
+
+    client.close();
+};
+
 const getUser = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
     const { email } = req.params;
@@ -145,6 +168,7 @@ const updateUser = async (req, res) => {
 
 //user endpoint
 router.post('/user', upload.single('image'), createUser)
+router.post('/login', login)
 router.post('/form-project-2', upload.single('image'), createUser)
 router.get('/user/:email', getUser)
 router.get('/user', getUsers)

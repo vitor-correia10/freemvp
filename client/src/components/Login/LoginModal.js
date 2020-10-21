@@ -1,14 +1,53 @@
 import React from "react";
 import styled from "styled-components";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleModal } from "../../Actions";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { THEME } from "../style/Theme";
 import { FormLabel } from '../Labels';
+import { FormSubmitButton } from '../Buttons';
+import { toggleLogin, toggleModal } from '../../Actions';
+import { useHistory } from 'react-router-dom';
+import { ErrorMessage } from '../ErrorMessage';
 
 const LoginModal = ({ onClick }) => {
+  const { register, errors, handleSubmit } = useForm();
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [invalidUser, setInvalidUser] = React.useState(false);
+  const [noUser, setNoUser] = React.useState(false);
 
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const onSubmit = () => {
+    fetch('http://localhost:8080/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then(res => res.json())
+      .then((responseBody) => {
+        const { status } = responseBody;
+        if (status === 'success') {
+          history.push("/user");
+          dispatch(toggleLogin());
+          dispatch(toggleModal());
+        } else if (status === 'invalid') {
+          setInvalidUser(true);
+        } else if (status === 'noUser') {
+          setNoUser(true);
+        }
+        else {
+          console.log('Error');
+        }
+      })
+  }
 
   return (
     <ModalWrapper onClick={(event) => dispatch(toggleModal())}>
@@ -27,33 +66,61 @@ const LoginModal = ({ onClick }) => {
             <AiFillCloseCircle />
           </IconBtn>
         </ModalHeader>
-        <FormSection>
-          <FormLabel>
-            Email
-          </FormLabel>
-          <Input type="email"
-            name="email" />
-        </FormSection>
-        <FormSection>
-          <FormLabel>
-            Password
-          </FormLabel>
-          <Input type="password"
-            name="password" />
-        </FormSection>
-        <button>
-          Login
-        </button>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <LoginHeader>Login </LoginHeader>
+          <FormSection>
+            <FormLabel>
+              Email
+            </FormLabel>
+            <Input type="email"
+              name="email"
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
+              ref={register({ required: true })} />
+            {errors.email && <ErrorMessage>Email is required.</ErrorMessage>}
+          </FormSection>
+          <FormSection>
+            <FormLabel>
+              Password
+            </FormLabel>
+            <Input type="password"
+              name="password"
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
+              ref={register({ required: true })} />
+            {errors.password && <ErrorMessage>Password is required.</ErrorMessage>}
+          </FormSection>
+          {invalidUser ?
+            <FormSection>
+              <ErrorMessage>Invalid data. </ErrorMessage>
+            </FormSection>
+            : ''}
+          {noUser ?
+            <FormSection>
+              <ErrorMessage>This user does not exist. </ErrorMessage>
+            </FormSection>
+            : ''}
+          <FormSubmitButton type="submit">
+            Submit
+          </FormSubmitButton>
+        </form>
       </Modal>
     </ModalWrapper>
   );
 };
+
+const LoginHeader = styled.h2`
+  margin-bottom: 15px;
+`
 
 const IconBtn = styled.a`
   border: none;
   background-color: transparent;
   text-decoration: none;
   cursor: pointer;
+  font-size: 20px;
 
   &:focus {
     outline: none;
@@ -81,14 +148,14 @@ const ModalWrapper = styled.div`
 `;
 
 const Modal = styled.div`
-  width: 50vw;
-  min-width: 300px;
+  width: 25vw;
+  min-width: 250px;
   max-height: 70vh;
   overflow: auto;
   margin: 0 auto;
   padding: 16px;
   background-color: #fff;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: default;
 
   @media (max-width: ${THEME.mobile}) {
