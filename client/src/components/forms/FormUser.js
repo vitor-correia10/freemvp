@@ -46,7 +46,7 @@ const FormUser = () => {
             .then((responseBody) => {
                 const { status } = responseBody;
                 if (status === 'success') {
-                    history.push("/user");
+                    history.push(`/user/${email}`);
                     dispatch(toggleLogin());
                 } else if (status === 'userExist') {
                     setUserExist(true);

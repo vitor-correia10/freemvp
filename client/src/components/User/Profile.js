@@ -1,27 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
+import { useSelector } from 'react-redux';
 
 
 const Profile = () => {
+    const userProfile = useSelector((state) => state.User);
 
-    // fetch('http://localhost:8080/user/:email', {
-    //     method: 'GET',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.parse({
-    //         email,
-    //     }),
-    // })
-    //     .then(res => res.json())
-    //     .then((responseBody) => {
-    //         console.log(responseBody);
-    //     })
-
+    console.log(userProfile);
     return (
-        <>
-            "Hello Dev, this is your future profile"
-        </>
+        <div>
+            Hello {userProfile.firstName}
+        </div>
     )
 }
 

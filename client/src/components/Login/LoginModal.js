@@ -35,7 +35,7 @@ const LoginModal = ({ onClick }) => {
       .then((responseBody) => {
         const { status } = responseBody;
         if (status === 'success') {
-          history.push("/user");
+          history.push(`/user/${email}`);
           dispatch(toggleLogin());
           dispatch(toggleModal());
         } else if (status === 'invalid') {
