@@ -3,8 +3,8 @@ import allReducers from "./components/reducers";
 
 function saveToLocalStorage(state) {
     try {
-        const serializedState = JSON.stringify(state.User)
-        localStorage.setItem('state', serializedState)
+        const serializedState = JSON.stringify(state.LoggedUser)
+        localStorage.setItem('LoggedUser', serializedState)
     } catch (err) {
         console.log(err)
     }
@@ -12,7 +12,7 @@ function saveToLocalStorage(state) {
 
 function loadFromLocalStorage() {
     try {
-        const serializedState = localStorage.getUser('state')
+        const serializedState = localStorage.getItem('LoggedUser')
         if (serializedState === null) {
             return undefined
         }
@@ -31,7 +31,7 @@ export default function configureStore(initialState) {
     if (persistedState) {
         initialState = {
             ...initialState,
-            User: persistedState
+            LoggedUser: persistedState
         }
     }
 

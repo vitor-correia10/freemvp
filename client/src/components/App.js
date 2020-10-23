@@ -40,7 +40,7 @@ function App() {
         <Route path="/users">
           <Users />
         </Route>
-        <Route path="/user/:email">
+        <Route path="/user">
           <Profile />
         </Route>
       </Switch>

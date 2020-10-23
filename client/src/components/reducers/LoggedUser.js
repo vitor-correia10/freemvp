@@ -10,12 +10,17 @@ const initialState = {
     projectID: null,
 };
 
-const User = (state = initialState, action) => {
+const LoggedUser = (state = initialState, action) => {
     switch (action.type) {
-        case 'ADD-USER': {
+        case 'ADD-LOGGEDIN-USER': {
             return {
                 ...state,
-                [action.key]: action.value
+                ...action.value,
+            }
+        }
+        case 'REMOVE-LOGGEDIN-USER': {
+            return {
+                ...initialState,
             }
         }
         case 'ADD-TECHNOLOGIES': {
@@ -24,16 +29,10 @@ const User = (state = initialState, action) => {
                 technologies: { ...state.technologies, [action.value]: !state.technologies[action.value] },
             }
         }
-        case 'LOGIN-USER': {
-            return {
-                ...state,
-                [action.key]: action.value
-            }
-        }
         default: {
             return state;
         }
     }
 }
 
-export default User;
+export default LoggedUser;

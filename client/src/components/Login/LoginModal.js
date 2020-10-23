@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { THEME } from "../style/Theme";
 import { FormLabel } from '../Labels';
 import { FormSubmitButton } from '../Buttons';
-import { toggleLogin, toggleModal } from '../../Actions';
+import { addLoggedInUser, addTechnologies, toggleLogin, toggleModal } from '../../Actions';
 import { useHistory } from 'react-router-dom';
 import { ErrorMessage } from '../ErrorMessage';
 
@@ -33,9 +33,11 @@ const LoginModal = ({ onClick }) => {
     })
       .then(res => res.json())
       .then((responseBody) => {
-        const { status } = responseBody;
+        const { status, data } = responseBody;
         if (status === 'success') {
-          history.push(`/user/${email}`);
+          // store data in redux
+          dispatch(addLoggedInUser(data));
+          history.push(`/user`);
           dispatch(toggleLogin());
           dispatch(toggleModal());
         } else if (status === 'invalid') {

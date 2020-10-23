@@ -4,7 +4,7 @@ import { THEME } from '../style/Theme';
 import { useForm } from "react-hook-form";
 
 //Redux
-import { addUser, addTechnologies, toggleLogin } from '../../Actions';
+import { addUser, addTechnologies, toggleLogin, toggleModal } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
@@ -16,14 +16,14 @@ import { useHistory } from 'react-router-dom';
 
 const FormUser = () => {
     const { register, errors, handleSubmit } = useForm();
-    const firstName = useSelector((state) => state.User.firstName);
-    const lastName = useSelector((state) => state.User.lastName);
-    const image = useSelector((state) => state.User.image);
-    const email = useSelector((state) => state.User.email);
-    const password = useSelector((state) => state.User.password);
-    const technologies = useSelector((state) => state.User.technologies);
-    const about = useSelector((state) => state.User.about);
-    const isLogin = useSelector((state) => state.login.isLogin);
+    const [firstName, setFirstName] = React.useState("");
+    const [lastName, setLastName] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [image, setImage] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [technologies, setTechnologies] = React.useState([]);
+    const [about, setAbout] = React.useState("");
+
     const dispatch = useDispatch();
     const history = useHistory();
     const [userExist, setUserExist] = React.useState(false);
@@ -46,8 +46,8 @@ const FormUser = () => {
             .then((responseBody) => {
                 const { status } = responseBody;
                 if (status === 'success') {
-                    history.push(`/user/${email}`);
-                    dispatch(toggleLogin());
+                    history.push(`/`);
+                    dispatch(toggleModal());
                 } else if (status === 'userExist') {
                     setUserExist(true);
                 } else {
@@ -67,7 +67,7 @@ const FormUser = () => {
                         type="text"
                         name="firstName"
                         onChange={(event) => {
-                            dispatch(addUser(event.target.value, 'firstName'));
+                            setFirstName(event.target.value);
                         }}
                         value={firstName}
                         ref={register({ required: true })} />
@@ -80,7 +80,7 @@ const FormUser = () => {
                         type="text"
                         name="lastName"
                         onChange={(event) => {
-                            dispatch(addUser(event.target.value, 'lastName'));
+                            setLastName(event.target.value);
                         }}
                         value={lastName}
                         ref={register({ required: true })}
@@ -94,7 +94,7 @@ const FormUser = () => {
                         name="image"
                         accept="image/*"
                         onChange={(event) => {
-                            dispatch(addUser(event.target.files[0], 'image'));
+                            setImage(event.target.files[0]);
                         }}
                         ref={register({ required: true })}
                     />
@@ -106,7 +106,7 @@ const FormUser = () => {
                     <Input type="email"
                         name="email"
                         onChange={(event) => {
-                            dispatch(addUser(event.target.value, 'email'));
+                            setEmail(event.target.value);
                         }}
                         value={email}
                         ref={register({ required: true })} />
@@ -118,7 +118,7 @@ const FormUser = () => {
                     <Input type="password"
                         name="password"
                         onChange={(event) => {
-                            dispatch(addUser(event.target.value, 'password'));
+                            setPassword(event.target.value);
                         }}
                         value={password}
                         ref={register({ required: true, minLength: 8 })} />
@@ -131,22 +131,22 @@ const FormUser = () => {
                     <div>
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                setTechnologies([...technologies, "Javascript"])
                             }}
                             value="Javascript" ref={register({ required: false })} />Javascript
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                setTechnologies("React");
                             }}
                             value="React" ref={register({ required: false })} />React
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                setTechnologies(event.target.value);
                             }}
                             value="Node" ref={register({ required: false })} />Node
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                setTechnologies(event.target.value);
                             }}
                             value="Mongo" ref={register({ required: false })} />Mongo
                     </div>
@@ -156,7 +156,7 @@ const FormUser = () => {
                     <FormLabel >About you</FormLabel>
                     <TextArea name="about"
                         onChange={(event) => {
-                            dispatch(addUser(event.target.value, 'about'));
+                            setAbout(event.target.value);
                         }}
                         value={about}
                         ref={register({ required: false })} />

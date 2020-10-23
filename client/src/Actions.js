@@ -6,6 +6,30 @@ export const addUser = (value, key) => {
     };
 };
 
+export const addLoggedInUser = (value, key) => {
+    return {
+        type: "ADD-LOGGEDIN-USER",
+        key,
+        value,
+    };
+};
+
+export const removeLoggedInUser = (value, key) => {
+    return {
+        type: "REMOVE-LOGGEDIN-USER",
+        key,
+        value,
+    };
+};
+
+export const loginUser = (value, key) => {
+    return {
+        type: "LOGIN-USER",
+        key,
+        value,
+    };
+};
+
 export const addTechnologies = (value, key) => {
     return {
         type: "ADD-TECHNOLOGIES",

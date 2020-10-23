@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 
 const Profile = () => {
-    const userProfile = useSelector((state) => state.User);
+    const userProfile = useSelector((state) => state.LoggedUser);
 
     console.log(userProfile);
     return (

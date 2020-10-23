@@ -75,6 +75,7 @@ const login = async (req, res) => {
     let findUser = await db.collection("users").findOne({ email })
     if (findUser) {
         if (findUser.password == password) {
+            findUser.password = "***********";
             res.status(200).json({ status: "success", data: findUser })
         } else {
             res.status(404).json({ status: "invalid", message: "Invalid data" })
@@ -170,9 +171,9 @@ const updateUser = async (req, res) => {
 router.post('/user', upload.single('image'), createUser)
 router.post('/login', login)
 router.post('/form-project-2', upload.single('image'), createUser)
-router.get('/user/:email', getUser)
+router.get('/user', getUser)
 router.get('/user', getUsers)
-router.delete('/user/:email', deleteUser)
-router.put('/user/:email', updateUser)
+router.delete('/user', deleteUser)
+router.put('/user', updateUser)
 
 module.exports = router;
