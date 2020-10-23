@@ -3,7 +3,9 @@ import styled from 'styled-components/macro';
 
 import ProjectSrc from './../assets/project_img.jpg';
 import DeveloperSrc from './../assets/developer_img.jpg';
+import SlideshowSrc from './../assets/slideshow.jpg';
 
+import { useSelector } from "react-redux";
 import { FcIdea } from "react-icons/fc";
 import { GoRocket } from "react-icons/go";
 import { MdDeveloperMode } from "react-icons/md";
@@ -11,26 +13,41 @@ import { MdDeveloperMode } from "react-icons/md";
 const socialIconDim = { fontSize: "60px" };
 
 const Home = () => {
+    const isLogin = useSelector((state) => !!state.LoggedUser.email);
     return (
         <>
-            <Slideshow>
-                <Banner type={project}>
-                    <Header type={projectHeader}>
-                        Do you have any project?
-                </Header>
-                    <MainAnchor type={projectColor} href="/form-project-1">
-                        Submit a project
-                </MainAnchor>
-                </Banner>
-                <Banner type={user}>
-                    <Header type={userHeader}>
-                        Let's make it happen!
-                </Header>
-                    <MainAnchor type={userColor} href="/form-user">
-                        Developer subscription
-                </MainAnchor>
-                </Banner>
-            </Slideshow>
+            {isLogin ? (
+                <LoggedAnchor href="/user">
+                    <Slideshow>
+                        <BannerLogged type={loggedIn}>
+                            <Header type={projectHeader}>
+                                See your progress...
+                        </Header>
+                        </BannerLogged>
+                    </Slideshow>
+                </LoggedAnchor>
+            ) : (
+
+                    <Slideshow>
+                        <Banner type={project}>
+                            <Header type={projectHeader}>
+                                Do you have any project?
+                        </Header>
+                            <MainAnchor type={projectColor} href="/form-project-1">
+                                Submit a project
+                        </MainAnchor>
+                        </Banner>
+                        <Banner type={user}>
+                            <Header type={userHeader}>
+                                Let's make it happen!
+                        </Header>
+                            <MainAnchor type={userColor} href="/form-user">
+                                Developer subscription
+                        </MainAnchor>
+                        </Banner>
+                    </Slideshow>
+                )}
+
             <MainSection>
                 <Content>
                     <StyledIdeaIcon />
@@ -90,7 +107,19 @@ const userHeader = {
 
 const Banner = styled.div`
     width: 50%;
-    height: 55vh;
+    height: 60vh;
+    background-image: url(${props => props.type.main});
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+`
+
+const BannerLogged = styled.div`
+    width: 100%;
+    height: 60vh;
     background-image: url(${props => props.type.main});
     background-size: cover;
     background-repeat: no-repeat;
@@ -108,6 +137,10 @@ const user = {
     main: DeveloperSrc,
 };
 
+const loggedIn = {
+    main: SlideshowSrc,
+};
+
 const projectColor = {
     main: '#d95b2e',
 };
@@ -118,7 +151,7 @@ const userColor = {
 
 const MainSection = styled.section`
     display: flex;
-    height: 35vh;
+    height: 30vh;
 `
 
 const StyledIdeaIcon = styled(FcIdea)`
@@ -144,6 +177,10 @@ const Content = styled.div`
     &:not(:last-child){
         border-right: 1px black dashed;
     }
+`
+
+const LoggedAnchor = styled.a`
+    text-decoration: inherit;
 `
 
 export default Home;

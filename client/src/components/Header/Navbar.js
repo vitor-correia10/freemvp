@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import LoginModal from "../Login/LoginModal";
 
-import { removeLoggedInUser, toggleLogin, toggleModal } from "../../Actions";
+import { removeLoggedInUser, toggleModal } from "../../Actions";
 
 const Navbar = () => {
     const dispatch = useDispatch();

@@ -11,7 +11,7 @@ import Header from './Header/Header';
 import Home from './Home';
 import Users from './User/Users';
 import Profile from './User/Profile';
-import Project from './Project';
+import Project from './Project/Project';
 import FormProject1 from './forms/FormProject1';
 import FormProject2 from './forms/FormProject2';
 import FormUser from './forms/FormUser';
