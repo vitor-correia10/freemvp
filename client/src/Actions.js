@@ -14,6 +14,14 @@ export const addLoggedInUser = (value, key) => {
     };
 };
 
+export const updateUser = (value, key) => {
+    return {
+        type: "UPDATE-USER",
+        key,
+        value,
+    };
+};
+
 export const removeLoggedInUser = (value, key) => {
     return {
         type: "REMOVE-LOGGEDIN-USER",
@@ -43,12 +51,6 @@ export const addProject = (value, key) => {
         type: "ADD-PROJECT",
         key,
         value,
-    };
-};
-
-export const toggleLogin = () => {
-    return {
-        type: "TOGGLE-LOGIN",
     };
 };
 

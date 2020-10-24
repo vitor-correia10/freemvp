@@ -23,6 +23,12 @@ const LoggedUser = (state = initialState, action) => {
                 ...initialState,
             }
         }
+        case 'UPDATE-USER': {
+            return {
+                ...state,
+                ...action.value,
+            }
+        }
         case 'ADD-TECHNOLOGIES': {
             return {
                 ...state,

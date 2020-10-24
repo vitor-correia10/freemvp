@@ -14,9 +14,11 @@ const options = {
     useUnifiedTopology: true,
 };
 
-const upload = multer({ dest: __dirname + '/uploads' })
+const upload = multer({ dest: __dirname + '../../../client/public' + '/uploads' })
 
+console.log(upload);
 const createUser = async (req, res) => {
+    console.log(upload);
     const client = await MongoClient(MONGO_URI, options);
     try {
         const {
@@ -45,7 +47,7 @@ const createUser = async (req, res) => {
             type: ['developer'],
             firstName,
             lastName,
-            image: req.file.path,
+            image: req.file.filename,
             email,
             password,
             technologies: JSON.parse(technologies),
@@ -75,7 +77,7 @@ const login = async (req, res) => {
     let findUser = await db.collection("users").findOne({ email })
     if (findUser) {
         if (findUser.password == password) {
-            findUser.password = "***********";
+            findUser.password = "";
             res.status(200).json({ status: "success", data: findUser })
         } else {
             res.status(404).json({ status: "invalid", message: "Invalid data" })
@@ -174,6 +176,6 @@ router.post('/form-project-2', upload.single('image'), createUser)
 router.get('/user', getUser)
 router.get('/user', getUsers)
 router.delete('/user', deleteUser)
-router.put('/user', updateUser)
+router.put('/user/edit', updateUser)
 
 module.exports = router;

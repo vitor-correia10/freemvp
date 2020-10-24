@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { THEME } from "../style/Theme";
 import { FormLabel } from '../Labels';
-import { FormSubmitButton } from '../Buttons';
-import { addLoggedInUser, addTechnologies, toggleLogin, toggleModal } from '../../Actions';
+import { FormSubmitButton } from '../style/Buttons';
+import { addLoggedInUser, addTechnologies, toggleModal } from '../../Actions';
 import { useHistory } from 'react-router-dom';
-import { ErrorMessage } from '../ErrorMessage';
+import { ErrorMessage } from '../style/ErrorMessage';
 
 const LoginModal = ({ onClick }) => {
   const { register, errors, handleSubmit } = useForm();
@@ -38,7 +38,6 @@ const LoginModal = ({ onClick }) => {
           // store data in redux
           dispatch(addLoggedInUser(data));
           history.push(`/user`);
-          dispatch(toggleLogin());
           dispatch(toggleModal());
         } else if (status === 'invalid') {
           setInvalidUser(true);

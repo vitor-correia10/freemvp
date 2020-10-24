@@ -4,14 +4,14 @@ import { THEME } from '../style/Theme';
 import { useForm } from "react-hook-form";
 
 //Redux
-import { addUser, addTechnologies, toggleLogin } from '../../Actions';
+import { addUser, addTechnologies } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
-import { ErrorMessage } from '../ErrorMessage';
+import { ErrorMessage } from '../style/ErrorMessage';
 import { FormLabel } from '../Labels';
 import { MainHeader } from '../style/Headings';
-import { FormSubmitButton } from '../Buttons';
+import { FormSubmitButton } from '../style/Buttons';
 import { useHistory } from 'react-router-dom';
 
 const FormUser = () => {
@@ -48,7 +48,6 @@ const FormUser = () => {
                 const { status } = responseBody;
                 if (status === 'success') {
                     history.push("/form-project-2");
-                    dispatch(toggleLogin());
                 } else if (status === 'userExist') {
                     setUserExist(true);
                 } else {

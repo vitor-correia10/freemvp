@@ -4,14 +4,14 @@ import { THEME } from '../style/Theme';
 import { useForm } from "react-hook-form";
 
 //Redux
-import { addProject, addTechnologies, toggleLogin } from '../../Actions';
+import { addProject, addTechnologies } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
-import { ErrorMessage } from '../ErrorMessage';
+import { ErrorMessage } from '../style/ErrorMessage';
 import { FormLabel } from '../Labels';
 import { MainHeader } from '../style/Headings';
-import { FormSubmitButton } from '../Buttons';
+import { FormSubmitButton } from '../style/Buttons';
 import { useHistory } from 'react-router-dom';
 
 const FormProject2 = () => {
@@ -45,7 +45,6 @@ const FormProject2 = () => {
                 const { status } = responseBody;
                 if (status === 'success') {
                     history.push("/project");
-                    dispatch(toggleLogin());
                 } else if (status === 'projectExist') {
                     setProjectExist(true);
                 } else {

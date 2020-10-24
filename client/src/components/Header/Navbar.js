@@ -1,6 +1,7 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import { FormSubmitButton } from '../style/Buttons'
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from 'react-router-dom';
 
 import LoginModal from "../Login/LoginModal";
 
@@ -8,6 +9,7 @@ import { removeLoggedInUser, toggleModal } from "../../Actions";
 
 const Navbar = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const isLogin = useSelector((state) => !!state.LoggedUser.email);
     const isOpen = useSelector((state) => state.modal.isOpen);
 
@@ -18,13 +20,15 @@ const Navbar = () => {
                     <LoginModal />
                 ) : (
                         isLogin ? (
-                            <button
-                                onClick={() => dispatch(removeLoggedInUser())}
-                            >Log Out</button>
+                            <a href="/">
+                                <FormSubmitButton
+                                    onClick={() => dispatch(removeLoggedInUser())}
+                                >Log Out</FormSubmitButton>
+                            </a>
                         )
-                            : <button
+                            : <FormSubmitButton
                                 onClick={() => dispatch(toggleModal())}
-                            >Log In</button>
+                            >Log In</FormSubmitButton>
                     )
                 }
             </nav>

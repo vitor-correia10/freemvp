@@ -1,23 +1,15 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
-// import AsideSection from './AsideSectionUser';
+import AsideSection from './AsideSection';
 
 
 const Profile = () => {
     const userProfile = useSelector((state) => state.LoggedUser);
     const technologies = userProfile.technologies;
-
     return (
         <Wrapper>
-            <AsideSection>
-                <img src={userProfile.image} />
-                <div>
-                    <p>{userProfile.firstName} {userProfile.lastName}</p>
-
-                    <p>{userProfile.email}</p>
-                </div>
-            </AsideSection>
+            <AsideSection />
             <Main>
                 <SectionAbout>
                     <h3>About Me</h3>
@@ -38,6 +30,7 @@ const Profile = () => {
                 </SectionTecs>
                 {userProfile.projectID
                     ? <ProjectSection>
+                        <h3>My Project</h3>
                     </ProjectSection>
                     : ''
                 }
@@ -51,20 +44,6 @@ const Wrapper = styled.div`
     justify-content: center;
     width: 100%;
     margin: 40px auto;
-`
-
-const AsideSection = styled.aside`
-    height: 50vh;
-    max-height: 400px;
-    border: 1px solid black;
-    width: 25%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 10px;
-    border-radius: 5px;
-    justify-content: space-evenly;
 `
 
 const Main = styled.main`
@@ -100,6 +79,7 @@ const List = styled.li`
 `
 
 const ProjectSection = styled.section`
+    padding: 20px;
     margin-top: 10px;
     border: 1px solid black;
     border-radius: 5px;

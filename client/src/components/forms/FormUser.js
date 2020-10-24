@@ -4,14 +4,14 @@ import { THEME } from '../style/Theme';
 import { useForm } from "react-hook-form";
 
 //Redux
-import { addUser, addTechnologies, toggleLogin, toggleModal } from '../../Actions';
+import { addUser, addTechnologies, toggleModal } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
-import { ErrorMessage } from '../ErrorMessage';
+import { ErrorMessage } from '../style/ErrorMessage';
 import { FormLabel } from '../Labels';
 import { MainHeader } from '../style/Headings';
-import { FormSubmitButton } from '../Buttons';
+import { FormSubmitButton } from '../style/Buttons';
 import { useHistory } from 'react-router-dom';
 
 const FormUser = () => {
@@ -94,6 +94,7 @@ const FormUser = () => {
                         name="image"
                         accept="image/*"
                         onChange={(event) => {
+                            console.log(event.target)
                             setImage(event.target.files[0]);
                         }}
                         ref={register({ required: true })}
