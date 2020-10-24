@@ -16,9 +16,7 @@ const options = {
 
 const upload = multer({ dest: __dirname + '../../../client/public' + '/uploads' })
 
-console.log(upload);
 const createUser = async (req, res) => {
-    console.log(upload);
     const client = await MongoClient(MONGO_URI, options);
     try {
         const {

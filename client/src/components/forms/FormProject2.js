@@ -4,7 +4,7 @@ import { THEME } from '../style/Theme';
 import { useForm } from "react-hook-form";
 
 //Redux
-import { addProject, addTechnologies } from '../../Actions';
+import { addProject, addTechnologies, toggleModal } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
@@ -21,7 +21,6 @@ const FormProject2 = () => {
     const image = useSelector((state) => state.Project.image);
     const description = useSelector((state) => state.Project.description);
     const technologies = useSelector((state) => state.Project.technologies);
-    const isLogin = useSelector((state) => state.login.isLogin);
     const dispatch = useDispatch();
     const history = useHistory();
     const [projectExist, setProjectExist] = React.useState(false);
@@ -44,7 +43,8 @@ const FormProject2 = () => {
             .then((responseBody) => {
                 const { status } = responseBody;
                 if (status === 'success') {
-                    history.push("/project");
+                    history.push(`/`);
+                    dispatch(toggleModal());
                 } else if (status === 'projectExist') {
                     setProjectExist(true);
                 } else {

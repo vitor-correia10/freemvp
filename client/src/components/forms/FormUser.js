@@ -16,13 +16,13 @@ import { useHistory } from 'react-router-dom';
 
 const FormUser = () => {
     const { register, errors, handleSubmit } = useForm();
-    const [firstName, setFirstName] = React.useState("");
-    const [lastName, setLastName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [image, setImage] = React.useState("");
+    const firstName = useSelector((state) => state.User.firstName);
+    const lastName = useSelector((state) => state.User.lastName);
+    const image = useSelector((state) => state.User.image);
+    const email = useSelector((state) => state.User.email);
     const [password, setPassword] = React.useState("");
-    const [technologies, setTechnologies] = React.useState([]);
-    const [about, setAbout] = React.useState("");
+    const technologies = useSelector((state) => state.User.technologies);
+    const about = useSelector((state) => state.User.about);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -55,6 +55,7 @@ const FormUser = () => {
                 }
             })
     }
+
     return (
         <Wrapper>
             <Form onSubmit={handleSubmit(onSubmit)}>
@@ -67,7 +68,7 @@ const FormUser = () => {
                         type="text"
                         name="firstName"
                         onChange={(event) => {
-                            setFirstName(event.target.value);
+                            dispatch(addUser(event.target.value, 'firstName'));
                         }}
                         value={firstName}
                         ref={register({ required: true })} />
@@ -80,7 +81,7 @@ const FormUser = () => {
                         type="text"
                         name="lastName"
                         onChange={(event) => {
-                            setLastName(event.target.value);
+                            dispatch(addUser(event.target.value, 'lastName'));
                         }}
                         value={lastName}
                         ref={register({ required: true })}
@@ -94,8 +95,7 @@ const FormUser = () => {
                         name="image"
                         accept="image/*"
                         onChange={(event) => {
-                            console.log(event.target)
-                            setImage(event.target.files[0]);
+                            dispatch(addUser(event.target.files[0], 'image'));
                         }}
                         ref={register({ required: true })}
                     />
@@ -107,7 +107,7 @@ const FormUser = () => {
                     <Input type="email"
                         name="email"
                         onChange={(event) => {
-                            setEmail(event.target.value);
+                            dispatch(addUser(event.target.value, 'email'));
                         }}
                         value={email}
                         ref={register({ required: true })} />
@@ -132,22 +132,22 @@ const FormUser = () => {
                     <div>
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                setTechnologies([...technologies, "Javascript"])
+                                dispatch(addTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Javascript" ref={register({ required: false })} />Javascript
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                setTechnologies("React");
+                                dispatch(addTechnologies(event.target.value, 'technologies'));
                             }}
                             value="React" ref={register({ required: false })} />React
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                setTechnologies(event.target.value);
+                                dispatch(addTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Node" ref={register({ required: false })} />Node
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                setTechnologies(event.target.value);
+                                dispatch(addTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Mongo" ref={register({ required: false })} />Mongo
                     </div>
@@ -157,7 +157,7 @@ const FormUser = () => {
                     <FormLabel >About you</FormLabel>
                     <TextArea name="about"
                         onChange={(event) => {
-                            setAbout(event.target.value);
+                            dispatch(addUser(event.target.value, 'about'));
                         }}
                         value={about}
                         ref={register({ required: false })} />

@@ -20,14 +20,13 @@ const FormUser = () => {
     const lastName = useSelector((state) => state.User.lastName);
     const image = useSelector((state) => state.User.image);
     const email = useSelector((state) => state.User.email);
-    const password = useSelector((state) => state.User.password);
+    const [password, setPassword] = React.useState("");
     const technologies = useSelector((state) => state.User.technologies);
     const about = useSelector((state) => state.User.about);
-    const isLogin = useSelector((state) => state.login.isLogin);
+
     const dispatch = useDispatch();
     const history = useHistory();
     const [userExist, setUserExist] = React.useState(false);
-
     const onSubmit = (data) => {
         const formData = new FormData();
 
@@ -55,7 +54,6 @@ const FormUser = () => {
                 }
             })
     }
-
 
     return (
         <Wrapper>
@@ -120,7 +118,7 @@ const FormUser = () => {
                     <Input type="password"
                         name="password"
                         onChange={(event) => {
-                            dispatch(addUser(event.target.value, 'password'));
+                            setPassword(event.target.value);
                         }}
                         value={password}
                         ref={register({ required: true, minLength: 8 })} />

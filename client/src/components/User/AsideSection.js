@@ -5,8 +5,6 @@ import { useSelector } from 'react-redux';
 
 const AsideSection = () => {
     const userProfile = useSelector((state) => state.LoggedUser);
-
-    console.log(userProfile);
     return (
         <Wrapper>
             <Image src={"/uploads/" + userProfile.image} />
@@ -26,8 +24,9 @@ const AsideSection = () => {
 const Wrapper = styled.aside`
     height: 50vh;
     max-height: 400px;
+    width: 20%;
+    min-width: 250px;
     border: 1px solid black;
-    width: 25%;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -41,6 +40,7 @@ const Wrapper = styled.aside`
 const Image = styled.img`
     border-radius: 50%;
     width: 150px;
+    height: 150px;
 `
 
 const Name = styled.p`

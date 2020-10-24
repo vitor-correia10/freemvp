@@ -14,7 +14,7 @@ const options = {
     useUnifiedTopology: true,
 };
 
-const upload = multer({ dest: __dirname + '/uploads' })
+const upload = multer({ dest: __dirname + '../../../client/public' + '/uploads' })
 
 const createProject = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
@@ -46,7 +46,7 @@ const createProject = async (req, res) => {
 
         const r = await db.collection("projects").insertOne({
             name,
-            image: req.file.path,
+            image: req.file.filename,
             description,
             technologies: JSON.parse(technologies),
             admin: user._id,
