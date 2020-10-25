@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
 import AsideSection from './AsideSection';
+import { BiCheck } from "react-icons/bi";
 
 
 const Profile = () => {
@@ -22,7 +23,7 @@ const Profile = () => {
                         {technologies.map((technology) => {
                             return (
                                 <List key={technology}>
-                                    {technology}
+                                    <BiCheck />{technology}
                                 </List>
                             );
                         })}
@@ -32,7 +33,9 @@ const Profile = () => {
                     ? <ProjectSection>
                         <h3>My Project</h3>
                     </ProjectSection>
-                    : ''
+                    : <button>
+                        Add a Project
+                        </button>
                 }
             </Main>
         </Wrapper>
@@ -72,6 +75,8 @@ const Description = styled.p`
 const UnordedList = styled.ul`
     margin-top: 15px;
     list-style-type: none;
+    display: flex;
+    justify-content: space-evenly;
 `
 
 const List = styled.li`

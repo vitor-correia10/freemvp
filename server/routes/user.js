@@ -146,23 +146,49 @@ const deleteUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
-
-    await client.connect();
-    const db = client.db('freemvp');
-
-    const { email } = req.params;
-
+    // const { id } = req.body;
+    // console.log(id);
+    const { email } = req.body;
     try {
-        const query = { email };
-        const newValues = { $set: { ...req.body } };
+        const {
+            // type,
+            id,
+            firstName,
+            lastName,
+            image,
+            email,
+            // password,
+            // technologies,
+            about,
+            // projectID,
+        } = req.body;
 
+        await client.connect();
+        const db = client.db('freemvp');
+
+        const query = { email };
+        const newValues = {
+            $set: {
+                id,
+                // type,
+                firstName,
+                lastName,
+                image,
+                email,
+                // password,
+                // technologies,
+                about,
+                // projectID,
+            }
+        };
         const u = await db.collection("users").updateOne(query, newValues);
         assert.strictEqual(1, u.matchedCount);
         assert.strictEqual(1, u.modifiedCount);
+        res.status(200).json({ status: "success", data: req.body });
 
-        res.status(200).json({ status: 200, email });
     } catch (err) {
-        res.status(500).json({ status: 500, message: err.message });
+        console.log(err.stack);
+        res.status(500).json({ status: "error", data: req.body, message: err.message });
     }
     client.close();
 }

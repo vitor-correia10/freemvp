@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
-
+import { toggleModal, updateUser } from "../../Actions";
+import { useDispatch } from "react-redux";
+import EditUserModal from "../Modals/EditUserModal";
 
 const AsideSection = () => {
+    const dispatch = useDispatch();
+    const isOpen = useSelector((state) => state.modal.isOpen);
     const userProfile = useSelector((state) => state.LoggedUser);
     return (
         <Wrapper>
@@ -13,10 +17,13 @@ const AsideSection = () => {
 
                 <Email>{userProfile.email}</Email>
             </div>
-            <a href="/user/edit">
+            <button onClick={() => dispatch(toggleModal())}>
                 Edit Profile
-            </a>
-
+            </button>
+            {isOpen ? (
+                <EditUserModal />
+            ) : ""
+            }
         </Wrapper>
     )
 }

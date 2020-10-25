@@ -1,4 +1,5 @@
 const initialState = {
+    _id: "",
     type: ['developer'],
     firstName: "",
     lastName: "",
@@ -26,7 +27,7 @@ const LoggedUser = (state = initialState, action) => {
         case 'UPDATE-USER': {
             return {
                 ...state,
-                ...action.value,
+                [action.key]: action.value
             }
         }
         case 'ADD-TECHNOLOGIES': {

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { GrNotification } from "react-icons/gr";
 import styled from 'styled-components/macro';
 
-import LoginModal from "../Login/LoginModal";
+import LoginModal from "../Modals/LoginModal";
 
 import { removeLoggedInUser, toggleModal } from "../../Actions";
 

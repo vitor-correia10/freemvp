@@ -1,4 +1,5 @@
 const initialState = {
+    _id: "",
     type: ['developer'],
     firstName: "",
     lastName: "",
@@ -22,12 +23,6 @@ const User = (state = initialState, action) => {
             return {
                 ...state,
                 technologies: { ...state.technologies, [action.value]: !state.technologies[action.value] },
-            }
-        }
-        case 'LOGIN-USER': {
-            return {
-                ...state,
-                [action.key]: action.value
             }
         }
         default: {

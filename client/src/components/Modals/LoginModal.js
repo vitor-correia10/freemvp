@@ -34,8 +34,8 @@ const LoginModal = ({ onClick }) => {
       .then(res => res.json())
       .then((responseBody) => {
         const { status, data } = responseBody;
+        console.log(data)
         if (status === 'success') {
-          // store data in redux
           dispatch(addLoggedInUser(data));
           history.push(`/user`);
           dispatch(toggleModal());
