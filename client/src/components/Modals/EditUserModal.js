@@ -19,15 +19,9 @@ const EditUserModal = ({ onClick }) => {
     const [email, setEmail] = React.useState(userProfile.email);
     const [image, setImage] = React.useState(userProfile.image);
     const [about, setAbout] = React.useState(userProfile.about);
-    const initialTechnologies = {
-        Node: userProfile.technologies.includes('Node'),
-        React: userProfile.technologies.includes('React'),
-        Javascript: userProfile.technologies.includes('Javascript'),
-        Mongo: userProfile.technologies.includes('Mongo')
-    };
-    const [technologies, setTechnologies] = React.useState(initialTechnologies);
+    const initialTechnologies = ['Node', 'Javascript', 'React', 'Mongo'];
 
-    // const [technologies, setTechnologies] = React.useState(userProfile.technologies);
+    const [technologies, setTechnologies] = React.useState(userProfile.technologies);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -41,13 +35,13 @@ const EditUserModal = ({ onClick }) => {
         dispatch(updateUser(image, 'image'))
         dispatch(updateUser(email, 'email'))
         dispatch(updateUser(about, 'about'))
-        // dispatch(updateUser(technologies, 'technologies'))
+        dispatch(updateUser(technologies, 'technologies'))
 
         formData.append("image", image)
         formData.append("firstName", firstName)
         formData.append("lastName", lastName)
         formData.append("email", email)
-        formData.append("technologies", JSON.stringify(Object.keys(technologies)))
+        formData.append("technologies", JSON.stringify(technologies))
         formData.append("about", about)
 
         console.log(formData.append("email", email))
@@ -62,6 +56,7 @@ const EditUserModal = ({ onClick }) => {
                 firstName,
                 lastName,
                 image,
+                technologies,
                 about,
                 email,
             }),
@@ -152,23 +147,21 @@ const EditUserModal = ({ onClick }) => {
                     <FormSection>
                         <FormLabel>Technologies</FormLabel>
                         <div>
-                            {Object.entries(technologies).map(
-                                ([technology, hasTechnology]) =>
-                                    <>
-                                        <InputCheckbox type="checkbox" name="technologies"
+                            {initialTechnologies.map((technology) =>
+                                <>
+                                    <InputCheckbox type="checkbox" name="technologies"
 
-                                            onChange={(event) => {
-                                                const newTechnologies = { ...technologies, [technology]: event.target.checked };
-                                                console.log(event.target.checked);
-                                                console.log('newTechnologies', newTechnologies);
+                                        onChange={(event) => {
+                                            const newTechnologies = { ...technologies, [technology]: event.target.checked };
 
-                                                setTechnologies(newTechnologies);
-                                            }}
-                                            checked={hasTechnology}
-                                            value={technology}
-                                            ref={register({ required: false })} />
-                                        {technology}
-                                    </>
+                                            setTechnologies(newTechnologies);
+                                        }
+                                        }
+                                        checked={technologies[technology]}
+                                        value={technologies}
+                                        ref={register({ required: false })} />
+                                    {technology}
+                                </>
                             )}
 
                         </div>

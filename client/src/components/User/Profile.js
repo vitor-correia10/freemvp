@@ -7,7 +7,8 @@ import { BiCheck } from "react-icons/bi";
 
 const Profile = () => {
     const userProfile = useSelector((state) => state.LoggedUser);
-    const technologies = userProfile.technologies;
+    const [technologies, setTechnologies] = React.useState(Object.keys(userProfile.technologies));
+
     return (
         <Wrapper>
             <AsideSection />

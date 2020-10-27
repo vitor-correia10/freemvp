@@ -35,7 +35,7 @@ const FormUser = () => {
         formData.append("lastName", lastName)
         formData.append("email", email)
         formData.append("password", password)
-        formData.append("technologies", JSON.stringify(Object.keys(technologies)))
+        formData.append("technologies", JSON.stringify(technologies))
         formData.append("about", about)
 
         fetch('http://localhost:8080/user', {

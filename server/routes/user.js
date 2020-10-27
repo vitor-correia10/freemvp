@@ -158,7 +158,7 @@ const updateUser = async (req, res) => {
             image,
             email,
             // password,
-            // technologies,
+            technologies,
             about,
             // projectID,
         } = req.body;
@@ -176,7 +176,7 @@ const updateUser = async (req, res) => {
                 image,
                 email,
                 // password,
-                // technologies,
+                technologies,
                 about,
                 // projectID,
             }
