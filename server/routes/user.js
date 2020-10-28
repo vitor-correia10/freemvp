@@ -68,15 +68,33 @@ const login = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
     const { email } = req.body;
     const { password } = req.body;
+    const mongo = require('mongodb');
+
 
     await client.connect();
     const db = client.db('freemvp');
 
-    let findUser = await db.collection("users").findOne({ email })
+    let findUser = await db.collection("users").findOne({ email });
+    const projectId = findUser.projectID;
+
+    const objectId = mongo.ObjectID(projectId);
+    let findProject = await db.collection("projects").findOne({ _id: objectId })
+    console.log(findProject)
+
     if (findUser) {
         if (findUser.password == password) {
             findUser.password = "";
-            res.status(200).json({ status: "success", data: findUser })
+            if (findProject != null) {
+                res.status(200).json({
+                    status: "success", data:
+                    {
+                        findUser,
+                        findProject
+                    }
+                })
+            } else (
+                res.status(200).json({ status: "success", data: { findUser } })
+            )
         } else {
             res.status(404).json({ status: "invalid", message: "Invalid data" })
         }
@@ -146,8 +164,6 @@ const deleteUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
-    // const { id } = req.body;
-    // console.log(id);
     const { email } = req.body;
     try {
         const {

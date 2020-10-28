@@ -46,6 +46,14 @@ export const addProject = (value, key) => {
     };
 };
 
+export const addLoggedInProject = (value, key) => {
+    return {
+        type: "ADD-LOGGEDIN-PROJECT",
+        key,
+        value,
+    };
+};
+
 export const toggleModal = () => {
     return {
         type: "TOGGLE",

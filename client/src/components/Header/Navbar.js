@@ -25,18 +25,6 @@ const Navbar = () => {
                     <LoginModal />
                 ) : (
                         isLogin ? (
-                            // <NavUser>
-                            //             <ProfileButton
-                            //                 // onClick={() => dispatch(removeLoggedInUser())}
-                            //                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                            //             >
-                            //                 <Image src={"/uploads/" + userProfile.image} />
-                            //             </ProfileButton>
-                            //             {dropdownOpen &&
-                            //                 <a href="/">Home</a>
-                            //             }
-                            //     <StyledNotificationIcon />
-                            // </NavUser>
                             <NavBarNav>
                                 <NavUnordedList>
                                     <NavItem>
@@ -50,9 +38,6 @@ const Navbar = () => {
                                         </Anchor>
                                         {dropdownOpen &&
                                             <DropdownMenu>
-                                                <DropdownItem>
-                                                    <AnchorList href="/">Home</AnchorList>
-                                                </DropdownItem>
                                                 <DropdownItem>
                                                     <AnchorList href="/user">Profile</AnchorList>
                                                 </DropdownItem>

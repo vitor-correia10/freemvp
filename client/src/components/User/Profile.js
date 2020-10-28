@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
-import AsideSection from './AsideSection';
 import { BiCheck } from "react-icons/bi";
+
+import AsideSection from './AsideSection';
+import ProjectSection from './ProjectSection';
 
 
 const Profile = () => {
@@ -14,11 +16,11 @@ const Profile = () => {
             <AsideSection />
             <Main>
                 <SectionAbout>
-                    <h3>About Me</h3>
-                    <Description>{userProfile.about}</Description>
+                    <Header3>About Me</Header3>
+                    <div>{userProfile.about ? userProfile.about : <NoData>No info to show</NoData>}</div>
                 </SectionAbout>
                 <SectionTecs>
-                    <h3>Technologies</h3>
+                    <Header3>Technologies</Header3>
                     <UnordedList>
 
                         {technologies.map((technology) => {
@@ -30,14 +32,15 @@ const Profile = () => {
                         })}
                     </UnordedList>
                 </SectionTecs>
-                {userProfile.projectID
-                    ? <ProjectSection>
-                        <h3>My Project</h3>
-                    </ProjectSection>
-                    : <button>
-                        Add a Project
+                <MyProject>
+                    <Header3>My Project</Header3>
+                    {userProfile.projectID
+                        ? <ProjectSection />
+                        : <button>
+                            Add a Project
                         </button>
-                }
+                    }
+                </MyProject>
             </Main>
         </Wrapper>
     )
@@ -48,6 +51,10 @@ const Wrapper = styled.div`
     justify-content: center;
     width: 100%;
     margin: 40px auto;
+`
+
+const Header3 = styled.h3`
+    margin-bottom: 15px;
 `
 
 const Main = styled.main`
@@ -69,12 +76,7 @@ const SectionTecs = styled.section`
     border-radius: 5px;
 `
 
-const Description = styled.p`
-    margin-top: 15px;
-`
-
 const UnordedList = styled.ul`
-    margin-top: 15px;
     list-style-type: none;
     display: flex;
     justify-content: space-evenly;
@@ -84,11 +86,17 @@ const List = styled.li`
     line-height: 1.5;
 `
 
-const ProjectSection = styled.section`
+const MyProject = styled.section`
     padding: 20px;
     margin-top: 10px;
     border: 1px solid black;
     border-radius: 5px;
+`
+
+const NoData = styled.p`
+    font-style: italic;
+    font-size: 14px;
+    color: gray;
 `
 
 export default Profile;

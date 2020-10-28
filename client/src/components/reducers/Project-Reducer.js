@@ -2,7 +2,7 @@ const initialState = {
     name: "",
     description: "",
     image: "",
-    technologies: [],
+    technologies: {},
     admin: null,
     developers: [],
 };
@@ -13,6 +13,12 @@ const Project = (state = initialState, action) => {
             return {
                 ...state,
                 [action.key]: action.value
+            }
+        }
+        case 'ADD-LOGGEDIN-PROJECT': {
+            return {
+                ...state,
+                ...action.value,
             }
         }
         case 'ADD-TECHNOLOGIES': {

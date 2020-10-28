@@ -6,7 +6,7 @@ const initialState = {
     image: "",
     email: "",
     password: "",
-    technologies: [],
+    technologies: {},
     about: "",
     projectID: null,
 };
