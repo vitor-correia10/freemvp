@@ -21,6 +21,11 @@ const Project = (state = initialState, action) => {
                 ...action.value,
             }
         }
+        case 'REMOVE-LOGGEDIN-USER': {
+            return {
+                ...initialState,
+            }
+        }
         case 'ADD-TECHNOLOGIES': {
             return {
                 ...state,

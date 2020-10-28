@@ -24,6 +24,7 @@ const FormProject2 = () => {
     const technologies = useSelector((state) => state.Project.technologies);
     const dispatch = useDispatch();
     const history = useHistory();
+    const isLogin = useSelector((state) => !!state.LoggedUser.email);
     const [projectExist, setProjectExist] = React.useState(false);
 
     const onSubmit = (data) => {
@@ -48,8 +49,12 @@ const FormProject2 = () => {
             .then((responseBody) => {
                 const { status } = responseBody;
                 if (status === 'success') {
-                    history.push(`/`);
-                    dispatch(toggleModal());
+                    if (isLogin) {
+                        history.push(`/user`);
+                    } else {
+                        history.push(`/`);
+                        dispatch(toggleModal());
+                    }
                 } else if (status === 'projectExist') {
                     setProjectExist(true);
                 } else {

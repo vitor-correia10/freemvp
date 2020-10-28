@@ -8,7 +8,7 @@ import { THEME } from '../style/Theme';
 
 import LoginModal from "../Modals/LoginModal";
 
-import { removeLoggedInUser, toggleModal } from "../../Actions";
+import { removeLoggedInUser, toggleModal, removeLoggedInProject } from "../../Actions";
 
 const Navbar = () => {
     const dispatch = useDispatch();
@@ -43,7 +43,9 @@ const Navbar = () => {
                                                 </DropdownItem>
                                                 <DropdownItem>
                                                     <AnchorList href="/">
-                                                        <LogOutButton onClick={() => dispatch(removeLoggedInUser())} >
+                                                        <LogOutButton onClick={() => dispatch(removeLoggedInUser(),
+                                                            removeLoggedInProject()
+                                                        )} >
                                                             Log Out
                                                     </LogOutButton>
 

@@ -6,7 +6,7 @@ function saveToLocalStorage(state) {
         const serializedState = JSON.stringify(state.LoggedUser)
         const serializedStateProject = JSON.stringify(state.Project)
         localStorage.setItem('LoggedUser', serializedState)
-        localStorage.setItem('LoggedProject', serializedStateProject)
+        localStorage.setItem('Project', serializedStateProject)
     } catch (err) {
         console.log(err)
     }
@@ -14,17 +14,19 @@ function saveToLocalStorage(state) {
 
 function loadFromLocalStorage() {
     try {
-        const serializedState = localStorage.getItem('LoggedUser')
-        const serializedStateProject = localStorage.getItem('LoggedProject')
+        const serializedStateUser = localStorage.getItem('LoggedUser')
+        const serializedStateProject = localStorage.getItem('Project')
 
-        if (serializedState === null) {
+        if (serializedStateUser === null) {
             return undefined
         }
         else {
             if (serializedStateProject === null) {
-                return JSON.parse(serializedState)
+                return JSON.parse(serializedStateUser)
             } else {
-                return JSON.parse(serializedState, serializedStateProject)
+                console.log('User', serializedStateUser)
+                console.log('Project', serializedStateProject)
+                return [JSON.parse(serializedStateUser), JSON.parse(serializedStateProject)]
             }
         }
     } catch (err) {
@@ -34,13 +36,14 @@ function loadFromLocalStorage() {
 }
 
 export default function configureStore(initialState) {
-    const persistedState = loadFromLocalStorage();
+    console.log(loadFromLocalStorage());
+    const [loggedUser, project] = loadFromLocalStorage();
 
-    if (persistedState) {
+    if (loggedUser, project) {
         initialState = {
             ...initialState,
-            LoggedUser: persistedState,
-            Project: persistedState,
+            loggedUser,
+            project,
         }
     }
 

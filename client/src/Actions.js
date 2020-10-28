@@ -54,6 +54,14 @@ export const addLoggedInProject = (value, key) => {
     };
 };
 
+export const removeLoggedInProject = (value, key) => {
+    return {
+        type: "REMOVE-LOGGEDIN-PROJECT",
+        key,
+        value,
+    };
+};
+
 export const toggleModal = () => {
     return {
         type: "TOGGLE",
