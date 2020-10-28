@@ -18,8 +18,13 @@ const upload = multer({ dest: __dirname + '../../../client/public' + '/uploads' 
 
 const createProject = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
-    const { email } = req.body;
+    let { email } = req.body;
+    let { loggedEmail } = req.body;
+    if (!email) {
+        email = loggedEmail
+    }
     const { name } = req.body;
+
 
     try {
         const {
@@ -43,7 +48,6 @@ const createProject = async (req, res) => {
         }
 
         const user = await db.collection("users").findOne({ email });
-
         const r = await db.collection("projects").insertOne({
             name,
             image: req.file.filename,
@@ -55,13 +59,14 @@ const createProject = async (req, res) => {
         assert.strictEqual(1, r.insertedCount);
 
         const query = { email };
+
+        console.log(query)
         const projectID = await db.collection("projects").findOne({ name });
+        console.log(projectID._id);
 
         const newValues = { $set: { type: ['developer', 'project manager'], projectID: projectID._id } };
-
+        console.log(newValues)
         const u = await db.collection("users").updateOne(query, newValues);
-        assert.strictEqual(1, u.matchedCount);
-        assert.strictEqual(1, u.modifiedCount);
 
 
         res.status(201).json({ status: "success", data: req.body });

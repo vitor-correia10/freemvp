@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { toggleModal, updateUser } from "../../Actions";
 import { useDispatch } from "react-redux";
 import EditUserModal from "../Modals/EditUserModal";
+import { FormSubmitButton } from "../style/Buttons"
 
 const AsideSection = () => {
     const dispatch = useDispatch();
@@ -17,9 +18,9 @@ const AsideSection = () => {
 
                 <Email>{userProfile.email}</Email>
             </div>
-            <button onClick={() => dispatch(toggleModal())}>
+            <ProfileButton onClick={() => dispatch(toggleModal())}>
                 Edit Profile
-            </button>
+            </ProfileButton>
             {isOpen ? (
                 <EditUserModal />
             ) : ""
@@ -58,6 +59,10 @@ const Name = styled.p`
 const Email = styled.p`
     font-size: 14px;
     color: gray;
+`
+
+const ProfileButton = styled(FormSubmitButton)`
+    font-size: 15px;
 `
 
 export default AsideSection;

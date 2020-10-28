@@ -2,12 +2,15 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
 import { BiCheck } from "react-icons/bi";
+import { useHistory } from 'react-router-dom';
 
 import AsideSection from './AsideSection';
 import ProjectSection from './ProjectSection';
+import { FormSubmitButton } from '../style/Buttons';
 
 
 const Profile = () => {
+    const history = useHistory();
     const userProfile = useSelector((state) => state.LoggedUser);
     const [technologies, setTechnologies] = React.useState(Object.keys(userProfile.technologies));
 
@@ -36,13 +39,13 @@ const Profile = () => {
                     <Header3>My Project</Header3>
                     {userProfile.projectID
                         ? <ProjectSection />
-                        : <button>
+                        : <FormSubmitButton onClick={() => history.push("/form-project-2")} >
                             Add a Project
-                        </button>
+                        </FormSubmitButton>
                     }
                 </MyProject>
             </Main>
-        </Wrapper>
+        </Wrapper >
     )
 }
 

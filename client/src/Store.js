@@ -24,7 +24,7 @@ function loadFromLocalStorage() {
             if (serializedStateProject === null) {
                 return JSON.parse(serializedState)
             } else {
-                return JSON.parse({ serializedState, serializedStateProject })
+                return JSON.parse(serializedState, serializedStateProject)
             }
         }
     } catch (err) {
