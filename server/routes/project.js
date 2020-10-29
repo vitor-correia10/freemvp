@@ -82,13 +82,16 @@ const getProject = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
     const { name } = req.params;
 
+    console.log(name);
+
     await client.connect();
     const db = client.db('freemvp');
 
     db.collection("projects").findOne({ name }, (err, result) => {
+        console.log(result)
         result
-            ? res.status(200).json({ status: 200, data: result })
-            : res.status(404).json({ status: 404, data: "Not Found" });
+            ? res.status(200).json({ status: 'success', data: result })
+            : res.status(404).json({ status: 'error', data: "Not Found" });
 
         client.close();
     });
@@ -160,7 +163,7 @@ const updateProject = async (req, res) => {
 //Project endpoint
 router.post('/project', upload.single('image'), createProject)
 router.get('/project/:name', getProject)
-router.get('/project', getProjects)
+router.get('/projects', getProjects)
 router.delete('/project/:name', deleteProject)
 router.put('/project/:name', updateProject)
 

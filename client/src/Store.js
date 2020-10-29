@@ -24,8 +24,6 @@ function loadFromLocalStorage() {
             if (serializedStateProject === null) {
                 return JSON.parse(serializedStateUser)
             } else {
-                console.log('User', serializedStateUser)
-                console.log('Project', serializedStateProject)
                 return [JSON.parse(serializedStateUser), JSON.parse(serializedStateProject)]
             }
         }
@@ -36,14 +34,13 @@ function loadFromLocalStorage() {
 }
 
 export default function configureStore(initialState) {
-    console.log(loadFromLocalStorage());
-    const [loggedUser, project] = loadFromLocalStorage();
+    const [LoggedUser, Project] = loadFromLocalStorage();
 
-    if (loggedUser, project) {
+    if (LoggedUser, Project) {
         initialState = {
             ...initialState,
-            loggedUser,
-            project,
+            LoggedUser,
+            Project,
         }
     }
 

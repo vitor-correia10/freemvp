@@ -38,7 +38,6 @@ const FormProject2 = () => {
         formData.append("image", image)
         formData.append("description", description)
         formData.append("technologies", JSON.stringify(technologies))
-        console.log('***', loggedEmail)
 
         fetch('http://localhost:8080/project', {
             method: 'POST',

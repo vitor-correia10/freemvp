@@ -31,7 +31,7 @@ function App() {
         <Route path="/form-project-2">
           <FormProject2 />
         </Route>
-        <Route path="/project">
+        <Route path="/project/:name">
           <Project />
         </Route>
         <Route path="/form-user">
