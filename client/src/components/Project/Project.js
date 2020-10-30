@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { useParams } from "react-router-dom";
+import { THEME } from "../style/Theme";
+import Image from "./Image";
 
 const Project = () => {
     const { name } = useParams();
@@ -31,14 +33,21 @@ const Project = () => {
         return loading;
     }
     return (
-        <>
+        <Wrapper>
+            <Image itemSrc={"/uploads/" + project.image} />
             {project.name}
-        </>
+        </Wrapper>
     )
 }
 
+const Wrapper = styled.div`
+  display: block;
 
-
+  @media (min-width: ${THEME.mobile}) {
+    display: flex;
+    margin: 0 40px 40px 40px;
+  }
+`;
 
 
 export default Project;

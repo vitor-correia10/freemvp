@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from "react-router-dom";
+import { FormSubmitButton } from "../style/Buttons";
+import { THEME } from "../style/Theme";
 
 const ProjectSection = () => {
     const { name } = useParams();
@@ -26,16 +28,18 @@ const ProjectSection = () => {
 
 
     return (
-        <ProjectBox
-            onClick={() => {
+        <ProjectBox>
+            <ImageAnchor onClick={() => {
                 viewProject(userProject.name);
             }} >
-            <ProjectImage src={"/uploads/" + userProject.image} />
+                <ProjectImage src={"/uploads/" + userProject.image} />
+            </ImageAnchor>
             <ProjectDescription>
                 <HeaderProject>{userProject.name}</HeaderProject>
                 <p>{userProject.description}</p>
 
-                {userProject.developers ? (userProject.developers) : <button> Select a developer </button>}
+                {userProject.developers ? (userProject.developers)
+                    : <SelectDeveloper> Select a developer </SelectDeveloper>}
             </ProjectDescription>
         </ProjectBox >
     )
@@ -44,10 +48,16 @@ const ProjectSection = () => {
 const ProjectImage = styled.img`
     width: 30%;
     min-width: 250px;
-    margin-right: 15px;
 `
 
-const ProjectBox = styled.a`
+const ImageAnchor = styled.a`
+    margin-right: 15px;
+    cursor: pointer;
+    min-width: 250px;
+    width: 30%;
+`
+
+const ProjectBox = styled.div`
     display: flex;
     text-decoration: inherit;
     color: inherit;
@@ -62,6 +72,11 @@ const ProjectDescription = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+`
+
+const SelectDeveloper = styled(FormSubmitButton)`
+    margin: 0;
+    background: ${THEME.secondary};
 `
 
 export default ProjectSection;
