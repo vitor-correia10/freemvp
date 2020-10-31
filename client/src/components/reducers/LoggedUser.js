@@ -9,6 +9,7 @@ const initialState = {
     technologies: {},
     about: "",
     projectID: null,
+    workingProject: null,
 };
 
 const LoggedUser = (state = initialState, action) => {

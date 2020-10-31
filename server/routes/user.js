@@ -29,6 +29,7 @@ const createUser = async (req, res) => {
             technologies,
             about,
             projectID,
+            workingProject,
         } = req.body;
 
         await client.connect();
@@ -51,6 +52,7 @@ const createUser = async (req, res) => {
             technologies: JSON.parse(technologies),
             about,
             projectID,
+            workingProject,
         });
         assert.strictEqual(1, r.insertedCount);
 

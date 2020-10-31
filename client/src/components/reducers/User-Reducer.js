@@ -9,6 +9,7 @@ const initialState = {
     technologies: {},
     about: "",
     projectID: null,
+    workingProject: null,
 };
 
 const User = (state = initialState, action) => {
