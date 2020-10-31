@@ -49,7 +49,7 @@ const Profile = () => {
                         <Header3>Working Project</Header3>
                         : <>
                             <Header3>Some Projects You May Be Interested</Header3>
-                            <FormSubmitButton onClick={() => history.push("/form-project-2")} >
+                            <FormSubmitButton onClick={() => history.push("/projects")} >
                                 Find a Project
                             </FormSubmitButton>
                         </>

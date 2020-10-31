@@ -9,6 +9,7 @@ const initialState = {
     technologies: {},
     about: "",
     projectID: null,
+    relatedProjects: null,
     workingProject: null,
 };
 

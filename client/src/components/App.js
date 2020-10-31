@@ -12,6 +12,7 @@ import Home from './Home';
 import Users from './User/Users';
 import Profile from './User/Profile';
 import Project from './Project/Project';
+import Projects from './Project/Projects';
 import FormProject1 from './forms/FormProject1';
 import FormProject2 from './forms/FormProject2';
 import FormUser from './forms/FormUser';
@@ -30,6 +31,9 @@ function App() {
         </Route>
         <Route path="/form-project-2">
           <FormProject2 />
+        </Route>
+        <Route path="/projects">
+          <Projects />
         </Route>
         <Route path="/project/:name">
           <Project />

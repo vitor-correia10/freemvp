@@ -29,7 +29,6 @@ express()
 
     .use(require("./routes/user"))
     .use(require("./routes/project"))
-    .use(require("./routes/filterProjectByTechnology"))
 
     // handle 404s
     .use((req, res) => res.status(404).type("txt").send("Error 404"))

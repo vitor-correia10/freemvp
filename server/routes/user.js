@@ -29,6 +29,7 @@ const createUser = async (req, res) => {
             technologies,
             about,
             projectID,
+            relatedProjects,
             workingProject,
         } = req.body;
 
@@ -52,9 +53,36 @@ const createUser = async (req, res) => {
             technologies: JSON.parse(technologies),
             about,
             projectID,
+            relatedProjects,
             workingProject,
         });
         assert.strictEqual(1, r.insertedCount);
+
+        let findUser = await db.collection("users").findOne({ email });
+
+        const userTec = findUser.technologies;
+
+        console.log('UserTec', userTec)
+        function getTec(obj) {
+            let response = {};
+            Object.keys(obj).forEach(key => {
+                response[`technologies.${key}`] = obj[`${key}`]
+            })
+            return response;
+        }
+
+        const findProjects = await db.collection("projects")
+            .find(getTec(userTec))
+            .toArray();
+
+        console.log(findProjects)
+        let projectsIdsArray = findProjects.map(id => id._id);
+        console.log('projects', projectsIdsArray);
+
+        const query = { email };
+        const newValues = { $set: { relatedProjects: projectsIdsArray } };
+        console.log(newValues)
+        const u = await db.collection("users").updateOne(query, newValues);
 
         res.status(201).json({ status: "success", data: req.body });
 
@@ -72,7 +100,6 @@ const login = async (req, res) => {
     const { password } = req.body;
     const mongo = require('mongodb');
 
-
     await client.connect();
     const db = client.db('freemvp');
 
@@ -81,8 +108,6 @@ const login = async (req, res) => {
 
     const objectId = mongo.ObjectID(projectId);
     let findProject = await db.collection("projects").findOne({ _id: objectId })
-    console.log(findProject)
-
     if (findUser) {
         if (findUser.password == password) {
             findUser.password = "";
