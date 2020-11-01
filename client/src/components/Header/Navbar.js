@@ -43,9 +43,12 @@ const Navbar = () => {
                                                 </DropdownItem>
                                                 <DropdownItem>
                                                     <AnchorList href="/">
-                                                        <LogOutButton onClick={() => dispatch(removeLoggedInUser(),
-                                                            removeLoggedInProject()
-                                                        )} >
+                                                        <LogOutButton onClick={() => {
+
+                                                            dispatch(removeLoggedInUser())
+                                                            dispatch(removeLoggedInProject())
+                                                        }
+                                                        } >
                                                             Log Out
                                                     </LogOutButton>
 

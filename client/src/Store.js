@@ -34,13 +34,13 @@ function loadFromLocalStorage() {
 }
 
 export default function configureStore(initialState) {
-    const [LoggedUser, Project] = loadFromLocalStorage();
+    const persistedState = loadFromLocalStorage();
 
-    if (LoggedUser, Project) {
+    if (persistedState) {
         initialState = {
             ...initialState,
-            LoggedUser,
-            Project,
+            LoggedUser: persistedState[0],
+            Project: persistedState[1],
         }
     }
 
