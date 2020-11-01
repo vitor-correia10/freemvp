@@ -106,13 +106,13 @@ const getProjects = async (req, res) => {
     const projects = await db.collection("projects").find().toArray((err, result) => {
         if (result.length) {
             let start = Number(req.query.start) || 0;
-            let limit = start + Number(req.query.limit) || 10;
+            let limit = start + Number(req.query.limit) || 12;
             limit <= result.length ? limit : (limit = result.length);
 
             const data = result.slice(start, limit);
-            res.status(200).json({ status: 200, data: data });
+            res.status(200).json({ status: 'success', data: data });
         } else {
-            res.status(500).json({ status: 500, message: err.message });
+            res.status(500).json({ status: 'error', message: err.message });
         }
         client.close();
     });
