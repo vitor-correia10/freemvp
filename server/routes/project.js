@@ -97,6 +97,32 @@ const getProject = async (req, res) => {
     });
 };
 
+const relatedProject = async (req, res) => {
+    const mongo = require('mongodb');
+    const client = await MongoClient(MONGO_URI, options);
+    const relatedProjects = req.body;
+
+    await client.connect();
+    const db = client.db('freemvp');
+
+    function getRelatedIds(array) {
+        return array.map(id =>
+            mongo.ObjectID(id)
+        )
+    }
+
+    let findProject = await db.collection("projects").find({ _id: { $in: getRelatedIds(ids) } }).toArray();
+
+    if (findProject) {
+        res.status(200).json({ status: 'success', data: findProject })
+    } else {
+
+        res.status(404).json({ status: 'error', data: "Not Found" });
+    }
+
+    client.close();
+};
+
 const getProjects = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
 
@@ -163,6 +189,7 @@ const updateProject = async (req, res) => {
 //Project endpoint
 router.post('/project', upload.single('image'), createProject)
 router.get('/project/:name', getProject)
+router.get('/relatedProject', relatedProject)
 router.get('/projects', getProjects)
 router.delete('/project/:name', deleteProject)
 router.put('/project/:name', updateProject)
