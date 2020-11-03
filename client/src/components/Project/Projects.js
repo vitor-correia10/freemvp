@@ -85,7 +85,7 @@ const SpanTec = styled.span`
 const Paragraph = styled.p`
   display: flex;
   justify-content: space-around;
-  background: ${THEME.secondary};
+  background: ${THEME.primary};
   margin-bottom: 10px;
 `
 export default Projects;

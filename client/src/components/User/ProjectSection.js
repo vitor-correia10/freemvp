@@ -55,6 +55,11 @@ const ImageAnchor = styled.a`
     cursor: pointer;
     min-width: 250px;
     width: 30%;
+
+    &:hover {
+    transform: scale(1.05);
+    transition: 0.5s ease-in;
+  }
 `
 
 const ProjectBox = styled.div`

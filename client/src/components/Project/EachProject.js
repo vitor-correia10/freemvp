@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components/macro";
 import { useHistory } from "react-router-dom";
 import { THEME } from "../style/Theme";
+import { FormSubmitButton } from '../style/Buttons';
 
 const EachProject = ({ project, children }) => {
   const history = useHistory();
@@ -23,7 +24,11 @@ const EachProject = ({ project, children }) => {
       </ProjectBtn>
       <ProjectName>{project.name}</ProjectName>
       {children}
-      <ProjectPrice>{project.description}</ProjectPrice>
+      <ProjectDescription>{project.description}</ProjectDescription>
+      <SubmitButtonDiv>
+        <ApplyButton>Apply</ApplyButton>
+
+      </SubmitButtonDiv>
     </Wrapper>
   );
 };
@@ -60,7 +65,7 @@ const ProjectName = styled.h3`
   text-align: center;
 `;
 
-const ProjectPrice = styled.p`
+const ProjectDescription = styled.p`
   margin-top: 4px;
   font-size: 16px;
   height: 60px;
@@ -77,14 +82,20 @@ const ProjectBtn = styled.button`
     outline: none;
   }
 
-
   @media (min-width: ${THEME.mobile}) {
-
-  &:hover {
-    transform: scale(1.05);
-    transition: 0.5s ease-in;
-  }
+    &:hover {
+      transform: scale(1.05);
+      transition: 0.5s ease-in;
+    }
   }
 `;
 
+
+const ApplyButton = styled(FormSubmitButton)`
+  width: 50%;
+`
+
+const SubmitButtonDiv = styled.div`
+  text-align: center;
+`
 export default EachProject;
