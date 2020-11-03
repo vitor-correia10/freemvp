@@ -9,6 +9,8 @@ const Projects = () => {
   const [projects, setProjects] = React.useState({});
   const [loading, setLoading] = React.useState(true);
 
+  console.log(projects)
+
   const fetchProjects = async () => {
     const response = await fetch(`http://localhost:8080/projects`, {
       method: 'GET',

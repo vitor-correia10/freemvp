@@ -67,3 +67,19 @@ export const toggleModal = () => {
         type: "TOGGLE",
     };
 };
+
+export const addRelatedProjects = (value, key) => {
+    return {
+        type: "ADD-RELATED-PROJECTS",
+        key,
+        value,
+    };
+};
+
+export const removeRelatedProjects = (value, key) => {
+    return {
+        type: "REMOVE-RELATED-PROJECTS",
+        key,
+        value,
+    };
+};

@@ -75,7 +75,6 @@ const createUser = async (req, res) => {
             .find(getTec(userTec))
             .toArray();
 
-        console.log(findProjects)
         let projectsIdsArray = findProjects.map(id => id._id);
         console.log('projects', projectsIdsArray);
 
@@ -104,24 +103,44 @@ const login = async (req, res) => {
     const db = client.db('freemvp');
 
     let findUser = await db.collection("users").findOne({ email });
-    const projectId = findUser.projectID;
-
-    const objectId = mongo.ObjectID(projectId);
-    let findProject = await db.collection("projects").findOne({ _id: objectId })
     if (findUser) {
         if (findUser.password == password) {
             findUser.password = "";
+            const projectId = findUser.projectID;
+
+            const relatedProjectsArray = findUser.relatedProjects;
+
+            const objectId = mongo.ObjectID(projectId);
+            let findProject = await db.collection("projects").findOne({ _id: objectId })
+            let findRelatedProject = [];
+
+            if (relatedProjectsArray) {
+                function getRelatedIds(array) {
+                    return array.map(id =>
+                        mongo.ObjectID(id)
+                    )
+                }
+
+                findRelatedProject = await db.collection("projects")
+                    .find({ _id: { $in: getRelatedIds(relatedProjectsArray) } })
+                    .toArray();
+
+            }
+
             if (findProject != null) {
                 res.status(200).json({
                     status: "success", data:
                     {
                         findUser,
-                        findProject
+                        findProject,
+                        findRelatedProject
                     }
                 })
             } else (
-                res.status(200).json({ status: "success", data: { findUser } })
+                res.status(200).json({ status: "success", data: { findUser, findRelatedProject } })
             )
+
+
         } else {
             res.status(404).json({ status: "invalid", message: "Invalid data" })
         }

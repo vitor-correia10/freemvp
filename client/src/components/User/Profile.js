@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import AsideSection from './AsideSection';
 import ProjectSection from './ProjectSection';
+import RelatedProjects from './RelatedProjects';
 import { FormSubmitButton } from '../style/Buttons';
 
 
@@ -39,9 +40,12 @@ const Profile = () => {
                     <Header3>My Project</Header3>
                     {userProfile.projectID
                         ? <ProjectSection />
-                        : <FormSubmitButton onClick={() => history.push("/form-project-2")} >
-                            Add a Project
+                        :
+                        <SubmitButtonDiv>
+                            <FormSubmitButton onClick={() => history.push("/form-project-2")} >
+                                Add a Project
                         </FormSubmitButton>
+                        </SubmitButtonDiv>
                     }
                 </MyProject>
                 <MyProject>
@@ -49,9 +53,12 @@ const Profile = () => {
                         <Header3>Working Project</Header3>
                         : <>
                             <Header3>Some Projects You May Be Interested</Header3>
-                            <FormSubmitButton onClick={() => history.push("/projects")} >
-                                Find a Project
-                            </FormSubmitButton>
+                            <RelatedProjects />
+                            <SubmitButtonDiv>
+                                <FormSubmitButton onClick={() => history.push("/projects")} >
+                                    Find other Projects
+                                </FormSubmitButton>
+                            </SubmitButtonDiv>
                         </>
                     }
                 </MyProject>
@@ -112,6 +119,10 @@ const NoData = styled.p`
     font-style: italic;
     font-size: 14px;
     color: gray;
+`
+
+const SubmitButtonDiv = styled.div`
+    text-align: center;
 `
 
 export default Profile;

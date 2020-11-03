@@ -4,28 +4,28 @@ import { useHistory } from "react-router-dom";
 import { THEME } from "../style/Theme";
 
 const EachProject = ({ project, children }) => {
-    const history = useHistory();
+  const history = useHistory();
 
-    const viewProject = (name) => {
-        history.push("/project/" + name);
-    };
+  const viewProject = (name) => {
+    history.push("/project/" + name);
+  };
 
-    return (
-        <Wrapper>
-            <ProjectBtn
-                onClick={() => {
-                    viewProject(project.name);
-                }}
-            >
-                <ImageWrapper>
-                    <ProjectImage src={"/uploads/" + project.image} />
-                </ImageWrapper>
-            </ProjectBtn>
-            <ProjectName>{project.name}</ProjectName>
-            {children}
-            <ProjectPrice>{project.description}</ProjectPrice>
-        </Wrapper>
-    );
+  return (
+    <Wrapper>
+      <ProjectBtn
+        onClick={() => {
+          viewProject(project.name);
+        }}
+      >
+        <ImageWrapper>
+          <ProjectImage src={"/uploads/" + project.image} />
+        </ImageWrapper>
+      </ProjectBtn>
+      <ProjectName>{project.name}</ProjectName>
+      {children}
+      <ProjectPrice>{project.description}</ProjectPrice>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.div`
@@ -50,7 +50,7 @@ const ImageWrapper = styled.div`
 
 const ProjectImage = styled.img`
   max-width: 250px;
-  width: 60%;
+  width: 100%;
   height: auto;
 `;
 
