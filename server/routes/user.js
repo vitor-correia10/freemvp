@@ -62,7 +62,6 @@ const createUser = async (req, res) => {
 
         const userTec = findUser.technologies;
 
-        console.log('UserTec', userTec)
         function getTec(obj) {
             let response = {};
             Object.keys(obj).forEach(key => {
@@ -76,11 +75,9 @@ const createUser = async (req, res) => {
             .toArray();
 
         let projectsIdsArray = findProjects.map(id => id._id);
-        console.log('projects', projectsIdsArray);
 
         const query = { email };
         const newValues = { $set: { relatedProjects: projectsIdsArray } };
-        console.log(newValues)
         const u = await db.collection("users").updateOne(query, newValues);
 
         res.status(201).json({ status: "success", data: req.body });

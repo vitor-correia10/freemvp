@@ -41,7 +41,6 @@ const createProject = async (req, res) => {
         const db = client.db('freemvp');
 
         let projectAlreadyExist = await db.collection("projects").findOne({ name })
-        console.log('projectAlreadyExist', projectAlreadyExist)
         if (projectAlreadyExist) {
             res.status(404).json({ status: "projectExist", data: "Project already exist." });
             return;
@@ -60,12 +59,9 @@ const createProject = async (req, res) => {
 
         const query = { email };
 
-        console.log(query)
         const projectID = await db.collection("projects").findOne({ name });
-        console.log(projectID._id);
 
         const newValues = { $set: { type: ['developer', 'project manager'], projectID: projectID._id } };
-        console.log(newValues)
         const u = await db.collection("users").updateOne(query, newValues);
 
 
@@ -81,20 +77,25 @@ const createProject = async (req, res) => {
 const getProject = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
     const { name } = req.params;
+    const mongo = require('mongodb');
 
     console.log(name);
 
     await client.connect();
     const db = client.db('freemvp');
 
-    db.collection("projects").findOne({ name }, (err, result) => {
-        console.log(result)
-        result
-            ? res.status(200).json({ status: 'success', data: result })
-            : res.status(404).json({ status: 'error', data: "Not Found" });
+    let projectObj = await db.collection("projects").findOne({ name });
+    if (projectObj) {
+        const objectId = await mongo.ObjectID(projectObj.admin);
+        const findUser = await db.collection("users").findOne({ _id: objectId })
 
-        client.close();
-    });
+        res.status(200).json({ status: 'success', projectData: projectObj, userData: findUser })
+    } else {
+        res.status(404).json({ status: 'error', data: "Not Found" });
+    }
+
+    client.close();
+
 };
 
 const getProjects = async (req, res) => {

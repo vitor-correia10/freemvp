@@ -3,10 +3,12 @@ import styled from 'styled-components/macro';
 import { useParams } from "react-router-dom";
 import { THEME } from "../style/Theme";
 import Image from "./Image";
+import { FormSubmitButton } from '../style/Buttons';
 
 const Project = () => {
     const { name } = useParams();
     const [project, setProject] = React.useState({});
+    const [user, setUser] = React.useState({});
     const [loading, setLoading] = React.useState(true);
 
     const fetchProject = async () => {
@@ -16,9 +18,11 @@ const Project = () => {
         })
             .then(res => res.json())
             .then((responseBody) => {
-                const { status, data } = responseBody;
+                const { status, projectData, userData } = responseBody;
                 if (status === 'success') {
-                    setProject(data);
+                    console.log('projectData', projectData);
+                    setProject(projectData);
+                    setUser(userData);
                     setLoading(false);
                 } else {
                     console.log('Error');
@@ -38,15 +42,23 @@ const Project = () => {
             <ProductDetails>
                 <AlignBox>
                     <h1>{project.name}</h1>
-                    <img></img>
-                    <ProjectManager>Project Manager: name</ProjectManager>
+                    <ProjectManager>Project Manager: {user.firstName} {user.lastName}</ProjectManager>
                 </AlignBox>
                 <Paragraph>{project.description}</Paragraph>
-                {project.Developer ?
+                <TecParagraph>
+                    {Object.keys(project.technologies).map((technology) =>
+                        <SpanTec key={technology}>{technology}</SpanTec>
+                    )
+                    }
+                </TecParagraph>
+                {project.developers ?
                     <Developer>
-                        project.Developer
-                </Developer>
-                    : <a href="/">find a developer</a>
+                        Display developers
+                    </Developer>
+                    : <SubmitButtonDiv>
+                        <ApplyButton>Apply</ApplyButton>
+
+                    </SubmitButtonDiv>
                 }
             </ProductDetails>
         </Wrapper>
@@ -76,7 +88,7 @@ const ProductDetails = styled.div`
 `;
 
 const Paragraph = styled.p`
-  font-size: 20px;
+  font-size: 16px;
 
   @media (max-width: ${THEME.mobile}) {
     margin-top: 10px;
@@ -87,6 +99,7 @@ const AlignBox = styled.div`
   display: flex;
   align-items: end;
   flex-direction: column;
+  margin-bottom: 20px;
 `;
 
 const ProjectManager = styled.p`
@@ -94,6 +107,26 @@ const ProjectManager = styled.p`
 `
 
 const Developer = styled.p`
+`
+
+const TecParagraph = styled.p`
+  display: flex;
+  justify-content: space-around;
+  background: ${THEME.primary};
+  margin: 10px 0;
+`
+
+const SpanTec = styled.span`
+  margin: 5px;
+`
+
+const ApplyButton = styled(FormSubmitButton)`
+  width: 30%;
+  min-width: 200px;
+`
+
+const SubmitButtonDiv = styled.div`
+  text-align: center;
 `
 
 export default Project;
