@@ -25,7 +25,6 @@ const createProject = async (req, res) => {
     }
     const { name } = req.body;
 
-
     try {
         const {
             name,
@@ -34,6 +33,7 @@ const createProject = async (req, res) => {
             technologies,
             admin,
             developers,
+            relatedUsers,
         } = req.body;
 
         await client.connect();
@@ -54,16 +54,35 @@ const createProject = async (req, res) => {
             technologies: JSON.parse(technologies),
             admin: user._id,
             developers,
+            relatedUsers,
         });
         assert.strictEqual(1, r.insertedCount);
 
-        const query = { email };
-
         const projectID = await db.collection("projects").findOne({ name });
 
+        const projectTec = projectID.technologies;
+
+        function getTec(obj) {
+            let response = {};
+            Object.keys(obj).forEach(key => {
+                response[`technologies.${key}`] = obj[`${key}`]
+            })
+            return response;
+        }
+
+        const findUsers = await db.collection("users")
+            .find(getTec(projectTec))
+            .toArray();
+
+        let usersIdsArray = findUsers.map(id => id._id);
+
+        const query = { email };
         const newValues = { $set: { type: ['developer', 'project manager'], projectID: projectID._id } };
         const u = await db.collection("users").updateOne(query, newValues);
 
+        const projectQuery = { name };
+        const newProjectValues = { $set: { relatedUsers: usersIdsArray } };
+        const up = await db.collection("projects").updateOne(projectQuery, newProjectValues);
 
         res.status(201).json({ status: "success", data: req.body });
 
@@ -78,8 +97,6 @@ const getProject = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
     const { name } = req.params;
     const mongo = require('mongodb');
-
-    console.log(name);
 
     await client.connect();
     const db = client.db('freemvp');

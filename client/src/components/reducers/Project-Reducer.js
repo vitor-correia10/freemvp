@@ -5,6 +5,7 @@ const initialState = {
     technologies: {},
     admin: null,
     developers: [],
+    relatedUsers: null,
 };
 
 const Project = (state = initialState, action) => {

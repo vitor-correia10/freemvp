@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { THEME } from "../style/Theme";
 import { FormLabel } from '../Labels';
 import { FormSubmitButton } from '../style/Buttons';
-import { addLoggedInUser, addLoggedInProject, addTechnologies, toggleModal, addRelatedProjects } from '../../Actions';
+import { addLoggedInUser, addLoggedInProject, addTechnologies, toggleModal, addRelatedProjects, addRelatedUsers } from '../../Actions';
 import { useHistory } from 'react-router-dom';
 import { ErrorMessage } from '../style/ErrorMessage';
 
@@ -38,6 +38,7 @@ const LoginModal = ({ onClick }) => {
           dispatch(addLoggedInUser(data.findUser));
           dispatch(addLoggedInProject(data.findProject));
           dispatch(addRelatedProjects(data.findRelatedProject));
+          dispatch(addRelatedUsers(data.findRelatedUser));
           history.push(`/user`);
           dispatch(toggleModal());
         } else if (status === 'invalid') {

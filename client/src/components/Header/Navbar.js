@@ -8,7 +8,7 @@ import { THEME } from '../style/Theme';
 
 import LoginModal from "../Modals/LoginModal";
 
-import { removeLoggedInUser, toggleModal, removeLoggedInProject, removeRelatedProjects } from "../../Actions";
+import { removeLoggedInUser, toggleModal, removeLoggedInProject, removeRelatedProjects, removeRelatedUsers } from "../../Actions";
 
 const Navbar = () => {
     const dispatch = useDispatch();
@@ -48,6 +48,7 @@ const Navbar = () => {
                                                             dispatch(removeLoggedInUser())
                                                             dispatch(removeLoggedInProject())
                                                             dispatch(removeRelatedProjects())
+                                                            dispatch(removeRelatedUsers())
                                                         }
                                                         } >
                                                             Log Out

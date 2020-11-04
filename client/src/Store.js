@@ -6,9 +6,11 @@ function saveToLocalStorage(state) {
         const serializedState = JSON.stringify(state.LoggedUser)
         const serializedStateProject = JSON.stringify(state.Project)
         const serializedStateRelatedProjects = JSON.stringify(state.RelatedProjects)
+        const serializedStateRelatedUsers = JSON.stringify(state.RelatedUsers)
         localStorage.setItem('LoggedUser', serializedState)
         localStorage.setItem('Project', serializedStateProject)
         localStorage.setItem('RelatedProjects', serializedStateRelatedProjects)
+        localStorage.setItem('RelatedUsers', serializedStateRelatedUsers)
     } catch (err) {
         console.log(err)
     }
@@ -19,6 +21,7 @@ function loadFromLocalStorage() {
         const serializedStateUser = localStorage.getItem('LoggedUser')
         const serializedStateProject = localStorage.getItem('Project')
         const serializedStateRelatedProjects = localStorage.getItem('RelatedProjects')
+        const serializedStateRelatedUsers = localStorage.getItem('RelatedUsers')
 
         if (serializedStateUser === null) {
             return undefined
@@ -27,9 +30,12 @@ function loadFromLocalStorage() {
             if (serializedStateProject === null) {
                 return JSON.parse(serializedStateUser)
             } else {
-                return [JSON.parse(serializedStateUser),
-                JSON.parse(serializedStateProject),
-                JSON.parse(serializedStateRelatedProjects)]
+                return [
+                    JSON.parse(serializedStateUser),
+                    JSON.parse(serializedStateProject),
+                    JSON.parse(serializedStateRelatedProjects),
+                    JSON.parse(serializedStateRelatedUsers)
+                ]
             }
         }
     } catch (err) {
@@ -47,6 +53,7 @@ export default function configureStore(initialState) {
             LoggedUser: persistedState[0],
             Project: persistedState[1],
             RelatedProjects: persistedState[2],
+            RelatedUsers: persistedState[3],
         }
     }
 

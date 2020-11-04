@@ -83,3 +83,19 @@ export const removeRelatedProjects = (value, key) => {
         value,
     };
 };
+
+export const addRelatedUsers = (value, key) => {
+    return {
+        type: "ADD-RELATED-USERS",
+        key,
+        value,
+    };
+};
+
+export const removeRelatedUsers = (value, key) => {
+    return {
+        type: "REMOVE-RELATED-USERS",
+        key,
+        value,
+    };
+};
