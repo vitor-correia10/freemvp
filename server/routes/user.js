@@ -109,20 +109,32 @@ const login = async (req, res) => {
 
             const objectId = mongo.ObjectID(projectId);
             let findProject = await db.collection("projects").findOne({ _id: objectId })
+            const relatedUsersArray = findProject.relatedUsers;
             let findRelatedProject = [];
+            let findRelatedUser = [];
+
+            function getRelatedIds(array) {
+                return array.map(id =>
+                    mongo.ObjectID(id)
+                )
+            }
 
             if (relatedProjectsArray) {
-                function getRelatedIds(array) {
-                    return array.map(id =>
-                        mongo.ObjectID(id)
-                    )
-                }
 
                 findRelatedProject = await db.collection("projects")
                     .find({ _id: { $in: getRelatedIds(relatedProjectsArray) } })
                     .toArray();
-
             }
+
+            if (relatedUsersArray) {
+                findRelatedUser = await db.collection("users")
+                    .find({ _id: { $in: getRelatedIds(relatedUsersArray) } })
+                    .toArray();
+            }
+
+            console.log('findRelatedUser', findRelatedUser);
+            console.log('findRelatedProject', findRelatedProject);
+
 
             if (findProject != null) {
                 res.status(200).json({
@@ -130,7 +142,8 @@ const login = async (req, res) => {
                     {
                         findUser,
                         findProject,
-                        findRelatedProject
+                        findRelatedProject,
+                        findRelatedUser,
                     }
                 })
             } else (
