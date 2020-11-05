@@ -19,7 +19,7 @@ const RelatedProjects = () => {
               <EachRelatedProject key={`${project._id}`} project={project}>
                 <Paragraph>
                   {Object.keys(project.technologies).map((technology) =>
-                    <SpanTec>{technology}</SpanTec>
+                    <SpanTec key={technology}>{technology}</SpanTec>
                   )
                   }
                 </Paragraph>

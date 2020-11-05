@@ -132,10 +132,6 @@ const login = async (req, res) => {
                     .toArray();
             }
 
-            console.log('findRelatedUser', findRelatedUser);
-            console.log('findRelatedProject', findRelatedProject);
-
-
             if (findProject != null) {
                 res.status(200).json({
                     status: "success", data:
@@ -245,7 +241,7 @@ const deleteUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
-    const { email } = req.body;
+
     try {
         const {
             // type,

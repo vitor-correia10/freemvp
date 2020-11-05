@@ -2,14 +2,43 @@ import React from "react";
 import styled from "styled-components/macro";
 import { useHistory } from "react-router-dom";
 import { THEME } from "../style/Theme";
+import { useSelector } from "react-redux";
 import { FormSubmitButton } from '../style/Buttons';
 
 const EachProject = ({ project, children }) => {
+  const loggedUserId = useSelector((state) => state.LoggedUser._id);
+  const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
+
   const history = useHistory();
 
   const viewProject = (name) => {
     history.push("/project/" + name);
   };
+
+  const matchProject = (name) => {
+    console.log('Project Name:', name);
+    console.log('User email', loggedUserEmail);
+
+    fetch('http://localhost:8080/project/matchProject', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        email: loggedUserEmail,
+      }),
+    })
+      .then(res => res.json())
+      .then((responseBody) => {
+        const { status, projectData, userData } = responseBody;
+        if (status === 'success') {
+          console.log('Success')
+        } else {
+          console.log('Error')
+        }
+      })
+  }
 
   return (
     <Wrapper>
@@ -26,8 +55,9 @@ const EachProject = ({ project, children }) => {
       {children}
       <ProjectDescription>{project.description}</ProjectDescription>
       <SubmitButtonDiv>
-        <ApplyButton>Apply</ApplyButton>
-
+        <ApplyButton onClick={() => {
+          matchProject(project.name);
+        }}>Apply</ApplyButton>
       </SubmitButtonDiv>
     </Wrapper>
   );

@@ -32,6 +32,7 @@ const createProject = async (req, res) => {
             description,
             technologies,
             admin,
+            isCompleted,
             developers,
             relatedUsers,
         } = req.body;
@@ -54,6 +55,7 @@ const createProject = async (req, res) => {
             technologies: JSON.parse(technologies),
             admin: user._id,
             developers,
+            isCompleted: false,
             relatedUsers,
         });
         assert.strictEqual(1, r.insertedCount);
@@ -74,7 +76,7 @@ const createProject = async (req, res) => {
             .find(getTec(projectTec))
             .toArray();
 
-        let usersIdsArray = findUsers.map(id => id._id);
+        let usersIdsArray = findUsers.slice(0, 3).map(id => id._id);
 
         const query = { email };
         const newValues = { $set: { type: ['developer', 'project manager'], projectID: projectID._id } };
@@ -178,11 +180,41 @@ const updateProject = async (req, res) => {
     client.close();
 }
 
+const matchProject = async (req, res) => {
+    const client = await MongoClient(MONGO_URI, options);
+
+    try {
+        const {
+            name,
+            email,
+        } = req.body;
+
+        console.log(name);
+        await client.connect();
+        const db = client.db('freemvp');
+
+        // let findMatchedUser = await db.collection("users").findOne({ email })
+        // console.log('findMatchedUser', findMatchedUser)
+        const query = { name };
+        const newValues = { $set: { ...req.body } };
+
+        const u = await db.collection("projects").updateOne(query, newValues);
+        assert.strictEqual(1, u.matchedCount);
+        assert.strictEqual(1, u.modifiedCount);
+
+        res.status(200).json({ status: 'success', projectData: name, userData: email });
+    } catch (err) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+    client.close();
+}
+
 //Project endpoint
 router.post('/project', upload.single('image'), createProject)
 router.get('/project/:name', getProject)
 router.get('/projects', getProjects)
 router.delete('/project/:name', deleteProject)
 router.put('/project/:name', updateProject)
+router.put('/project/matchProject', matchProject)
 
 module.exports = router;

@@ -9,8 +9,6 @@ const Projects = () => {
   const [projects, setProjects] = React.useState({});
   const [loading, setLoading] = React.useState(true);
 
-  console.log(projects)
-
   const fetchProjects = async () => {
     const response = await fetch(`http://localhost:8080/projects`, {
       method: 'GET',
@@ -19,7 +17,6 @@ const Projects = () => {
       .then((responseBody) => {
         const { status, data } = responseBody;
         if (status === 'success') {
-          console.log(data);
           setProjects(data);
           setLoading(false);
         } else {
@@ -43,7 +40,7 @@ const Projects = () => {
               <EachProject key={`${project._id}`} project={project}>
                 <Paragraph>
                   {Object.keys(project.technologies).map((technology) =>
-                    <SpanTec>{technology}</SpanTec>
+                    <SpanTec key={technology}>{technology}</SpanTec>
                   )
                   }
                 </Paragraph>

@@ -44,8 +44,6 @@ const EditUserModal = ({ onClick }) => {
         formData.append("technologies", JSON.stringify(technologies))
         formData.append("about", about)
 
-        console.log(formData.append("email", email))
-
         fetch('http://localhost:8080/user/edit', {
             method: 'PUT',
             headers: {
