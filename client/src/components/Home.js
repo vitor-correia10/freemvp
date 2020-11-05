@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { FcIdea } from "react-icons/fc";
 import { GoRocket } from "react-icons/go";
 import { MdDeveloperMode } from "react-icons/md";
+import { THEME } from "./style/Theme";
 
 const socialIconDim = { fontSize: "60px" };
 
@@ -32,7 +33,7 @@ const Home = () => {
                         <Banner type={project}>
                             <Header type={projectHeader}>
                                 Do you have any project?
-                        </Header>
+                            </Header>
                             <MainAnchor type={projectColor} href="/form-project-1">
                                 Submit a project
                         </MainAnchor>
@@ -71,7 +72,11 @@ const Home = () => {
 
 const Slideshow = styled.div`
     width: 100%;
-    display: flex;
+
+    @media (min-width: ${THEME.mobile}){
+        width: 100%;
+        display: flex;
+    }
 `
 
 const MainAnchor = styled.a`
@@ -91,10 +96,14 @@ const MainAnchor = styled.a`
 
 const Header = styled.h2`
     color: ${props => props.type.main};
-    font-size: 30px;
+    font-size: 24px;
     background: rgba(0,0,0,0.3);
     padding: 15px;
     border-radius: 10px;
+
+    @media (min-width: ${THEME.mobile}){
+        font-size: 30px;
+    }
 `
 
 const projectHeader = {
@@ -106,15 +115,21 @@ const userHeader = {
 };
 
 const Banner = styled.div`
-    width: 50%;
-    height: 60vh;
     background-image: url(${props => props.type.main});
     background-size: cover;
     background-repeat: no-repeat;
+    width: 100%;
+    height: 48vh;
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-direction: column;
+
+    @media (min-width: ${THEME.mobile}){
+        width: 50%;
+        height: 60vh;
+
+    }
 `
 
 const BannerLogged = styled.div`
@@ -150,8 +165,10 @@ const userColor = {
 };
 
 const MainSection = styled.section`
-    display: flex;
-    height: 30vh;
+    @media (min-width: ${THEME.mobile}){
+        display: flex;
+        height: 30vh;
+    }
 `
 
 const StyledIdeaIcon = styled(FcIdea)`
@@ -168,7 +185,7 @@ const StyledRocketIcon = styled(GoRocket)`
 
 const Content = styled.div`
     width: 100%;
-    height: 100%;
+    height: 180px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -176,6 +193,10 @@ const Content = styled.div`
 
     &:not(:last-child){
         border-right: 1px black dashed;
+    }
+
+    @media (min-width: ${THEME.mobile}){
+        height: 100%;
     }
 `
 

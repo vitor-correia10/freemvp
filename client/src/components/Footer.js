@@ -13,13 +13,9 @@ const socialIconDim = { height: "25px", width: "25px" };
 const Footer = () => {
   return (
     <FooterContainer>
-      <ShopQCard>
+      <Divider>
         <BioContainer>
           <Bio>
-            {/* Lorem ipsum dolor sit amet, vel an decore denique assentior, mei no
-            inimicus adversarium. Vel duis reprimique in. Mei option
-            consectetuer in, exerci recusabo oportere vim eu. Ea vivendo
-            adipiscing efficiantur qui. Has cu posse harum impedit. */}
             <HandsIcon /> Kindness generates kindness <HandsIcon />
           </Bio>
         </BioContainer>
@@ -30,7 +26,7 @@ const Footer = () => {
           <StyledYoutube />
           <StyledInstagram />
         </SocialBar>
-      </ShopQCard>
+      </Divider>
       <TabCard>
         <TabColumn>
           <TabHeader>INFORMATION</TabHeader>
@@ -61,12 +57,11 @@ const FooterContainer = styled.div`
   }
 `;
 
-const ShopQCard = styled.div`
+const Divider = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-right: 50px;
 `;
 
 const TabCard = styled.div`
@@ -84,10 +79,6 @@ const Bio = styled.h4`
   font-weight: 400;
   margin-bottom: 30px;
   font-size: 1.2em;
-
-  @media (max-width: ${THEME.mobile}) {
-    font-size: 1rem;
-  }
 `;
 const SocialBar = styled.div`
   display: flex;
