@@ -7,15 +7,15 @@ import { FormSubmitButton } from '../style/Buttons';
 const EachUser = ({ user, children }) => {
     const history = useHistory();
 
-    const viewUser = (name) => {
-        history.push("/user/" + name);
+    const viewUser = (email) => {
+        history.push("/user/" + email);
     };
 
     return (
         <Wrapper>
             <UserBtn
                 onClick={() => {
-                    viewUser(user.name);
+                    viewUser(user.email);
                 }}
             >
                 <ImageWrapper>

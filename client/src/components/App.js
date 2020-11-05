@@ -11,6 +11,7 @@ import Header from './Header/Header';
 import Home from './Home';
 import Users from './User/Users';
 import Profile from './User/Profile';
+import NotLoggedProfile from './User/NotLoggedProfile'
 import Project from './Project/Project';
 import Projects from './Project/Projects';
 import FormProject1 from './forms/FormProject1';
@@ -44,8 +45,11 @@ function App() {
         <Route path="/users">
           <Users />
         </Route>
-        <Route path="/user">
+        <Route exact path="/user">
           <Profile />
+        </Route>
+        <Route path="/user/:email">
+          <NotLoggedProfile />
         </Route>
       </Switch>
       <Footer />

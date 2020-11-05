@@ -12,7 +12,7 @@ const RelatedUsersPerProject = () => {
 
     return (
         <MatchUsersContainer>
-            <h4>They can be a match to your project... </h4>
+            <h4>Match with your project... </h4>
             <Wrapper>
                 <Row>
                     {

@@ -178,6 +178,31 @@ const getUser = async (req, res) => {
     });
 };
 
+const getUserByEmail = async (req, res) => {
+    const client = await MongoClient(MONGO_URI, options);
+    const { email } = req.params;
+    const mongo = require('mongodb');
+
+    await client.connect();
+    const db = client.db('freemvp');
+
+    let userObj = await db.collection("users").findOne({ email });
+    if (userObj) {
+        const objectId = await mongo.ObjectID(userObj.projectID);
+        const findProject = await db.collection("projects").findOne({ _id: objectId })
+
+        res.status(200).json({
+            status: 'success', userData: userObj, projectData: findProject
+        })
+    } else {
+        res.status(404).json({ status: 'error', data: "Not Found" });
+    }
+
+    client.close();
+
+};
+
+
 const getUsers = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
 
@@ -270,6 +295,7 @@ router.post('/user', upload.single('image'), createUser)
 router.post('/login', login)
 router.post('/form-project-2', upload.single('image'), createUser)
 router.get('/user', getUser)
+router.get('/user/:email', getUserByEmail)
 router.get('/user', getUsers)
 router.delete('/user', deleteUser)
 router.put('/user/edit', updateUser)
