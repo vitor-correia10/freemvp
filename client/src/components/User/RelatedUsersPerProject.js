@@ -11,13 +11,14 @@ const RelatedUsersPerProject = () => {
     let relatedUsersArray = Object.keys(relatedUsers).map(function (k) { return relatedUsers[k] });
 
     return (
-        <MatchUsersContainer>
-            <h4>Match with your project... </h4>
-            <Wrapper>
-                <Row>
-                    {
-                        relatedUsersArray.map((user, index) =>
-                            <>
+        <>
+            {
+                relatedUsersArray.map((user, index) =>
+                    <MatchUsersContainer key={`${user._id}`}>
+                        <h4>Match with your project... </h4>
+                        <Wrapper>
+                            <Row>
+
                                 <EachRelatedProject key={`${user._id}`} user={user}>
                                     <Paragraph>
                                         {Object.keys(user.technologies).map((technology) =>
@@ -26,12 +27,13 @@ const RelatedUsersPerProject = () => {
                                         }
                                     </Paragraph>
                                 </EachRelatedProject>
-                            </>
-                        )
-                    }
-                </Row>
-            </Wrapper>
-        </MatchUsersContainer>
+
+                            </Row>
+                        </Wrapper>
+                    </MatchUsersContainer>
+                )
+            }
+        </>
     )
 }
 

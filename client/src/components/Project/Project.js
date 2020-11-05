@@ -4,65 +4,63 @@ import { useParams } from "react-router-dom";
 import { THEME } from "../style/Theme";
 import Image from "./Image";
 import { FormSubmitButton } from '../style/Buttons';
+import { useSelector } from "react-redux";
 
 const Project = () => {
-    const { name } = useParams();
-    const [project, setProject] = React.useState({});
-    const [user, setUser] = React.useState({});
-    const [loading, setLoading] = React.useState(true);
+  const { name } = useParams();
+  const [project, setProject] = React.useState({});
+  const [user, setUser] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
+  const loggedUserId = useSelector((state) => state.LoggedUser._id);
 
-    const fetchProject = async () => {
-        const response = await fetch(`http://localhost:8080/project/${name}`, {
-            method: 'GET',
-            name
-        })
-            .then(res => res.json())
-            .then((responseBody) => {
-                const { status, projectData, userData } = responseBody;
-                if (status === 'success') {
-                    console.log('projectData', projectData);
-                    setProject(projectData);
-                    setUser(userData);
-                    setLoading(false);
-                } else {
-                    console.log('Error');
-                }
-            })
-    };
+  const fetchProject = async () => {
+    const response = await fetch(`http://localhost:8080/project/${name}`, {
+      method: 'GET',
+      name
+    })
+      .then(res => res.json())
+      .then((responseBody) => {
+        const { status, projectData, userData } = responseBody;
+        if (status === 'success') {
+          console.log('projectData', projectData);
+          setProject(projectData);
+          setUser(userData);
+          setLoading(false);
+        } else {
+          console.log('Error');
+        }
+      })
+  };
 
-    React.useEffect(() => {
-        fetchProject();
-    }, []);
-    if (loading) {
-        return loading;
-    }
-    return (
-        <Wrapper>
-            <Image itemSrc={"/uploads/" + project.image} />
-            <ProductDetails>
-                <AlignBox>
-                    <h1>{project.name}</h1>
-                    <ProjectManager>Project Manager: {user.firstName} {user.lastName}</ProjectManager>
-                </AlignBox>
-                <Paragraph>{project.description}</Paragraph>
-                <TecParagraph>
-                    {Object.keys(project.technologies).map((technology) =>
-                        <SpanTec key={technology}>{technology}</SpanTec>
-                    )
-                    }
-                </TecParagraph>
-                {project.developers ?
-                    <Developer>
-                        Display developers
-                    </Developer>
-                    : <SubmitButtonDiv>
-                        <ApplyButton>Apply</ApplyButton>
+  React.useEffect(() => {
+    fetchProject();
+  }, []);
+  if (loading) {
+    return loading;
+  }
 
-                    </SubmitButtonDiv>
-                }
-            </ProductDetails>
-        </Wrapper>
-    )
+  return (
+    <Wrapper>
+      <Image itemSrc={"/uploads/" + project.image} />
+      <ProductDetails>
+        <AlignBox>
+          <h1>{project.name}</h1>
+          <ProjectManager>Project Manager: {user.firstName} {user.lastName}</ProjectManager>
+        </AlignBox>
+        <Paragraph>{project.description}</Paragraph>
+        <TecParagraph>
+          {Object.keys(project.technologies).map((technology) =>
+            <SpanTec key={technology}>{technology}</SpanTec>
+          )
+          }
+        </TecParagraph>
+        {project.developers ?
+          <Developer>  Display developers  </Developer>
+          : loggedUserId === project.admin ? ""
+            : <ApplyButton>Apply</ApplyButton>}
+      </ProductDetails>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.div`

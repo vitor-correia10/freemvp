@@ -37,18 +37,6 @@ const Profile = () => {
                     </UnordedList>
                 </SectionTecs>
                 <MyProject>
-                    <Header3>My Project</Header3>
-                    {userProfile.projectID
-                        ? <ProjectSection />
-                        :
-                        <SubmitButtonDiv>
-                            <FormSubmitButton onClick={() => history.push("/form-project-2")} >
-                                Add a Project
-                        </FormSubmitButton>
-                        </SubmitButtonDiv>
-                    }
-                </MyProject>
-                <MyProject>
                     {userProfile.workingProject ?
                         <Header3>Working Project</Header3>
                         : <>
@@ -60,6 +48,18 @@ const Profile = () => {
                                 </FormSubmitButton>
                             </SubmitButtonDiv>
                         </>
+                    }
+                </MyProject>
+                <MyProject>
+                    <Header3>My Project</Header3>
+                    {userProfile.projectID
+                        ? <ProjectSection />
+                        :
+                        <SubmitButtonDiv>
+                            <FormSubmitButton onClick={() => history.push("/form-project-2")} >
+                                Add a Project
+                        </FormSubmitButton>
+                        </SubmitButtonDiv>
                     }
                 </MyProject>
             </Main>

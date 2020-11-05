@@ -74,7 +74,7 @@ const createUser = async (req, res) => {
             .find(getTec(userTec))
             .toArray();
 
-        let projectsIdsArray = findProjects.map(id => id._id);
+        let projectsIdsArray = findProjects.slice(0, 3).map(id => id._id);
 
         const query = { email };
         const newValues = { $set: { relatedProjects: projectsIdsArray } };
