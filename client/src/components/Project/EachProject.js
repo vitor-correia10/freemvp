@@ -57,11 +57,17 @@ const EachProject = ({ project, children }) => {
       <ProjectName>{project.name}</ProjectName>
       {children}
       <ProjectDescription>{project.description}</ProjectDescription>
-      <SubmitButtonDiv>
-        <ApplyButton onClick={() => {
-          matchProject(project.name, project.developers);
-        }}>Apply</ApplyButton>
-      </SubmitButtonDiv>
+      { loggedUserId === project.admin ?
+        <OwnProjectP>
+          Your project
+        </OwnProjectP>
+        :
+        <SubmitButtonDiv>
+          <ApplyButton onClick={() => {
+            matchProject(project.name, project.developers);
+          }}>Apply</ApplyButton>
+        </SubmitButtonDiv>
+      }
     </Wrapper>
   );
 };
@@ -123,12 +129,20 @@ const ProjectBtn = styled.button`
   }
 `;
 
-
 const ApplyButton = styled(FormSubmitButton)`
   width: 50%;
 `
 
 const SubmitButtonDiv = styled.div`
   text-align: center;
+`
+
+const OwnProjectP = styled.p`
+  text-align: center;
+  margin: 20px;
+  font-size: 18px;
+  padding: 5px 10px;
+  color: gray;
+  font-style: italic;
 `
 export default EachProject;
