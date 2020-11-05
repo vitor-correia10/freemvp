@@ -6,30 +6,30 @@ import EachProject from "../Project/EachProject";
 
 
 const RelatedProjects = () => {
-    const relatedProjects = useSelector((state) => state.RelatedProjects);
+  const relatedProjects = useSelector((state) => state.RelatedProjects);
 
-    let relatedProjectsArray = Object.keys(relatedProjects).map(function (k) { return relatedProjects[k] });
+  let relatedProjectsArray = Object.keys(relatedProjects).map(function (k) { return relatedProjects[k] });
 
-    return (
-        <Wrapper>
-            <Row>
-                {
-                    relatedProjectsArray.map((project, index) =>
-                        <>
-                            <EachRelatedProject key={`${project._id}`} project={project}>
-                                <Paragraph>
-                                    {Object.keys(project.technologies).map((technology) =>
-                                        <SpanTec>{technology}</SpanTec>
-                                    )
-                                    }
-                                </Paragraph>
-                            </EachRelatedProject>
-                        </>
-                    )
-                }
-            </Row>
-        </Wrapper>
-    )
+  return (
+    <Wrapper>
+      <Row>
+        {
+          relatedProjectsArray.map((project, index) =>
+            <>
+              <EachRelatedProject key={`${project._id}`} project={project}>
+                <Paragraph>
+                  {Object.keys(project.technologies).map((technology) =>
+                    <SpanTec>{technology}</SpanTec>
+                  )
+                  }
+                </Paragraph>
+              </EachRelatedProject>
+            </>
+          )
+        }
+      </Row>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.div`
@@ -38,7 +38,6 @@ const Wrapper = styled.div`
   @media (min-width: ${THEME.mobile}) {
     display: flex;
     flex-direction: row;
-    margin: 0 40px 40px 40px;
   }
 `;
 
@@ -50,6 +49,7 @@ const Row = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
   }
 `;
 

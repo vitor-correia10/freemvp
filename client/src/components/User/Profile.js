@@ -52,7 +52,7 @@ const Profile = () => {
                     {userProfile.workingProject ?
                         <Header3>Working Project</Header3>
                         : <>
-                            <Header3>Some Projects You May Be Interested</Header3>
+                            <Header3>Some Projects You May Be Interested...</Header3>
                             <RelatedProjects />
                             <SubmitButtonDiv>
                                 <FormSubmitButton onClick={() => history.push("/projects")} >

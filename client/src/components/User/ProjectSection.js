@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useHistory, useParams } from "react-router-dom";
 import { FormSubmitButton } from "../style/Buttons";
 import { THEME } from "../style/Theme";
+import RelatedUsersPerProject from './RelatedUsersPerProject';
 
 const ProjectSection = () => {
     const { name } = useParams();
@@ -28,20 +29,24 @@ const ProjectSection = () => {
 
 
     return (
-        <ProjectBox>
-            <ImageAnchor onClick={() => {
-                viewProject(userProject.name);
-            }} >
-                <ProjectImage src={"/uploads/" + userProject.image} />
-            </ImageAnchor>
-            <ProjectDescription>
-                <HeaderProject>{userProject.name}</HeaderProject>
-                <p>{userProject.description}</p>
+        <>
+            <ProjectBox>
+                <ImageAnchor onClick={() => {
+                    viewProject(userProject.name);
+                }} >
+                    <ProjectImage src={"/uploads/" + userProject.image} />
+                </ImageAnchor>
+                <ProjectDescription>
+                    <HeaderProject>{userProject.name}</HeaderProject>
+                    <p>{userProject.description}</p>
 
-                {userProject.developers ? (userProject.developers)
-                    : <SelectDeveloper> Select a developer </SelectDeveloper>}
-            </ProjectDescription>
-        </ProjectBox >
+                </ProjectDescription>
+            </ProjectBox >
+            {userProject.developers ? (userProject.developers)
+                :
+                <RelatedUsersPerProject />
+            }
+        </>
     )
 }
 
@@ -79,9 +84,5 @@ const ProjectDescription = styled.div`
     justify-content: space-around;
 `
 
-const SelectDeveloper = styled(FormSubmitButton)`
-    margin: 0;
-    background: ${THEME.secondary};
-`
 
 export default ProjectSection;

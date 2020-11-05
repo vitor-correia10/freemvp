@@ -39,7 +39,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   margin: 24px 5px;
-  flex: 0 0 32.58%;
+  flex: 0 0 30%;
 `;
 
 const ImageWrapper = styled.div`
