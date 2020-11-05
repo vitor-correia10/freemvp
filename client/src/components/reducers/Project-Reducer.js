@@ -23,6 +23,12 @@ const Project = (state = initialState, action) => {
                 ...action.value,
             }
         }
+        case 'UPDATE-PROJECT': {
+            return {
+                ...state,
+                [action.key]: action.value
+            }
+        }
         case 'REMOVE-LOGGEDIN-PROJECT': {
             return {
                 ...initialState,

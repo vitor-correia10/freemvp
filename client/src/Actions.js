@@ -46,6 +46,14 @@ export const addProject = (value, key) => {
     };
 };
 
+export const updateProject = (value, key) => {
+    return {
+        type: "UPDATE-PROJECT",
+        key,
+        value,
+    };
+};
+
 export const addLoggedInProject = (value, key) => {
     return {
         type: "ADD-LOGGEDIN-PROJECT",
