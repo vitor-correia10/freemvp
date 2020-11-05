@@ -15,11 +15,14 @@ const EachProject = ({ project, children }) => {
     history.push("/project/" + name);
   };
 
-  const matchProject = (name) => {
+  console.log('dev', project.developers)
+
+  const matchProject = (name, developers) => {
     console.log('Project Name:', name);
     console.log('User email', loggedUserEmail);
+    console.log('Devs', developers)
 
-    fetch('http://localhost:8080/project/matchProject', {
+    fetch('http://localhost:8080/project/matchproject', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +59,7 @@ const EachProject = ({ project, children }) => {
       <ProjectDescription>{project.description}</ProjectDescription>
       <SubmitButtonDiv>
         <ApplyButton onClick={() => {
-          matchProject(project.name);
+          matchProject(project.name, project.developers);
         }}>Apply</ApplyButton>
       </SubmitButtonDiv>
     </Wrapper>
