@@ -54,10 +54,10 @@ const Project = () => {
           )
           }
         </TecParagraph>
-        {project.developers ?
+        {project.developers.length ?
           <Developer>  Display developers  </Developer>
           : loggedUserId === project.admin ? ""
-            : <ApplyButton>Apply</ApplyButton>}
+            : <SubmitButtonDiv><ApplyButton>Apply</ApplyButton></SubmitButtonDiv>}
       </ProductDetails>
     </Wrapper>
   )

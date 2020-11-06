@@ -10,7 +10,8 @@ const initialState = {
     about: "",
     projectID: null,
     relatedProjects: null,
-    workingProject: null,
+    workingProjects: [],
+    pendingProjects: [],
 };
 
 const LoggedUser = (state = initialState, action) => {

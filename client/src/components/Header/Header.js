@@ -25,7 +25,7 @@ const Wrapper = styled.div`
     position: sticky;
     top: 0;
     z-index: 10;
-    backdrop-filter: blur(12px);
+    /* backdrop-filter: blur(12px); */
 `
 
 export default Header;

@@ -34,6 +34,7 @@ const createProject = async (req, res) => {
             admin,
             isCompleted,
             developers,
+            pendingDevelopers,
             relatedUsers,
         } = req.body;
 
@@ -43,7 +44,7 @@ const createProject = async (req, res) => {
 
         let projectAlreadyExist = await db.collection("projects").findOne({ name })
         if (projectAlreadyExist) {
-            res.status(404).json({ status: "projectExist", data: "Project already exist." });
+            res.status(404).json({ status: "projectExist", data: "Project already exists." });
             return;
         }
 
@@ -55,6 +56,7 @@ const createProject = async (req, res) => {
             technologies: JSON.parse(technologies),
             admin: user._id,
             developers: [],
+            pendingDevelopers: [],
             isCompleted: false,
             relatedUsers,
         });
@@ -126,7 +128,7 @@ const getProjects = async (req, res) => {
     const projects = await db.collection("projects").find().toArray((err, result) => {
         if (result.length) {
             let start = Number(req.query.start) || 0;
-            let limit = start + Number(req.query.limit) || 12;
+            let limit = start + Number(req.query.limit) || 15;
             limit <= result.length ? limit : (limit = result.length);
 
             const data = result.slice(start, limit);
@@ -192,15 +194,28 @@ const matchProject = async (req, res) => {
         await client.connect();
         const db = client.db('freemvp');
 
-        let findMatchedUser = await db.collection("users").findOne({ email })
+        let matchedUser = await db.collection("users").findOne({ email })
+        let matchedProject = await db.collection("projects").findOne({ name })
+
+        //update pendingDevelopers in projects
+        matchedProject.pendingDevelopers.push(matchedUser._id);
         const query = { name };
-        const newValues = { $set: { ...req.body } };
+        const newValues = { $set: { ...matchedProject } };
 
         const u = await db.collection("projects").updateOne(query, newValues);
         assert.strictEqual(1, u.matchedCount);
         assert.strictEqual(1, u.modifiedCount);
 
-        res.status(200).json({ status: 'success', projectData: name, userData: email });
+        //update pendingProjects in users 
+        matchedUser.pendingProjects.push(matchedProject._id);
+        const queryUser = { email };
+        const newValuesUser = { $set: { ...matchedUser } };
+
+        const uu = await db.collection("users").updateOne(queryUser, newValuesUser);
+        assert.strictEqual(1, uu.matchedCount);
+        assert.strictEqual(1, uu.modifiedCount);
+
+        res.status(200).json({ status: 'success', projectData: matchedProject, userData: matchedUser });
     } catch (err) {
         res.status(500).json({ status: 'error', message: err.message });
     }

@@ -133,7 +133,7 @@ const FormProject2 = () => {
 
                 {projectExist ?
                     <FormSection>
-                        <ErrorMessage>Project's Name Already Exist. </ErrorMessage>
+                        <ErrorMessage>Project's Name Already Exists. </ErrorMessage>
                     </FormSection>
                     : ''}
                 <FormSubmitButton type="submit">

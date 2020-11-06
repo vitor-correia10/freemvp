@@ -30,7 +30,8 @@ const createUser = async (req, res) => {
             about,
             projectID,
             relatedProjects,
-            workingProject,
+            workingProjects,
+            pendingProjects,
         } = req.body;
 
         await client.connect();
@@ -39,7 +40,7 @@ const createUser = async (req, res) => {
 
         let userAlreadyExist = await db.collection("users").findOne({ email })
         if (userAlreadyExist) {
-            res.status(404).json({ status: "userExist", data: "User already exist." });
+            res.status(404).json({ status: "userExist", data: "User already exists." });
             return;
         }
 
@@ -54,7 +55,8 @@ const createUser = async (req, res) => {
             about,
             projectID,
             relatedProjects,
-            workingProject,
+            workingProjects: [],
+            pendingProjects: [],
         });
         assert.strictEqual(1, r.insertedCount);
 
@@ -274,6 +276,7 @@ const updateUser = async (req, res) => {
                 // projectID,
             }
         };
+
         const u = await db.collection("users").updateOne(query, newValues);
         assert.strictEqual(1, u.matchedCount);
         assert.strictEqual(1, u.modifiedCount);

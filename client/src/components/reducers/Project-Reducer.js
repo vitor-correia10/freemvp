@@ -5,6 +5,7 @@ const initialState = {
     technologies: {},
     admin: null,
     developers: [],
+    pendingDevelopers: [],
     isCompleted: false,
     relatedUsers: null,
 };

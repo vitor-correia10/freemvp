@@ -2,14 +2,17 @@ import React from "react";
 import styled from "styled-components/macro";
 import { useHistory } from "react-router-dom";
 import { THEME } from "../style/Theme";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FormSubmitButton } from '../style/Buttons';
-import { updateProject } from '../../Actions';
+import { updateUser } from '../../Actions';
 
 const EachProject = ({ project, children }) => {
+  const loggedUserPendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
   const loggedUserId = useSelector((state) => state.LoggedUser._id);
   const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
+  const [pendingProjects, setPendingProjects] = React.useState(loggedUserPendingProjects);
 
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const viewProject = (name) => {
@@ -17,7 +20,6 @@ const EachProject = ({ project, children }) => {
   };
 
   const matchProject = (name, email) => {
-
     fetch('http://localhost:8080/matchproject', {
       method: 'PUT',
       headers: {
@@ -30,9 +32,12 @@ const EachProject = ({ project, children }) => {
     })
       .then(res => res.json())
       .then((responseBody) => {
-        const { status, projectData, userData } = responseBody;
+        const { status, userData } = responseBody;
         if (status === 'success') {
+          dispatch(updateUser(userData.pendingProjects, 'pendingProjects'))
+
           console.log('Success')
+          setPendingProjects(...pendingProjects, userData.pendingProjects);
         } else {
           console.log('Error')
         }
@@ -53,17 +58,24 @@ const EachProject = ({ project, children }) => {
       <ProjectName>{project.name}</ProjectName>
       {children}
       <ProjectDescription>{project.description}</ProjectDescription>
-      { loggedUserId === project.admin ?
-        <OwnProjectP>
-          Your project
+      {/* { pendingProjects.map((pedingProject) => */}
+      <>
+        { loggedUserId === project.admin ?
+          <OwnProjectP>
+            Your project
         </OwnProjectP>
-        :
-        <SubmitButtonDiv>
-          <ApplyButton onClick={() => {
-            matchProject(project.name, loggedUserEmail);
-          }}>Apply</ApplyButton>
-        </SubmitButtonDiv>
-      }
+          // : pedingProject === project._id ?
+          //   <OwnProjectP>
+          //     Pending request
+          // </OwnProjectP>
+          : <SubmitButtonDiv>
+            <ApplyButton onClick={() => {
+              matchProject(project.name, loggedUserEmail);
+            }}>Apply</ApplyButton>
+          </SubmitButtonDiv>
+        }
+      </>
+
     </Wrapper>
   );
 };

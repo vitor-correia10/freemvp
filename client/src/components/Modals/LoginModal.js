@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";

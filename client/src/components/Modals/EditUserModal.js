@@ -180,7 +180,7 @@ const EditUserModal = ({ onClick }) => {
 
                     {userExist ?
                         <FormSection>
-                            <ErrorMessage>User Already Exist. </ErrorMessage>
+                            <ErrorMessage>User Already Exists.</ErrorMessage>
                         </FormSection>
                         : ''}
                     <FormSubmitButton type="submit">
