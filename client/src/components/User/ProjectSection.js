@@ -68,9 +68,12 @@ const ImageAnchor = styled.a`
 `
 
 const ProjectBox = styled.div`
-    display: flex;
-    text-decoration: inherit;
-    color: inherit;
+
+    @media (min-width: ${THEME.mobile}){
+        display: flex;
+        text-decoration: inherit;
+        color: inherit;
+    }
 `
 
 const HeaderProject = styled.h4`
@@ -79,6 +82,10 @@ const HeaderProject = styled.h4`
 `
 
 const ProjectDescription = styled.div`
+    @media (max-width: ${THEME.mobile}){
+        margin-top: 20px;
+    }
+
     display: flex;
     flex-direction: column;
     justify-content: space-around;

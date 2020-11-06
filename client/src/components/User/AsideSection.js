@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import { toggleModal, updateUser } from "../../Actions";
 import { useDispatch } from "react-redux";
 import EditUserModal from "../Modals/EditUserModal";
-import { FormSubmitButton } from "../style/Buttons"
+import { FormSubmitButton } from "../style/Buttons";
+import { THEME } from '../style/Theme';
 
 const AsideSection = () => {
     const dispatch = useDispatch();
@@ -30,17 +31,23 @@ const AsideSection = () => {
 }
 
 const Wrapper = styled.aside`
-    height: 50vh;
-    max-height: 400px;
-    width: 20%;
-    min-width: 250px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 10px;
-    border-radius: 5px;
     justify-content: space-evenly;
-    text-align: center;
+    margin-top: 40px;
+
+    @media (min-width: ${THEME.mobile}){
+        height: 50vh;
+        max-height: 400px;
+        width: 20%;
+        min-width: 250px;
+        margin-right: 10px;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 0;
+    }
 `
 
 const Image = styled.img`

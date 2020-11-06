@@ -8,6 +8,7 @@ import AsideSection from './AsideSection';
 import ProjectSection from './ProjectSection';
 import RelatedProjects from './RelatedProjects';
 import { FormSubmitButton } from '../style/Buttons';
+import { THEME } from '../style/Theme';
 
 
 const Profile = () => {
@@ -68,10 +69,15 @@ const Profile = () => {
 }
 
 const Wrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin: 40px auto;
+    display: block;
+    text-align: center;
+
+    @media (min-width: ${THEME.mobile}){
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin: 40px auto;
+    }
 `
 
 const Header3 = styled.h3`
@@ -79,7 +85,13 @@ const Header3 = styled.h3`
 `
 
 const Main = styled.main`
-    width: 63%;
+    width: 80%;
+    margin: 0 auto;
+
+    @media (min-width: ${THEME.mobile}){
+        width: 63%;
+        margin: 0;
+    }
 `
 
 const SectionAbout = styled.section`
@@ -100,8 +112,10 @@ const SectionTecs = styled.section`
 
 const UnordedList = styled.ul`
     list-style-type: none;
-    display: flex;
-    justify-content: space-evenly;
+    @media (min-width: ${THEME.mobile}){
+        display: flex;
+        justify-content: space-evenly;  
+    }
 `
 
 const List = styled.li`
