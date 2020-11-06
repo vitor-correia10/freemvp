@@ -32,7 +32,7 @@ const LoggedUser = (state = initialState, action) => {
                 [action.key]: action.value
             }
         }
-        case 'ADD-TECHNOLOGIES': {
+        case 'ADD-USER-TECHNOLOGIES': {
             return {
                 ...state,
                 technologies: { ...state.technologies, [action.value]: !state.technologies[action.value] },

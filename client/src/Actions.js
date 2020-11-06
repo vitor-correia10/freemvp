@@ -30,9 +30,17 @@ export const removeLoggedInUser = (value, key) => {
     };
 };
 
-export const addTechnologies = (value, key) => {
+export const addUserTechnologies = (value, key) => {
     return {
-        type: "ADD-TECHNOLOGIES",
+        type: "ADD-USER-TECHNOLOGIES",
+        key,
+        value,
+    };
+}
+
+export const addProjectTechnologies = (value, key) => {
+    return {
+        type: "ADD-PROJECT-TECHNOLOGIES",
         key,
         value,
     };

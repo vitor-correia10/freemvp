@@ -34,7 +34,7 @@ const Project = (state = initialState, action) => {
                 ...initialState,
             }
         }
-        case 'ADD-TECHNOLOGIES': {
+        case 'ADD-PROJECT-TECHNOLOGIES': {
             return {
                 ...state,
                 technologies: { ...state.technologies, [action.value]: !state.technologies[action.value] },

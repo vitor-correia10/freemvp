@@ -36,16 +36,14 @@ const Projects = () => {
       <Row>
         {
           projects.map((project, index) =>
-            <>
-              <EachProject key={`${project._id}`} project={project}>
-                <Paragraph>
-                  {Object.keys(project.technologies).map((technology) =>
-                    <SpanTec key={technology}>{technology}</SpanTec>
-                  )
-                  }
-                </Paragraph>
-              </EachProject>
-            </>
+            <EachProject key={`${project._id}`} project={project}>
+              <Paragraph>
+                {Object.keys(project.technologies).map((technology) =>
+                  <SpanTec key={technology}>{technology}</SpanTec>
+                )
+                }
+              </Paragraph>
+            </EachProject>
           )
         }
       </Row>

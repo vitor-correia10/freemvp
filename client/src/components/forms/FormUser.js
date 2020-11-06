@@ -4,7 +4,7 @@ import { THEME } from '../style/Theme';
 import { useForm } from "react-hook-form";
 
 //Redux
-import { addUser, addTechnologies, toggleModal } from '../../Actions';
+import { addUser, addUserTechnologies, toggleModal } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
@@ -132,22 +132,22 @@ const FormUser = () => {
                     <div>
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                dispatch(addUserTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Javascript" ref={register({ required: false })} />Javascript
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                dispatch(addUserTechnologies(event.target.value, 'technologies'));
                             }}
                             value="React" ref={register({ required: false })} />React
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                dispatch(addUserTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Node" ref={register({ required: false })} />Node
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                dispatch(addUserTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Mongo" ref={register({ required: false })} />Mongo
                     </div>

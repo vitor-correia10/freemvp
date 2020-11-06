@@ -4,7 +4,7 @@ import { THEME } from '../style/Theme';
 import { useForm } from "react-hook-form";
 
 //Redux
-import { addProject, addTechnologies, toggleModal } from '../../Actions';
+import { addProject, addProjectTechnologies, toggleModal } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
@@ -21,7 +21,7 @@ const FormProject2 = () => {
     const name = useSelector((state) => state.Project.name);
     const image = useSelector((state) => state.Project.image);
     const description = useSelector((state) => state.Project.description);
-    const technologies = useSelector((state) => state.Project.technologies);
+    const projectTechnologies = useSelector((state) => state.Project.technologies);
     const dispatch = useDispatch();
     const history = useHistory();
     const isLogin = useSelector((state) => !!state.LoggedUser.email);
@@ -37,7 +37,7 @@ const FormProject2 = () => {
         }
         formData.append("image", image)
         formData.append("description", description)
-        formData.append("technologies", JSON.stringify(technologies))
+        formData.append("technologies", JSON.stringify(projectTechnologies))
 
         fetch('http://localhost:8080/project', {
             method: 'POST',
@@ -98,22 +98,22 @@ const FormProject2 = () => {
                     <div>
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                dispatch(addProjectTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Javascript" ref={register({ required: false })} />Javascript
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                dispatch(addProjectTechnologies(event.target.value, 'technologies'));
                             }}
                             value="React" ref={register({ required: false })} />React
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                dispatch(addProjectTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Node" ref={register({ required: false })} />Node
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
-                                dispatch(addTechnologies(event.target.value, 'technologies'));
+                                dispatch(addProjectTechnologies(event.target.value, 'technologies'));
                             }}
                             value="Mongo" ref={register({ required: false })} />Mongo
                     </div>

@@ -5,35 +5,35 @@ import { THEME } from "../style/Theme";
 import { FormSubmitButton } from '../style/Buttons';
 
 const EachUser = ({ user, children }) => {
-    const history = useHistory();
+  const history = useHistory();
 
-    const viewUser = (email) => {
-        history.push("/user/" + email);
-    };
+  const viewUser = (email) => {
+    history.push("/user/" + email);
+  };
 
-    return (
-        <Wrapper>
-            <UserBtn
-                onClick={() => {
-                    viewUser(user.email);
-                }}
-            >
-                <ImageWrapper>
-                    <UserImage src={"/uploads/" + user.image} />
-                </ImageWrapper>
-            </UserBtn>
-            <UserName>{user.firstName} {user.lastName}</UserName>
-            {children}
-            { user.description ?
-                <UserDescription>{user.description}</UserDescription>
-                : ''
-            }
-            <SubmitButtonDiv>
-                <ApplyButton>Match</ApplyButton>
+  return (
+    <Wrapper>
+      <UserBtn
+        onClick={() => {
+          viewUser(user.email);
+        }}
+      >
+        <ImageWrapper>
+          <UserImage src={"/uploads/" + user.image} />
+        </ImageWrapper>
+      </UserBtn>
+      <UserName>{user.firstName} {user.lastName}</UserName>
+      {children}
+      { user.description ?
+        <UserDescription>{user.description}</UserDescription>
+        : ''
+      }
+      <SubmitButtonDiv>
+        <ApplyButton>Match</ApplyButton>
 
-            </SubmitButtonDiv>
-        </Wrapper>
-    );
+      </SubmitButtonDiv>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.div`
@@ -49,11 +49,14 @@ const ImageWrapper = styled.div`
   max-width: 100%;
   display: flex;
   justify-content: center;
-  height: 180px;
   align-items: center;
   position: relative;
   margin-top: 15px;
   border-radius: 4px;
+
+  @media (min-width: ${THEME.mobile}){
+    height: 150px;
+  }
 `;
 
 const UserImage = styled.img`

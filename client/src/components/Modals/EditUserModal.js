@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { THEME } from "../style/Theme";
 import { FormLabel } from '../Labels';
 import { FormSubmitButton } from '../style/Buttons';
-import { addLoggedInUser, addTechnologies, toggleModal, updateUser } from '../../Actions';
+import { addLoggedInUser, addUserTechnologies, toggleModal, updateUser } from '../../Actions';
 import { useHistory } from 'react-router-dom';
 import { ErrorMessage } from '../style/ErrorMessage';
 
@@ -63,6 +63,7 @@ const EditUserModal = ({ onClick }) => {
             .then((responseBody) => {
                 const { status } = responseBody;
                 if (status === 'success') {
+                    // update the state
                     history.push(`/user`);
                     dispatch(toggleModal());
                 } else {
@@ -146,20 +147,23 @@ const EditUserModal = ({ onClick }) => {
                         <FormLabel>Technologies</FormLabel>
                         <div>
                             {initialTechnologies.map((technology) =>
-                                <>
+                                <div key={technology}>
                                     <InputCheckbox type="checkbox" name="technologies"
 
                                         onChange={(event) => {
                                             const newTechnologies = { ...technologies, [technology]: event.target.checked };
+                                            console.log('newTechnologies', newTechnologies);
 
                                             setTechnologies(newTechnologies);
+
+                                            console.log('technologies', technologies)
                                         }
                                         }
                                         checked={technologies[technology]}
-                                        value={technologies}
+                                        value={technology}
                                         ref={register({ required: false })} />
                                     {technology}
-                                </>
+                                </div>
                             )}
 
                         </div>

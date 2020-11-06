@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { THEME } from "../style/Theme";
 import { useSelector } from "react-redux";
 import { FormSubmitButton } from '../style/Buttons';
+import { updateProject } from '../../Actions';
 
 const EachProject = ({ project, children }) => {
   const loggedUserId = useSelector((state) => state.LoggedUser._id);
@@ -15,21 +16,16 @@ const EachProject = ({ project, children }) => {
     history.push("/project/" + name);
   };
 
-  console.log('dev', project.developers)
+  const matchProject = (name, email) => {
 
-  const matchProject = (name, developers) => {
-    console.log('Project Name:', name);
-    console.log('User email', loggedUserEmail);
-    console.log('Devs', developers)
-
-    fetch('http://localhost:8080/project/matchproject', {
+    fetch('http://localhost:8080/matchproject', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name,
-        email: loggedUserEmail,
+        email,
       }),
     })
       .then(res => res.json())
@@ -64,7 +60,7 @@ const EachProject = ({ project, children }) => {
         :
         <SubmitButtonDiv>
           <ApplyButton onClick={() => {
-            matchProject(project.name, project.developers);
+            matchProject(project.name, loggedUserEmail);
           }}>Apply</ApplyButton>
         </SubmitButtonDiv>
       }

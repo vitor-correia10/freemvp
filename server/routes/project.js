@@ -187,15 +187,12 @@ const matchProject = async (req, res) => {
         const {
             name,
             email,
-
         } = req.body;
 
-        console.log(name);
         await client.connect();
         const db = client.db('freemvp');
 
         let findMatchedUser = await db.collection("users").findOne({ email })
-        console.log('findMatchedUser', findMatchedUser)
         const query = { name };
         const newValues = { $set: { ...req.body } };
 
@@ -216,6 +213,6 @@ router.get('/project/:name', getProject)
 router.get('/projects', getProjects)
 router.delete('/project/:name', deleteProject)
 router.put('/project/:name', updateProject)
-router.put('/project/matchproject', matchProject)
+router.put('/matchproject', matchProject)
 
 module.exports = router;

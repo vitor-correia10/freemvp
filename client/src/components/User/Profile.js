@@ -15,6 +15,7 @@ const Profile = () => {
     const history = useHistory();
     const userProfile = useSelector((state) => state.LoggedUser);
     const [technologies, setTechnologies] = React.useState(Object.keys(userProfile.technologies));
+    const initialTechnologies = ['Node', 'Javascript', 'React', 'Mongo'];
 
     return (
         <Wrapper>
@@ -28,13 +29,14 @@ const Profile = () => {
                     <Header3>Technologies</Header3>
                     <UnordedList>
 
-                        {technologies.map((technology) => {
-                            return (
-                                <List key={technology}>
-                                    <BiCheck />{technology}
-                                </List>
-                            );
-                        })}
+                        {initialTechnologies.filter(technology => userProfile.technologies[technology])
+                            .map((technology) => {
+                                return (
+                                    <List key={technology}>
+                                        <BiCheck />{technology}
+                                    </List>
+                                );
+                            })}
                     </UnordedList>
                 </SectionTecs>
                 <MyProject>
@@ -77,6 +79,7 @@ const Wrapper = styled.div`
         justify-content: center;
         width: 100%;
         margin: 40px auto;
+        text-align: start;
     }
 `
 

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { THEME } from "../style/Theme";
 import { FormLabel } from '../Labels';
 import { FormSubmitButton } from '../style/Buttons';
-import { addLoggedInUser, addLoggedInProject, addTechnologies, toggleModal, addRelatedProjects, addRelatedUsers } from '../../Actions';
+import { addLoggedInUser, addLoggedInProject, toggleModal, addRelatedProjects, addRelatedUsers } from '../../Actions';
 import { useHistory } from 'react-router-dom';
 import { ErrorMessage } from '../style/ErrorMessage';
 

@@ -14,7 +14,7 @@ const Header = () => {
 }
 
 const Wrapper = styled.div`
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(152, 152, 152, 0.3);
     width: 100%;
     display: flex;
     align-items: center;
@@ -25,6 +25,7 @@ const Wrapper = styled.div`
     position: sticky;
     top: 0;
     z-index: 10;
+    backdrop-filter: blur(12px);
 `
 
 export default Header;
