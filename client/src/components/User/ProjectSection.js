@@ -27,7 +27,6 @@ const ProjectSection = () => {
             })
     };
 
-
     return (
         <>
             <ProjectBox>
@@ -42,7 +41,12 @@ const ProjectSection = () => {
 
                 </ProjectDescription>
             </ProjectBox >
-            {userProject.developers ? (userProject.developers)
+            {userProject.developers.lenght ?
+                userProject.developers.map((developer) =>
+                    <>
+                        { developer.firstName}
+                    </>
+                )
                 :
                 <RelatedUsersPerProject />
             }
