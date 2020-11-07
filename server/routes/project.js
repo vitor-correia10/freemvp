@@ -36,6 +36,7 @@ const createProject = async (req, res) => {
             isCompleted,
             developers,
             pendingDevelopers,
+            appliedToDevelopers,
             relatedUsers,
         } = req.body;
 
@@ -58,6 +59,7 @@ const createProject = async (req, res) => {
             admin: currentUser._id,
             developers: [],
             pendingDevelopers: [],
+            appliedToDevelopers: [],
             isCompleted: false,
             relatedUsers,
         });
@@ -207,8 +209,8 @@ const matchProject = async (req, res) => {
         assert.strictEqual(1, u.matchedCount);
         assert.strictEqual(1, u.modifiedCount);
 
-        //update pendingProjects in users 
-        matchedUser.pendingProjects.push(matchedProject._id);
+        //update appliedToProjects in users 
+        matchedUser.appliedToProjects.push(matchedProject._id);
         const queryUser = { email };
         const newValuesUser = { $set: { ...matchedUser } };
 

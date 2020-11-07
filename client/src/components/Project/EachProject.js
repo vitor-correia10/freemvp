@@ -7,10 +7,10 @@ import { FormSubmitButton } from '../style/Buttons';
 import { updateUser } from '../../Actions';
 
 const EachProject = ({ project, children }) => {
-  const loggedUserPendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
+  const loggedUserappliedToProjects = useSelector((state) => state.LoggedUser.appliedToProjects);
   const loggedUserId = useSelector((state) => state.LoggedUser._id);
   const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
-  const [pendingProjects, setPendingProjects] = React.useState(loggedUserPendingProjects);
+  const [appliedToProjects, setAppliedToProjects] = React.useState(loggedUserappliedToProjects);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -34,10 +34,10 @@ const EachProject = ({ project, children }) => {
       .then((responseBody) => {
         const { status, userData } = responseBody;
         if (status === 'success') {
-          dispatch(updateUser(userData.pendingProjects, 'pendingProjects'))
+          dispatch(updateUser(userData.appliedToProjects, 'appliedToProjects'))
 
           console.log('Success')
-          setPendingProjects(...pendingProjects, userData.pendingProjects);
+          setAppliedToProjects(...appliedToProjects, userData.appliedToProjects);
         } else {
           console.log('Error')
         }
@@ -62,7 +62,7 @@ const EachProject = ({ project, children }) => {
         <OwnProjectP>
           Your project
         </OwnProjectP>
-        : pendingProjects.includes(project._id) ?
+        : appliedToProjects.includes(project._id) ?
           <OwnProjectP>
             Pending request
           </OwnProjectP>
@@ -83,6 +83,7 @@ const Wrapper = styled.div`
   justify-content: center;
   margin: 24px 5px;
   flex: 1 0 30%;
+  max-width: 30%;
 `;
 
 const ImageWrapper = styled.div`

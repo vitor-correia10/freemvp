@@ -12,6 +12,7 @@ const initialState = {
     relatedProjects: null,
     workingProjects: [],
     pendingProjects: [],
+    appliedToProjects: [],
 };
 
 const User = (state = initialState, action) => {

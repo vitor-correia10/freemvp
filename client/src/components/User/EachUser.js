@@ -3,13 +3,44 @@ import styled from "styled-components/macro";
 import { useHistory } from "react-router-dom";
 import { THEME } from "../style/Theme";
 import { FormSubmitButton } from '../style/Buttons';
+import { useSelector, useDispatch } from "react-redux";
+import { updateProject } from '../../Actions';
 
 const EachUser = ({ user, children }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
+  const loggedUserPendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
 
   const viewUser = (email) => {
     history.push("/user/" + email);
   };
+
+  const matchUser = (name, email) => {
+    fetch('http://localhost:8080/matchuser', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        email,
+      }),
+    })
+      .then(res => res.json())
+      .then((responseBody) => {
+        const { status, projectData } = responseBody;
+        if (status === 'success') {
+          dispatch(updateProject(projectData.pendingProjects, 'pendingProjects'))
+
+          console.log('Success')
+          // setPendingProjects(...pendingProjects, projectData.pendingProjects);
+        } else {
+          console.log('Error')
+        }
+      })
+  }
 
   return (
     <Wrapper>
@@ -29,7 +60,9 @@ const EachUser = ({ user, children }) => {
         : ''
       }
       <SubmitButtonDiv>
-        <ApplyButton>Match</ApplyButton>
+        <ApplyButton onClick={() => {
+          matchUser(user.email, loggedUserEmail);
+        }}>Match</ApplyButton>
 
       </SubmitButtonDiv>
     </Wrapper>

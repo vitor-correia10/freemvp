@@ -33,6 +33,7 @@ const createUser = async (req, res) => {
             relatedProjects,
             workingProjects,
             pendingProjects,
+            appliedToProjects,
         } = req.body;
 
         await client.connect();
@@ -58,6 +59,7 @@ const createUser = async (req, res) => {
             relatedProjects,
             workingProjects: [],
             pendingProjects: [],
+            appliedToProjects: [],
         });
         assert.strictEqual(1, r.insertedCount);
 
@@ -288,6 +290,46 @@ const updateUser = async (req, res) => {
     client.close();
 }
 
+const matchUser = async (req, res) => {
+    const client = await MongoClient(MONGO_URI, options);
+
+    try {
+        const {
+            name,
+            email,
+        } = req.body;
+
+        await client.connect();
+        const db = client.db('freemvp');
+
+        let matchedUser = await db.collection("users").findOne({ email })
+        let matchedProject = await db.collection("projects").findOne({ name })
+
+        //update pendingDevelopers in projects
+        matchedProject.pendingDevelopers.push(matchedUser._id);
+        const query = { name };
+        const newValues = { $set: { ...matchedProject } };
+
+        const u = await db.collection("projects").updateOne(query, newValues);
+        assert.strictEqual(1, u.matchedCount);
+        assert.strictEqual(1, u.modifiedCount);
+
+        //update pendingProjects in users 
+        matchedUser.pendingProjects.push(matchedProject._id);
+        const queryUser = { email };
+        const newValuesUser = { $set: { ...matchedUser } };
+
+        const uu = await db.collection("users").updateOne(queryUser, newValuesUser);
+        assert.strictEqual(1, uu.matchedCount);
+        assert.strictEqual(1, uu.modifiedCount);
+
+        res.status(200).json({ status: 'success', projectData: matchedProject, userData: matchedUser });
+    } catch (err) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+    client.close();
+}
+
 //user endpoint
 router.post('/user', upload.single('image'), createUser)
 router.post('/login', login)
@@ -297,5 +339,6 @@ router.get('/user/:email', getUserByEmail)
 router.get('/user', getUsers)
 router.delete('/user', deleteUser)
 router.put('/user/edit', updateUser)
+router.put('/matchuser', matchUser)
 
 module.exports = router;

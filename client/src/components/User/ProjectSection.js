@@ -47,8 +47,9 @@ const ProjectSection = () => {
                         { developer.firstName}
                     </>
                 )
-                :
-                <RelatedUsersPerProject />
+                : userProject.relatedUsers.lenght ?
+                    <RelatedUsersPerProject />
+                    : ""
             }
         </>
     )

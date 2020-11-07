@@ -6,6 +6,7 @@ const initialState = {
     admin: null,
     developers: [],
     pendingDevelopers: [],
+    appliedToDevelopers: [],
     isCompleted: false,
     relatedUsers: null,
 };
