@@ -9,6 +9,7 @@ import ProjectSection from './ProjectSection';
 import RelatedProjects from './RelatedProjects';
 import { FormSubmitButton } from '../style/Buttons';
 import { THEME } from '../style/Theme';
+import PendingUsers from './PendingUsers';
 
 
 const Profile = () => {
@@ -56,7 +57,11 @@ const Profile = () => {
                 <MyProject>
                     <Header3>My Project</Header3>
                     {userProfile.projectID
-                        ? <ProjectSection />
+                        ?
+                        <>
+                            <ProjectSection />
+                            <PendingUsers />
+                        </>
                         :
                         <SubmitButtonDiv>
                             <FormSubmitButton onClick={() => history.push("/form-project-2")} >
