@@ -82,7 +82,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   margin: 24px 5px;
-  flex: 0 0 30%;
+  flex: 1 0 30%;
 `;
 
 const ImageWrapper = styled.div`
@@ -143,7 +143,7 @@ const SubmitButtonDiv = styled.div`
 
 const OwnProjectP = styled.p`
   text-align: center;
-  margin: 20px;
+  margin: 22px;
   font-size: 18px;
   padding: 5px 10px;
   color: gray;
