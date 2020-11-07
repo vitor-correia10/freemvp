@@ -5,6 +5,7 @@ const router = require("express").Router();
 const { MongoClient } = require("mongodb");
 const assert = require("assert");
 const multer = require("multer");
+const mongo = require('mongodb');
 
 require("dotenv").config();
 const { MONGO_URI } = process.env;
@@ -48,13 +49,13 @@ const createProject = async (req, res) => {
             return;
         }
 
-        const user = await db.collection("users").findOne({ email });
+        const currentUser = await db.collection("users").findOne({ email });
         const r = await db.collection("projects").insertOne({
             name,
             image: req.file.filename,
             description,
             technologies: JSON.parse(technologies),
-            admin: user._id,
+            admin: currentUser._id,
             developers: [],
             pendingDevelopers: [],
             isCompleted: false,
@@ -73,19 +74,20 @@ const createProject = async (req, res) => {
             })
             return response;
         }
+        const technologiesQuery = getTec(projectTec);
+        const userQuery = { _id: { $ne: mongo.ObjectID(currentUser._id) }, ...technologiesQuery }
+        const qualifiedUsers = await db.collection("users").find(userQuery).toArray();
 
-        const findUsers = await db.collection("users")
-            .find(getTec(projectTec))
-            .toArray();
+        let topQualifiedUsers = qualifiedUsers.slice(0, 3).map(id => id._id);
 
-        let usersIdsArray = findUsers.slice(0, 3).map(id => id._id);
+        console.log('topQualifiedUsers', topQualifiedUsers)
 
         const query = { email };
         const newValues = { $set: { type: ['developer', 'project manager'], projectID: projectID._id } };
         const u = await db.collection("users").updateOne(query, newValues);
 
         const projectQuery = { name };
-        const newProjectValues = { $set: { relatedUsers: usersIdsArray } };
+        const newProjectValues = { $set: { relatedUsers: topQualifiedUsers } };
         const up = await db.collection("projects").updateOne(projectQuery, newProjectValues);
 
         res.status(201).json({ status: "success", data: req.body });
@@ -100,7 +102,6 @@ const createProject = async (req, res) => {
 const getProject = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
     const { name } = req.params;
-    const mongo = require('mongodb');
 
     await client.connect();
     const db = client.db('freemvp');

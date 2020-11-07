@@ -5,6 +5,7 @@ const router = require("express").Router();
 const { MongoClient } = require("mongodb");
 const assert = require("assert");
 const multer = require("multer");
+const mongo = require('mongodb');
 
 require("dotenv").config();
 const { MONGO_URI } = process.env;
@@ -96,7 +97,6 @@ const login = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
     const { email } = req.body;
     const { password } = req.body;
-    const mongo = require('mongodb');
 
     await client.connect();
     const db = client.db('freemvp');
@@ -179,7 +179,6 @@ const getUser = async (req, res) => {
 const getUserByEmail = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
     const { email } = req.params;
-    const mongo = require('mongodb');
 
     await client.connect();
     const db = client.db('freemvp');
