@@ -14,7 +14,9 @@ const Header = () => {
 }
 
 const Wrapper = styled.div`
-    background: rgba(152, 152, 152, 0.3);
+    /* background: rgba(152, 152, 152, 0.3); */
+    background: white;
+    box-shadow: 0px 0px 8px 2px grey;
     width: 100%;
     display: flex;
     align-items: center;

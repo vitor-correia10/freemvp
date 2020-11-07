@@ -58,24 +58,20 @@ const EachProject = ({ project, children }) => {
       <ProjectName>{project.name}</ProjectName>
       {children}
       <ProjectDescription>{project.description}</ProjectDescription>
-      {/* { pendingProjects.map((pedingProject) => */}
-      <>
-        { loggedUserId === project.admin ?
-          <OwnProjectP>
-            Your project
+      { loggedUserId === project.admin ?
+        <OwnProjectP>
+          Your project
         </OwnProjectP>
-          // : pedingProject === project._id ?
-          //   <OwnProjectP>
-          //     Pending request
-          // </OwnProjectP>
+        : pendingProjects.includes(project._id) ?
+          <OwnProjectP>
+            Pending request
+          </OwnProjectP>
           : <SubmitButtonDiv>
             <ApplyButton onClick={() => {
               matchProject(project.name, loggedUserEmail);
             }}>Apply</ApplyButton>
           </SubmitButtonDiv>
-        }
-      </>
-
+      }
     </Wrapper>
   );
 };
