@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
 import { toggleModal, updateUser } from "../../Actions";

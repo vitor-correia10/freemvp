@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { GrNotification } from "react-icons/gr";
 import styled from 'styled-components/macro';
 import { THEME } from '../style/Theme';
+import DropDownNotifications from './DropDownNotifications';
 
 import LoginModal from "../Modals/LoginModal";
 
@@ -16,7 +17,35 @@ const Navbar = () => {
     const isLogin = useSelector((state) => !!state.LoggedUser.email);
     const isOpen = useSelector((state) => state.modal.isOpen);
     const [dropdownOpen, setDropdownOpen] = React.useState(false);
+    const [dropdownNotification, setDropdownNotification] = React.useState(false);
     const userProfile = useSelector((state) => state.LoggedUser);
+    const pendingDevelopersIds = useSelector((state) => state.Project.pendingDevelopers);
+    const [notification, setNotification] = React.useState([]);
+
+    const fetchPendingDevelopers = async (pendingDevelopersArray) => {
+        const response = await fetch(`http://localhost:8080/pendingdevelopers`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                pendingDevelopersIds
+            }),
+        })
+            .then(res => res.json())
+            .then((responseBody) => {
+                const { status, data } = responseBody;
+                if (status === 'success') {
+                    (setNotification(data))
+                } else {
+                    console.log('Error');
+                }
+            })
+    };
+
+    React.useEffect(() => {
+        fetchPendingDevelopers();
+    }, []);
 
     return (
         <>
@@ -28,12 +57,21 @@ const Navbar = () => {
                             <NavBarNav>
                                 <NavUnordedList>
                                     <NavItem>
-                                        <Anchor>
+                                        <Anchor onClick={() =>
+                                            (setDropdownNotification(!dropdownNotification),
+                                                setDropdownOpen(false),
+                                                fetchPendingDevelopers(pendingDevelopersIds))
+                                        }>
                                             <StyledNotificationIcon />
                                         </Anchor>
+                                        {dropdownNotification &&
+                                            <DropDownNotifications notifications={notification} />
+                                        }
                                     </NavItem>
                                     <NavItem>
-                                        <Anchor onClick={() => setDropdownOpen(!dropdownOpen)}>
+                                        <Anchor onClick={() =>
+                                            (setDropdownOpen(!dropdownOpen), setDropdownNotification(false))
+                                        }>
                                             <Image src={"/uploads/" + userProfile.image} />
                                         </Anchor>
                                         {dropdownOpen &&

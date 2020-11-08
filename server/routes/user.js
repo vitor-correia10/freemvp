@@ -201,7 +201,6 @@ const getUserByEmail = async (req, res) => {
 
 };
 
-
 const getUsers = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
 
@@ -330,6 +329,44 @@ const matchUser = async (req, res) => {
     client.close();
 }
 
+const getPendingDevelopers = async (req, res) => {
+    const client = await MongoClient(MONGO_URI, options);
+
+    await client.connect();
+    const db = client.db('freemvp');
+
+    try {
+        const {
+            pendingDevelopersIds,
+        } = req.body;
+
+        let findPendingDevelopers = [];
+
+        function getRelatedIds(array) {
+            return array.map(id =>
+                mongo.ObjectID(id)
+            )
+        }
+
+        if (pendingDevelopersIds) {
+
+            findPendingDevelopers = await db.collection("users")
+                .find({ _id: { $in: getRelatedIds(pendingDevelopersIds) } })
+                .toArray();
+        }
+
+        console.log('pendingDevelopers', pendingDevelopersIds);
+        console.log('findPendingDevelopers', findPendingDevelopers);
+
+        res.status(200).json({ status: 'success', data: findPendingDevelopers });
+    } catch {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+
+    client.close();
+};
+
+
 //user endpoint
 router.post('/user', upload.single('image'), createUser)
 router.post('/login', login)
@@ -337,6 +374,7 @@ router.post('/form-project-2', upload.single('image'), createUser)
 router.get('/user', getUser)
 router.get('/user/:email', getUserByEmail)
 router.get('/user', getUsers)
+router.post('/pendingdevelopers', getPendingDevelopers)
 router.delete('/user', deleteUser)
 router.put('/user/edit', updateUser)
 router.put('/matchuser', matchUser)

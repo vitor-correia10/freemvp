@@ -43,13 +43,15 @@ const Wrapper = styled.div`
 
 const Row = styled.div`
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
 
   @media (min-width: ${THEME.mobile}) {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    flex: 1;
+
   }
 `;
 

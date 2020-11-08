@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
 import { BiCheck } from "react-icons/bi";
@@ -9,8 +9,6 @@ import ProjectSection from './ProjectSection';
 import RelatedProjects from './RelatedProjects';
 import { FormSubmitButton } from '../style/Buttons';
 import { THEME } from '../style/Theme';
-import PendingUsers from './PendingUsers';
-
 
 const Profile = () => {
     const history = useHistory();
@@ -60,7 +58,6 @@ const Profile = () => {
                         ?
                         <>
                             <ProjectSection />
-                            <PendingUsers />
                         </>
                         :
                         <SubmitButtonDiv>

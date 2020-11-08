@@ -4,7 +4,7 @@ import { THEME } from '../style/Theme';
 import { useForm } from "react-hook-form";
 
 //Redux
-import { addProject, addProjectTechnologies, toggleModal } from '../../Actions';
+import { addProject, addProjectTechnologies, toggleModal, updateProject } from '../../Actions';
 import { useSelector, useDispatch } from "react-redux";
 
 //Components
@@ -18,6 +18,7 @@ const FormProject2 = () => {
     const { register, errors, handleSubmit } = useForm();
     const email = useSelector((state) => state.User.email);
     const loggedEmail = useSelector((state) => state.LoggedUser.email);
+    const project = useSelector((state) => state.Project);
     const name = useSelector((state) => state.Project.name);
     const image = useSelector((state) => state.Project.image);
     const description = useSelector((state) => state.Project.description);
@@ -26,6 +27,7 @@ const FormProject2 = () => {
     const history = useHistory();
     const isLogin = useSelector((state) => !!state.LoggedUser.email);
     const [projectExist, setProjectExist] = React.useState(false);
+    const [createProject, setCreateProject] = React.useState(project);
 
     const onSubmit = (data) => {
         const formData = new FormData();
@@ -46,9 +48,11 @@ const FormProject2 = () => {
 
             .then(res => res.json())
             .then((responseBody) => {
-                const { status } = responseBody;
+                const { status, data } = responseBody;
                 if (status === 'success') {
                     if (isLogin) {
+                        dispatch(updateProject(data.name, 'name'))
+                        setCreateProject(...createProject, data);
                         history.push(`/user`);
                     } else {
                         history.push(`/`);

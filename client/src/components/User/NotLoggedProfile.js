@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components/macro';
 import { useParams } from "react-router-dom";
 import Image from "./Image";
@@ -10,8 +10,6 @@ import { THEME } from "../style/Theme";
 
 const NotLoggedProfile = () => {
     const { email } = useParams();
-
-    console.log({ email })
     const [project, setProject] = React.useState({});
     const [user, setUser] = React.useState({});
     const [loading, setLoading] = React.useState(true);
@@ -26,7 +24,6 @@ const NotLoggedProfile = () => {
                 console.log('try  email', email)
                 const { status, projectData, userData } = responseBody;
 
-                console.log('userData', userData)
                 if (status === 'success') {
                     console.log('projectData', projectData);
                     setProject(projectData);
