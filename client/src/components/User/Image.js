@@ -3,11 +3,11 @@ import styled from "styled-components/macro";
 import { THEME } from "../style/Theme";
 
 export const Image = ({ itemSrc }) => {
-    return (
-        <Wrapper>
-            <ItemImage src={itemSrc} />
-        </Wrapper>
-    );
+  return (
+    <Wrapper>
+      <ItemImage src={itemSrc} />
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.div`
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 const ItemImage = styled.img`
   width: 150px;
   border-radius: 50%;
-  height: auto;
+  height: 150px;
 `;
 
 export default Image;
