@@ -64,7 +64,8 @@ const Wrapper = styled.div`
 
 const Row = styled.div`
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
+  width: 100%;
 
   @media (min-width: ${THEME.mobile}) {
     display: flex;

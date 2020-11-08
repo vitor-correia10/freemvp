@@ -34,10 +34,8 @@ const EachProject = ({ project, children }) => {
       .then((responseBody) => {
         const { status, userData } = responseBody;
         if (status === 'success') {
-          dispatch(updateUser(userData.appliedToProjects, 'appliedToProjects'))
-
-          console.log('Success')
           setAppliedToProjects(...appliedToProjects, userData.appliedToProjects);
+          dispatch(updateUser(userData.appliedToProjects, 'appliedToProjects'))
         } else {
           console.log('Error')
         }

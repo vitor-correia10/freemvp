@@ -306,7 +306,7 @@ const matchUser = async (req, res) => {
         let matchedProject = await db.collection("projects").findOne({ name })
 
         //update pendingDevelopers in projects
-        matchedProject.pendingDevelopers.push(matchedUser._id);
+        matchedProject.appliedToDevelopers.push(matchedUser._id);
         const query = { name };
         const newValues = { $set: { ...matchedProject } };
 

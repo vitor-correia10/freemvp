@@ -41,13 +41,13 @@ const ProjectSection = () => {
 
                 </ProjectDescription>
             </ProjectBox >
-            {userProject.developers.lenght ?
+            {userProject.developers.length ?
                 userProject.developers.map((developer) =>
                     <>
                         { developer.firstName}
                     </>
                 )
-                : userProject.relatedUsers.lenght ?
+                : userProject.relatedUsers.length ?
                     <RelatedUsersPerProject />
                     : ""
             }

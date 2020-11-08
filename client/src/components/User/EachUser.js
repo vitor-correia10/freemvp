@@ -10,8 +10,9 @@ const EachUser = ({ user, children }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
-  const loggedUserPendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
+  const loggedProject = useSelector((state) => state.Project);
+  const projectAppliedToDevelopers = useSelector((state) => state.Project.appliedToDevelopers);
+  const [appliedToDevelopers, setAppliedToDevelopers] = React.useState(projectAppliedToDevelopers);
 
   const viewUser = (email) => {
     history.push("/user/" + email);
@@ -32,10 +33,8 @@ const EachUser = ({ user, children }) => {
       .then((responseBody) => {
         const { status, projectData } = responseBody;
         if (status === 'success') {
-          dispatch(updateProject(projectData.pendingProjects, 'pendingProjects'))
-
-          console.log('Success')
-          // setPendingProjects(...pendingProjects, projectData.pendingProjects);
+          dispatch(updateProject(projectData.appliedToDevelopers, 'appliedToDevelopers'));
+          setAppliedToDevelopers(...appliedToDevelopers, projectData.appliedToDevelopers);
         } else {
           console.log('Error')
         }
@@ -59,12 +58,17 @@ const EachUser = ({ user, children }) => {
         <UserDescription>{user.description}</UserDescription>
         : ''
       }
-      <SubmitButtonDiv>
-        <ApplyButton onClick={() => {
-          matchUser(user.email, loggedUserEmail);
-        }}>Match</ApplyButton>
+      {appliedToDevelopers.includes(user._id) ?
+        <OwnProjectP>
+          Pending request
+      </OwnProjectP>
+        : <SubmitButtonDiv>
+          <ApplyButton onClick={() => {
+            matchUser(loggedProject.name, user.email);
+          }}>Match</ApplyButton>
 
-      </SubmitButtonDiv>
+        </SubmitButtonDiv>
+      }
     </Wrapper>
   );
 };
@@ -129,6 +133,14 @@ const UserBtn = styled.button`
   }
 `;
 
+const OwnProjectP = styled.p`
+  text-align: center;
+  margin: 22px;
+  font-size: 18px;
+  padding: 5px 10px;
+  color: gray;
+  font-style: italic;
+`
 
 const ApplyButton = styled(FormSubmitButton)`
   width: 50%;
