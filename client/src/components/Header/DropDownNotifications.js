@@ -1,23 +1,68 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { THEME } from '../style/Theme';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
+import { updateProject } from '../../Actions';
 
 const IconDim = { height: "25px", width: "25px" };
 
 const DropDownNotifications = ({ notifications }) => {
-    const userProfile = useSelector((state) => state.LoggedUser);
-    const pendingDevelopersIds = useSelector((state) => state.Project.pendingDevelopers);
+    const dispatch = useDispatch();
 
-    const rejectAction = (rejectDeveloper) => {
-        console.log('here')
+    const project = useSelector((state) => state.Project);
+    const pendingDevelopers = useSelector((state) => state.Project.pendingDevelopers);
+    const approvedDevelopers = useSelector((state) => state.Project.developers);
+    const [addApprovedDevelopers, setAddApprovedDevelopers] = React.useState(approvedDevelopers);
+    const [updatePendingDevelopers, setUpdatePendingDevelopers] = React.useState(pendingDevelopers);
 
+    const rejectAction = (rejectDeveloper, projectName) => {
+        fetch('http://localhost:8080/rejectUser', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                rejectDeveloper,
+                projectName,
+            }),
+        })
+            .then(res => res.json())
+            .then((responseBody) => {
+                const { status, projectData } = responseBody;
+                if (status === 'success') {
+                    setUpdatePendingDevelopers(...updatePendingDevelopers, projectData.updatePendingDevelopers);
+                    dispatch(updateProject(projectData.updatePendingDevelopers, 'pendingDevelopers'));
+                } else {
+                    console.log('Error')
+                }
+            })
     }
 
-    const approveAction = (approveDeveloper) => {
-        console.log('hellow!')
+    const approveAction = (approveDeveloper, projectName) => {
+        fetch('http://localhost:8080/approveUser', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: approveDeveloper,
+                name: projectName,
+            }),
+        })
+            .then(res => res.json())
+            .then((responseBody) => {
+                const { status, projectData } = responseBody;
+                if (status === 'success') {
+                    setAddApprovedDevelopers(projectData.developers);
+                    dispatch(updateProject(projectData.developers, 'developers'));
 
+                    setUpdatePendingDevelopers(projectData.pendingDevelopers);
+                    dispatch(updateProject(projectData.pendingDevelopers, 'pendingDevelopers'));
+                } else {
+                    console.log('Error')
+                }
+            })
     }
 
     return (
@@ -25,20 +70,20 @@ const DropDownNotifications = ({ notifications }) => {
             <DropdownMenu>
                 DEVELOPERS
                 {notifications.length > 0 ?
-                    notifications.map((notification, index) =>
-                        <DropdownItem key={`${notification._id}`} notification={notification}>
-                            <Anchor href={"/user/" + notification.email}>
-                                {notification.firstName}
+                    notifications.map((developer, index) =>
+                        <DropdownItem key={`${developer._id}`} developer={developer}>
+                            <Anchor href={"/user/" + developer.email}>
+                                {developer.firstName}
                             </Anchor>
 
                             <ActionsDiv>
                                 <ActionAnchor onClick={() => {
-                                    rejectAction(notification.email);
+                                    rejectAction(developer.email, project.name);
                                 }}>
                                     <Reject />
                                 </ActionAnchor>
                                 <ActionAnchor onClick={() => {
-                                    approveAction(notification.email);
+                                    approveAction(developer.email, project.name);
                                 }}>
                                     <Approve />
                                 </ActionAnchor>
