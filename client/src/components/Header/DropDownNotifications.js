@@ -17,14 +17,14 @@ const DropDownNotifications = ({ notifications }) => {
     const [updatePendingDevelopers, setUpdatePendingDevelopers] = React.useState(pendingDevelopers);
 
     const rejectAction = (rejectDeveloper, projectName) => {
-        fetch('http://localhost:8080/rejectUser', {
+        fetch('http://localhost:8080/rejectuser', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                rejectDeveloper,
-                projectName,
+                email: rejectDeveloper,
+                name: projectName,
             }),
         })
             .then(res => res.json())
@@ -40,7 +40,7 @@ const DropDownNotifications = ({ notifications }) => {
     }
 
     const approveAction = (approveDeveloper, projectName) => {
-        fetch('http://localhost:8080/approveUser', {
+        fetch('http://localhost:8080/approveuser', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

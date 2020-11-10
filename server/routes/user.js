@@ -393,6 +393,70 @@ const approveUser = async (req, res) => {
     client.close();
 }
 
+const rejectUser = async (req, res) => {
+    const client = await MongoClient(MONGO_URI, options);
+
+    try {
+        const {
+            email,
+            name,
+        } = req.body;
+
+        await client.connect();
+        const db = client.db('freemvp');
+
+        let rejectedUser = await db.collection("users").findOne({ email })
+        let selectedProject = await db.collection("projects").findOne({ name })
+
+        // update Developers in projects
+        let updatePendingDevelopersArray = selectedProject.pendingDevelopers;
+
+        let updatePendingDevelopers = -1
+        updatePendingDevelopersArray.forEach(function (pendingDeveloperId, index) {
+            if (pendingDeveloperId.toString() === rejectedUser._id.toString()) {
+                updatePendingDevelopers = index
+            }
+        })
+
+        if (updatePendingDevelopers !== -1) {
+            updatePendingDevelopersArray.splice(updatePendingDevelopers, 1);
+        }
+
+        const query = { name };
+        const newValues = { $set: { ...selectedProject } };
+
+        const u = await db.collection("projects").updateOne(query, newValues);
+        assert.strictEqual(1, u.matchedCount);
+        assert.strictEqual(1, u.modifiedCount);
+
+        //update pendingProjects in users
+        let updateAppliedToProjectsArray = rejectedUser.appliedToProjects;
+
+        let updateAppliedToProjects = -1
+        updateAppliedToProjectsArray.forEach(function (pendingDeveloperId, index) {
+            if (pendingDeveloperId.toString() === selectedProject._id.toString()) {
+                updateAppliedToProjects = index
+            }
+        })
+
+        if (updateAppliedToProjects !== -1) {
+            updateAppliedToProjectsArray.splice(updateAppliedToProjects, 1);
+        }
+
+        const queryUser = { email };
+        const newValuesUser = { $set: { ...rejectedUser } };
+
+        const uu = await db.collection("users").updateOne(queryUser, newValuesUser);
+        assert.strictEqual(1, uu.matchedCount);
+        assert.strictEqual(1, uu.modifiedCount);
+
+        res.status(200).json({ status: 'success', projectData: selectedProject });
+    } catch (err) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+    client.close();
+}
+
 const getPendingDevelopers = async (req, res) => {
     const client = await MongoClient(MONGO_URI, options);
 
@@ -439,7 +503,7 @@ router.post('/pendingdevelopers', getPendingDevelopers)
 router.delete('/user', deleteUser)
 router.put('/user/edit', updateUser)
 router.put('/matchuser', matchUser)
-router.put('/approveUser', approveUser)
-// router.put('/rejectUser', rejectUser)
+router.put('/approveuser', approveUser)
+router.put('/rejectuser', rejectUser)
 
 module.exports = router;
