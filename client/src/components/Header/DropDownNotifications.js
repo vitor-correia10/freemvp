@@ -66,39 +66,39 @@ const DropDownNotifications = ({ notifications }) => {
     }
 
     return (
-        <>
-            <DropdownMenu>
-                DEVELOPERS
-                {notifications.length > 0 ?
-                    notifications.map((developer, index) =>
-                        <DropdownItem key={`${developer._id}`} developer={developer}>
-                            <Anchor href={"/user/" + developer.email}>
-                                {developer.firstName}
-                            </Anchor>
+        <DropdownMenu>
+            {notifications.length > 0 ?
+                <>
+                    < h4 > DEVELOPERS</h4>
+                    {
+                        notifications.map((developer, index) =>
+                            <DropdownItem key={`${developer._id}`} developer={developer}>
+                                <Anchor href={"/user/" + developer.email}>
+                                    {developer.firstName}
+                                </Anchor>
 
-                            <ActionsDiv>
-                                <ActionAnchor onClick={() => {
-                                    rejectAction(developer.email, project.name);
-                                }}>
-                                    <Reject />
-                                </ActionAnchor>
-                                <ActionAnchor onClick={() => {
-                                    approveAction(developer.email, project.name);
-                                }}>
-                                    <Approve />
-                                </ActionAnchor>
-                            </ActionsDiv>
-
-                        </DropdownItem>
-                    )
-                    :
-                    <NotificationP>
-                        0 Notifications
-                    </NotificationP>
-                }
-            </DropdownMenu>
-
-        </>
+                                <ActionsDiv>
+                                    <ActionAnchor onClick={() => {
+                                        rejectAction(developer.email, project.name);
+                                    }}>
+                                        <Reject />
+                                    </ActionAnchor>
+                                    <ActionAnchor onClick={() => {
+                                        approveAction(developer.email, project.name);
+                                    }}>
+                                        <Approve />
+                                    </ActionAnchor>
+                                </ActionsDiv>
+                            </DropdownItem>
+                        )
+                    }
+                </>
+                :
+                <NotificationP>
+                    0 Notifications
+                </NotificationP>
+            }
+        </DropdownMenu >
     )
 }
 

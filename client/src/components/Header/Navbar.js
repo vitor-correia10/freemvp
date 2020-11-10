@@ -22,7 +22,7 @@ const Navbar = () => {
     const pendingDevelopersIds = useSelector((state) => state.Project.pendingDevelopers);
     const [notification, setNotification] = React.useState([]);
 
-    const fetchPendingDevelopers = async (pendingDevelopersArray) => {
+    const fetchPendingDevelopers = async () => {
         const response = await fetch(`http://localhost:8080/pendingdevelopers`, {
             method: 'POST',
             headers: {

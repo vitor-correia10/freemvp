@@ -3,16 +3,20 @@ import styled from 'styled-components/macro';
 import { useParams } from "react-router-dom";
 import Image from "./Image";
 import { BiCheck } from "react-icons/bi";
-
+import { useSelector, useDispatch } from "react-redux";
 import { FormSubmitButton } from '../style/Buttons';
 import { THEME } from "../style/Theme";
-
+import { updateProject } from '../../Actions';
 
 const NotLoggedProfile = () => {
+    const dispatch = useDispatch();
     const { email } = useParams();
+    const loggedProject = useSelector((state) => state.Project);
     const [project, setProject] = React.useState({});
     const [user, setUser] = React.useState({});
     const [loading, setLoading] = React.useState(true);
+    const projectAppliedToDevelopers = useSelector((state) => state.Project.appliedToDevelopers);
+    const [appliedToDevelopers, setAppliedToDevelopers] = React.useState(projectAppliedToDevelopers);
 
     const fetchUser = async () => {
         const response = await fetch(`http://localhost:8080/user/${email}`, {
@@ -35,6 +39,29 @@ const NotLoggedProfile = () => {
             })
     };
 
+    const matchUser = (name, email) => {
+        fetch('http://localhost:8080/matchuser', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name,
+                email,
+            }),
+        })
+            .then(res => res.json())
+            .then((responseBody) => {
+                const { status, projectData } = responseBody;
+                if (status === 'success') {
+                    dispatch(updateProject(projectData.appliedToDevelopers, 'appliedToDevelopers'));
+                    setAppliedToDevelopers(...appliedToDevelopers, projectData.appliedToDevelopers);
+                } else {
+                    console.log('Error')
+                }
+            })
+    }
+
     React.useEffect(() => {
         fetchUser();
     }, []);
@@ -55,10 +82,17 @@ const NotLoggedProfile = () => {
                     )
                     }
                 </TecParagraph>
-                <SubmitButtonDiv>
-                    <ApplyButton>Match</ApplyButton>
+                {appliedToDevelopers.includes(user._id) ?
+                    <OwnProjectP>
+                        Pending request
+                    </OwnProjectP>
+                    : <SubmitButtonDiv>
+                        <ApplyButton onClick={() => {
+                            matchUser(loggedProject.name, user.email);
+                        }}>Match</ApplyButton>
 
-                </SubmitButtonDiv>
+                    </SubmitButtonDiv>
+                }
             </ProductDetails>
         </Wrapper>
     )
@@ -121,6 +155,15 @@ const ApplyButton = styled(FormSubmitButton)`
 
 const SubmitButtonDiv = styled.div`
       text-align: center;
-    `
+`
+
+const OwnProjectP = styled.p`
+    text-align: center;
+    margin: 22px;
+    font-size: 18px;
+    padding: 5px 10px;
+    color: gray;
+    font-style: italic;
+`
 
 export default NotLoggedProfile;
