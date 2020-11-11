@@ -466,9 +466,11 @@ const getPendingDevelopers = async (req, res) => {
     try {
         const {
             pendingDevelopersIds,
+            pendingProjectsIds,
         } = req.body;
 
         let findPendingDevelopers = [];
+        let findPendingProjects = [];
 
         function getRelatedIds(array) {
             return array.map(id =>
@@ -477,13 +479,18 @@ const getPendingDevelopers = async (req, res) => {
         }
 
         if (pendingDevelopersIds) {
-
             findPendingDevelopers = await db.collection("users")
                 .find({ _id: { $in: getRelatedIds(pendingDevelopersIds) } })
                 .toArray();
         }
 
-        res.status(200).json({ status: 'success', data: findPendingDevelopers });
+        if (pendingProjectsIds) {
+            findPendingProjects = await db.collection("projects")
+                .find({ _id: { $in: getRelatedIds(pendingProjectsIds) } })
+                .toArray();
+        }
+
+        res.status(200).json({ status: 'success', devData: findPendingDevelopers, projectData: findPendingProjects });
     } catch {
         res.status(500).json({ status: 'error', message: err.message });
     }

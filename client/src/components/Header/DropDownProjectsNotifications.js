@@ -7,14 +7,14 @@ import { updateProject } from '../../Actions';
 
 const IconDim = { height: "25px", width: "25px" };
 
-const DropDownNotifications = ({ notifications }) => {
+const DropDownProjectsNotifications = ({ notifications }) => {
     const dispatch = useDispatch();
 
-    const project = useSelector((state) => state.Project);
-    const pendingDevelopers = useSelector((state) => state.Project.pendingDevelopers);
-    const approvedDevelopers = useSelector((state) => state.Project.developers);
-    const [addApprovedDevelopers, setAddApprovedDevelopers] = React.useState(approvedDevelopers);
-    const [updatePendingDevelopers, setUpdatePendingDevelopers] = React.useState(pendingDevelopers);
+    const loggedUser = useSelector((state) => state.LoggedUser);
+    const pendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
+    const workingProjects = useSelector((state) => state.LoggedUser.workingProjects);
+    const [addWorkingProjects, setAddWorkingProjects] = React.useState(workingProjects);
+    const [updatePendingDevelopers, setUpdatePendingDevelopers] = React.useState(pendingProjects);
 
     const rejectAction = (rejectDeveloper, projectName) => {
         fetch('http://localhost:8080/rejectuser', {
@@ -32,7 +32,7 @@ const DropDownNotifications = ({ notifications }) => {
                 const { status, projectData } = responseBody;
                 if (status === 'success') {
                     setUpdatePendingDevelopers(...updatePendingDevelopers, projectData.updatePendingDevelopers);
-                    dispatch(updateProject(projectData.updatePendingDevelopers, 'pendingDevelopers'));
+                    dispatch(updateProject(projectData.updatePendingDevelopers, 'pendingProjects'));
                 } else {
                     console.log('Error')
                 }
@@ -54,11 +54,11 @@ const DropDownNotifications = ({ notifications }) => {
             .then((responseBody) => {
                 const { status, projectData } = responseBody;
                 if (status === 'success') {
-                    setAddApprovedDevelopers(projectData.developers);
+                    setAddWorkingProjects(projectData.developers);
                     dispatch(updateProject(projectData.developers, 'developers'));
 
-                    setUpdatePendingDevelopers(projectData.pendingDevelopers);
-                    dispatch(updateProject(projectData.pendingDevelopers, 'pendingDevelopers'));
+                    setUpdatePendingDevelopers(projectData.pendingProjects);
+                    dispatch(updateProject(projectData.pendingProjects, 'pendingProjects'));
                 } else {
                     console.log('Error')
                 }
@@ -69,22 +69,22 @@ const DropDownNotifications = ({ notifications }) => {
         <>
             {notifications.length ?
                 <>
-                    < h4 > DEVELOPERS</h4>
+                    <h4>PROJECTS</h4>
                     {
-                        notifications.map((developer, index) =>
-                            <DropdownItem key={`${developer._id}`} developer={developer}>
-                                <Anchor href={"/user/" + developer.email}>
-                                    {developer.firstName}
+                        notifications.map((project, index) =>
+                            <DropdownItem key={`${project._id}`} project={project}>
+                                <Anchor href={"/project/" + project.name}>
+                                    {project.name}
                                 </Anchor>
 
                                 <ActionsDiv>
                                     <ActionAnchor onClick={() => {
-                                        rejectAction(developer.email, project.name);
+                                        rejectAction(loggedUser.email, project.name);
                                     }}>
                                         <Reject />
                                     </ActionAnchor>
                                     <ActionAnchor onClick={() => {
-                                        approveAction(developer.email, project.name);
+                                        approveAction(loggedUser.email, project.name);
                                     }}>
                                         <Approve />
                                     </ActionAnchor>
@@ -116,7 +116,7 @@ const Anchor = styled.a`
     width: 175px;
 
     &:hover{
-       background: ${THEME.secondary};
+       background: ${THEME.primary};
     }
 `
 
@@ -159,4 +159,4 @@ const ActionAnchor = styled.a`
     text-decoration: none;
 `
 
-export default DropDownNotifications;
+export default DropDownProjectsNotifications;

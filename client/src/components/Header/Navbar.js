@@ -6,6 +6,7 @@ import { GrNotification } from "react-icons/gr";
 import styled from 'styled-components/macro';
 import { THEME } from '../style/Theme';
 import DropDownNotifications from './DropDownNotifications';
+import DropDownProjectsNotifications from './DropDownProjectsNotifications';
 
 import LoginModal from "../Modals/LoginModal";
 
@@ -20,7 +21,9 @@ const Navbar = () => {
     const [dropdownNotification, setDropdownNotification] = React.useState(false);
     const userProfile = useSelector((state) => state.LoggedUser);
     const pendingDevelopersIds = useSelector((state) => state.Project.pendingDevelopers);
-    const [notification, setNotification] = React.useState([]);
+    const pendingProjectsIds = useSelector((state) => state.LoggedUser.pendingProjects);
+    const [devNotification, setDevNotification] = React.useState([]);
+    const [projectsNotification, setProjectsNotification] = React.useState([]);
 
     const fetchPendingDevelopers = async () => {
         const response = await fetch(`http://localhost:8080/pendingdevelopers`, {
@@ -29,14 +32,19 @@ const Navbar = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                pendingDevelopersIds
+                pendingDevelopersIds,
+                pendingProjectsIds
             }),
         })
             .then(res => res.json())
             .then((responseBody) => {
-                const { status, data } = responseBody;
+                const { status, devData, projectData } = responseBody;
+                console.log('projectData', projectData);
+                console.log('devData', devData);
+
                 if (status === 'success') {
-                    (setNotification(data))
+                    (setDevNotification(devData));
+                    (setProjectsNotification(projectData));
                 } else {
                     console.log('Error');
                 }
@@ -54,7 +62,7 @@ const Navbar = () => {
                     <LoginModal />
                 ) : (
                         isLogin ? (
-                            <NavBarNav>
+                            <nav>
                                 <NavUnordedList>
                                     <NavItem>
                                         <Anchor onClick={() =>
@@ -65,7 +73,19 @@ const Navbar = () => {
                                             <StyledNotificationIcon />
                                         </Anchor>
                                         {dropdownNotification &&
-                                            <DropDownNotifications notifications={notification} />
+                                            <DropdownMenuNotifications>
+                                                {devNotification.length || projectsNotification.length ?
+                                                    <>
+                                                        <DropDownNotifications notifications={devNotification} />
+                                                        <DropDownProjectsNotifications notifications={projectsNotification} />
+                                                    </>
+                                                    :
+                                                    <NotificationP>
+                                                        0 Notifications
+                                                    </NotificationP>
+                                                }
+                                            </DropdownMenuNotifications>
+
                                         }
                                     </NavItem>
                                     <NavItem>
@@ -98,7 +118,7 @@ const Navbar = () => {
                                         }
                                     </NavItem>
                                 </NavUnordedList>
-                            </NavBarNav>
+                            </nav>
                         )
                             : <FormSubmitButton
                                 onClick={() => dispatch(toggleModal())}
@@ -125,9 +145,6 @@ const NavUser = styled.nav`
 const StyledNotificationIcon = styled(GrNotification)`
     font-size: 25px;
 `;
-
-const NavBarNav = styled.nav`
-`
 
 const NavUnordedList = styled.ul`
     list-style: none;
@@ -164,6 +181,27 @@ const Anchor = styled.a`
     &:hover{
         transform: scale(1.1);
     }
+`
+const DropdownMenuNotifications = styled.div`
+    position: absolute;
+    top: 70px;
+    width: 300px;
+    transform: translateX(-28%);
+    background: ${THEME.black};
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 15px;
+    overflow: hidden;
+    color: white;
+`
+
+const NotificationP = styled.p`
+    text-align: center;
+    margin: 22px;
+    font-size: 18px;
+    padding: 5px 10px;
+    color: white;
+    font-style: italic;
 `
 
 const DropdownMenu = styled.div`
