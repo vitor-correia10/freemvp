@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { THEME } from "../style/Theme";
 import Image from "./Image";
 import { FormSubmitButton } from '../style/Buttons';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser } from '../../Actions';
 
 const Project = () => {
   const { name } = useParams();
@@ -12,6 +13,9 @@ const Project = () => {
   const [user, setUser] = React.useState({});
   const [loading, setLoading] = React.useState(true);
   const loggedUserId = useSelector((state) => state.LoggedUser._id);
+  const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
+  const loggedUserappliedToProjects = useSelector((state) => state.LoggedUser.appliedToProjects);
+  const [appliedToProjects, setAppliedToProjects] = React.useState(loggedUserappliedToProjects);
 
   const fetchProject = async () => {
     const response = await fetch(`http://localhost:8080/project/${name}`, {
@@ -31,6 +35,36 @@ const Project = () => {
       })
   };
 
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const viewProject = (name) => {
+    history.push("/project/" + name);
+  };
+
+  const matchProject = (name, email) => {
+    fetch('http://localhost:8080/matchproject', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        email,
+      }),
+    })
+      .then(res => res.json())
+      .then((responseBody) => {
+        const { status, userData } = responseBody;
+        if (status === 'success') {
+          setAppliedToProjects(...appliedToProjects, userData.appliedToProjects);
+          dispatch(updateUser(userData.appliedToProjects, 'appliedToProjects'))
+        } else {
+          console.log('Error')
+        }
+      })
+  }
+
   React.useEffect(() => {
     fetchProject();
   }, []);
@@ -44,7 +78,7 @@ const Project = () => {
       <ProductDetails>
         <AlignBox>
           <h1>{project.name}</h1>
-          <ProjectManager>Project Manager: {user.firstName} {user.lastName}</ProjectManager>
+          <ProjectManager>Project Manager: <a href={"/user/" + user.email}>{user.firstName} {user.lastName}</a></ProjectManager>
         </AlignBox>
         <Paragraph>{project.description}</Paragraph>
         <TecParagraph>
@@ -53,10 +87,28 @@ const Project = () => {
           )
           }
         </TecParagraph>
-        {project.developers.length ?
-          <Developer>  Display developers  </Developer>
-          : loggedUserId === project.admin ? ""
-            : <SubmitButtonDiv><ApplyButton>Apply</ApplyButton></SubmitButtonDiv>}
+        <div>
+          {project.developers.length ?
+            <Developer>  Display developers  </Developer>
+            : ''
+          }
+        </div>
+
+
+        {loggedUserId === project.admin ?
+          <OwnProjectP>
+            Your project
+            </OwnProjectP>
+          : appliedToProjects.includes(project._id) ?
+            <OwnProjectP>
+              Pending request
+              </OwnProjectP>
+            : <SubmitButtonDiv>
+              <ApplyButton onClick={() => {
+                matchProject(project.name, loggedUserEmail);
+              }}>Apply</ApplyButton>
+            </SubmitButtonDiv>
+        }
       </ProductDetails>
     </Wrapper>
   )
@@ -101,6 +153,15 @@ const AlignBox = styled.div`
 
 const ProjectManager = styled.p`
     font-size: 14px;
+`
+
+const OwnProjectP = styled.p`
+  text-align: center;
+  margin: 22px;
+  font-size: 18px;
+  padding: 5px 10px;
+  color: gray;
+  font-style: italic;
 `
 
 const Developer = styled.p`

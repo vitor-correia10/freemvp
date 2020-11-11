@@ -101,7 +101,7 @@ const Main = styled.main`
 
 const SectionAbout = styled.section`
     padding: 20px;
-    height: 20vh;
+    height: auto;
     min-height: 100px;
     border: 1px solid black;
     border-radius: 5px;
