@@ -22,7 +22,6 @@ const Project = () => {
       .then((responseBody) => {
         const { status, projectData, userData } = responseBody;
         if (status === 'success') {
-          console.log('projectData', projectData);
           setProject(projectData);
           setUser(userData);
           setLoading(false);

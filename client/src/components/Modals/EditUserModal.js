@@ -152,11 +152,8 @@ const EditUserModal = ({ onClick }) => {
 
                                         onChange={(event) => {
                                             const newTechnologies = { ...technologies, [technology]: event.target.checked };
-                                            console.log('newTechnologies', newTechnologies);
 
                                             setTechnologies(newTechnologies);
-
-                                            console.log('technologies', technologies)
                                         }
                                         }
                                         checked={technologies[technology]}

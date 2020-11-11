@@ -25,11 +25,9 @@ const NotLoggedProfile = () => {
         })
             .then(res => res.json())
             .then((responseBody) => {
-                console.log('try  email', email)
                 const { status, projectData, userData } = responseBody;
 
                 if (status === 'success') {
-                    console.log('projectData', projectData);
                     setProject(projectData);
                     setUser(userData);
                     setLoading(false);

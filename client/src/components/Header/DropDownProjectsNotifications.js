@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { THEME } from '../style/Theme';
 import { useSelector, useDispatch } from "react-redux";
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
-import { updateProject } from '../../Actions';
+import { updateUser } from '../../Actions';
 
 const IconDim = { height: "25px", width: "25px" };
 
@@ -14,51 +14,51 @@ const DropDownProjectsNotifications = ({ notifications }) => {
     const pendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
     const workingProjects = useSelector((state) => state.LoggedUser.workingProjects);
     const [addWorkingProjects, setAddWorkingProjects] = React.useState(workingProjects);
-    const [updatePendingDevelopers, setUpdatePendingDevelopers] = React.useState(pendingProjects);
+    const [updatePendingProjects, setUpdatePendingProjects] = React.useState(pendingProjects);
 
-    const rejectAction = (rejectDeveloper, projectName) => {
-        fetch('http://localhost:8080/rejectuser', {
+    const rejectAction = (currentDeveloper, projectName) => {
+        fetch('http://localhost:8080/rejectproject', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: rejectDeveloper,
+                email: currentDeveloper,
                 name: projectName,
             }),
         })
             .then(res => res.json())
             .then((responseBody) => {
-                const { status, projectData } = responseBody;
+                const { status, userData } = responseBody;
                 if (status === 'success') {
-                    setUpdatePendingDevelopers(...updatePendingDevelopers, projectData.updatePendingDevelopers);
-                    dispatch(updateProject(projectData.updatePendingDevelopers, 'pendingProjects'));
+                    setUpdatePendingProjects(userData.pendingProjects);
+                    dispatch(updateUser(userData.pendingProjects, 'pendingProjects'));
                 } else {
                     console.log('Error')
                 }
             })
     }
 
-    const approveAction = (approveDeveloper, projectName) => {
-        fetch('http://localhost:8080/approveuser', {
+    const approveAction = (currentDeveloper, projectName) => {
+        fetch('http://localhost:8080/approveproject', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: approveDeveloper,
+                email: currentDeveloper,
                 name: projectName,
             }),
         })
             .then(res => res.json())
             .then((responseBody) => {
-                const { status, projectData } = responseBody;
+                const { status, userData } = responseBody;
                 if (status === 'success') {
-                    setAddWorkingProjects(projectData.developers);
-                    dispatch(updateProject(projectData.developers, 'developers'));
+                    setAddWorkingProjects(userData.workingProjects);
+                    dispatch(updateUser(userData.workingProjects, 'workingProjects'));
 
-                    setUpdatePendingDevelopers(projectData.pendingProjects);
-                    dispatch(updateProject(projectData.pendingProjects, 'pendingProjects'));
+                    setUpdatePendingProjects(userData.pendingProjects);
+                    dispatch(updateUser(userData.pendingProjects, 'pendingProjects'));
                 } else {
                     console.log('Error')
                 }

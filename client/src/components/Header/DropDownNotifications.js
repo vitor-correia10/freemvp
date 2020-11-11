@@ -31,8 +31,8 @@ const DropDownNotifications = ({ notifications }) => {
             .then((responseBody) => {
                 const { status, projectData } = responseBody;
                 if (status === 'success') {
-                    setUpdatePendingDevelopers(...updatePendingDevelopers, projectData.updatePendingDevelopers);
-                    dispatch(updateProject(projectData.updatePendingDevelopers, 'pendingDevelopers'));
+                    setUpdatePendingDevelopers(projectData.pendingDevelopers);
+                    dispatch(updateProject(projectData.pendingDevelopers, 'pendingDevelopers'));
                 } else {
                     console.log('Error')
                 }

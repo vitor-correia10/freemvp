@@ -39,9 +39,6 @@ const Navbar = () => {
             .then(res => res.json())
             .then((responseBody) => {
                 const { status, devData, projectData } = responseBody;
-                console.log('projectData', projectData);
-                console.log('devData', devData);
-
                 if (status === 'success') {
                     (setDevNotification(devData));
                     (setProjectsNotification(projectData));
