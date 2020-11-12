@@ -1,20 +1,20 @@
 const initialState = {};
 
-const WorkingProjects = (state = initialState, action) => {
+const WorkingDevelopersByProject = (state = initialState, action) => {
     switch (action.type) {
-        case 'ADD-WORKING-PROJECTS': {
+        case 'ADD-WORKING-DEVELOPERS': {
             return {
                 ...state,
                 ...action.value,
             }
         }
-        case 'UPDATE-WORKING-PROJECTS': {
+        case 'UPDATE-WORKING-DEVELOPERS': {
             return {
                 ...state,
-                [action.key]: action.value
+                state: action.value
             }
         }
-        case 'REMOVE-WORKING-PROJECTS': {
+        case 'REMOVE-WORKING-DEVELOPERS': {
             return {
                 ...initialState,
             }
@@ -25,4 +25,4 @@ const WorkingProjects = (state = initialState, action) => {
     }
 }
 
-export default WorkingProjects;
+export default WorkingDevelopersByProject;

@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { THEME } from '../style/Theme';
 import { useSelector, useDispatch } from "react-redux";
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
-import { updateUser } from '../../Actions';
+import { updateUser, updateWorkingProjects } from '../../Actions';
 
 const IconDim = { height: "25px", width: "25px" };
 
@@ -52,10 +52,11 @@ const DropDownProjectsNotifications = ({ notifications }) => {
         })
             .then(res => res.json())
             .then((responseBody) => {
-                const { status, userData } = responseBody;
+                const { status, userData, workingProjectsData } = responseBody;
                 if (status === 'success') {
-                    setAddWorkingProjects(userData.workingProjects);
-                    dispatch(updateUser(userData.workingProjects, 'workingProjects'));
+                    setAddWorkingProjects(workingProjectsData);
+
+                    dispatch(updateWorkingProjects(workingProjectsData));
 
                     setUpdatePendingProjects(userData.pendingProjects);
                     dispatch(updateUser(userData.pendingProjects, 'pendingProjects'));

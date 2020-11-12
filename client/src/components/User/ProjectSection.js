@@ -43,9 +43,9 @@ const ProjectSection = () => {
             </ProjectBox >
             {userProject.developers.length ?
                 userProject.developers.map((developer) =>
-                    <>
-                        { developer.firstName}
-                    </>
+                    <div key={`${developer._id}`} >
+                        {developer.firstName}
+                    </div>
                 )
                 : userProject.relatedUsers.length ?
                     <RelatedUsersPerProject />

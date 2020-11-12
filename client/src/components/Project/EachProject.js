@@ -15,8 +15,6 @@ const EachProject = ({ project, children }) => {
   let str = project.description;
   if (str.length > 150) str = str.substring(0, 150) + ' ...';
 
-  console.log('str', str)
-
   const dispatch = useDispatch();
   const history = useHistory();
 

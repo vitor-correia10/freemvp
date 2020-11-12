@@ -17,7 +17,6 @@ const WorkingProjects = () => {
 
   function countStr(str) {
     if (str.length > 85) {
-      console.log('str', str);
       str = str.substring(0, 85) + ' ...';
     }
     return str;

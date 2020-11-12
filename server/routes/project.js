@@ -262,6 +262,21 @@ const approveProject = async (req, res) => {
         //update pendingProjects in users
         let updatePendingProjectsArray = currentUser.pendingProjects;
         currentUser.workingProjects.push(approvedProject._id);
+
+        function getRelatedIds(array) {
+            return array.map(id =>
+                mongo.ObjectID(id)
+            )
+        }
+
+        let findWorkingProjects = [];
+        if (currentUser.workingProjects.length) {
+            console.log('***', currentUser.workingProjects)
+            findWorkingProjects = await db.collection("projects")
+                .find({ _id: { $in: getRelatedIds(currentUser.workingProjects) } })
+                .toArray();
+        }
+        console.log('findWorkingProjects', findWorkingProjects)
         let updatePendingProjects = -1
         updatePendingProjectsArray.forEach(function (pendingProjectId, index) {
             if (pendingProjectId.toString() === approvedProject._id.toString()) {
@@ -280,7 +295,7 @@ const approveProject = async (req, res) => {
         assert.strictEqual(1, uu.matchedCount);
         assert.strictEqual(1, uu.modifiedCount);
 
-        res.status(200).json({ status: 'success', userData: currentUser });
+        res.status(200).json({ status: 'success', userData: currentUser, workingProjectsData: findWorkingProjects });
     } catch (err) {
         res.status(500).json({ status: 'error', message: err.message });
     }
