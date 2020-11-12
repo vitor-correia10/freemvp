@@ -12,7 +12,7 @@ const DropDownProjectsNotifications = ({ notifications }) => {
 
     const loggedUser = useSelector((state) => state.LoggedUser);
     const pendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
-    const workingProjects = useSelector((state) => state.LoggedUser.workingProjects);
+    const workingProjects = useSelector((state) => state.WorkingProjects);
     const [addWorkingProjects, setAddWorkingProjects] = React.useState(workingProjects);
     const [updatePendingProjects, setUpdatePendingProjects] = React.useState(pendingProjects);
 

@@ -9,8 +9,6 @@ export const FormSubmitButton = styled.button`
     border: 2px black solid;
 
     &:hover {
-    transform: scale(1.05);
-    transition: 0.4s ease-out;
     box-shadow: 0px 0px 3px 2px rgba(23,43,43,0.3);
     }
 `

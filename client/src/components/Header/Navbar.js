@@ -10,7 +10,7 @@ import DropDownProjectsNotifications from './DropDownProjectsNotifications';
 
 import LoginModal from "../Modals/LoginModal";
 
-import { removeLoggedInUser, toggleModal, removeLoggedInProject, removeRelatedProjects, removeRelatedUsers } from "../../Actions";
+import { removeLoggedInUser, toggleModal, removeLoggedInProject, removeRelatedProjects, removeRelatedUsers, removeWorkingProjects } from "../../Actions";
 
 const Navbar = () => {
     const dispatch = useDispatch();
@@ -104,6 +104,7 @@ const Navbar = () => {
                                                             dispatch(removeLoggedInProject())
                                                             dispatch(removeRelatedProjects())
                                                             dispatch(removeRelatedUsers())
+                                                            dispatch(removeWorkingProjects())
                                                         }
                                                         } >
                                                             Log Out

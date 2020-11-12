@@ -115,3 +115,28 @@ export const removeRelatedUsers = (value, key) => {
         value,
     };
 };
+
+export const addWorkingProjects = (value, key) => {
+    return {
+        type: "ADD-WORKING-PROJECTS",
+        key,
+        value,
+    };
+};
+
+export const updateWorkingProjects = (value, key) => {
+    return {
+        type: "UPDATE-WORKING-PROJECTS",
+        key,
+        value,
+    };
+};
+
+
+export const removeWorkingProjects = (value, key) => {
+    return {
+        type: "REMOVE-WORKING-PROJECTS",
+        key,
+        value,
+    };
+};

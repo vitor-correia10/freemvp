@@ -7,10 +7,12 @@ function saveToLocalStorage(state) {
         const serializedStateProject = JSON.stringify(state.Project)
         const serializedStateRelatedProjects = JSON.stringify(state.RelatedProjects)
         const serializedStateRelatedUsers = JSON.stringify(state.RelatedUsers)
+        const serializedStateWorkingProjects = JSON.stringify(state.WorkingProjects)
         localStorage.setItem('LoggedUser', serializedState)
         localStorage.setItem('Project', serializedStateProject)
         localStorage.setItem('RelatedProjects', serializedStateRelatedProjects)
         localStorage.setItem('RelatedUsers', serializedStateRelatedUsers)
+        localStorage.setItem('WorkingProjects', serializedStateWorkingProjects)
     } catch (err) {
         console.log(err)
     }
@@ -22,6 +24,7 @@ function loadFromLocalStorage() {
         const serializedStateProject = localStorage.getItem('Project')
         const serializedStateRelatedProjects = localStorage.getItem('RelatedProjects')
         const serializedStateRelatedUsers = localStorage.getItem('RelatedUsers')
+        const serializedStateWorkingProjects = localStorage.getItem('WorkingProjects')
 
         if (serializedStateUser === null) {
             return undefined
@@ -34,7 +37,8 @@ function loadFromLocalStorage() {
                     JSON.parse(serializedStateUser),
                     JSON.parse(serializedStateProject),
                     JSON.parse(serializedStateRelatedProjects),
-                    JSON.parse(serializedStateRelatedUsers)
+                    JSON.parse(serializedStateRelatedUsers),
+                    JSON.parse(serializedStateWorkingProjects),
                 ]
             }
         }
@@ -54,6 +58,7 @@ export default function configureStore(initialState) {
             Project: persistedState[1],
             RelatedProjects: persistedState[2],
             RelatedUsers: persistedState[3],
+            WorkingProjects: persistedState[4],
         }
     }
 

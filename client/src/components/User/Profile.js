@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import AsideSection from './AsideSection';
 import ProjectSection from './ProjectSection';
 import RelatedProjects from './RelatedProjects';
+import WorkingProjects from './WorkingProjects'
 import { FormSubmitButton } from '../style/Buttons';
 import { THEME } from '../style/Theme';
 
@@ -40,7 +41,10 @@ const Profile = () => {
                 </SectionTecs>
                 <MyProject>
                     {userProfile.workingProjects.length ?
-                        <Header3>Working Project</Header3>
+                        <>
+                            <Header3>Working Projects</Header3>
+                            <WorkingProjects />
+                        </>
                         : <>
                             <Header3>Some Projects You May Be Interested...</Header3>
                             <RelatedProjects />

@@ -6,6 +6,7 @@ import modalTogglerReducer from "./ToggleModal";
 import LoggedUser from "./LoggedUser";
 import RelatedProjects from "./RelatedProjects-Reducer";
 import RelatedUsers from "./RelatedUsers-Reducer";
+import WorkingProjects from "./WorkingProjects-Reducer";
 
 const allReducers = combineReducers({
     User,
@@ -13,6 +14,7 @@ const allReducers = combineReducers({
     Project,
     RelatedProjects,
     RelatedUsers,
+    WorkingProjects,
     modal: modalTogglerReducer,
 });
 
