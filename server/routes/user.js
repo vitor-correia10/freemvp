@@ -363,16 +363,26 @@ const approveUser = async (req, res) => {
 
         // update Developers in projects
         let updatePendingDevelopersArray = selectedProject.pendingDevelopers;
+        let updateAppliedToDevelopersArray = selectedProject.appliedToDevelopers;
         selectedProject.workingDevelopers.push(approvedUser._id);
         let updatePendingDevelopers = -1
+        let updateAppliedDevelopers = -1
         updatePendingDevelopersArray.forEach(function (pendingDeveloperId, index) {
             if (pendingDeveloperId.toString() === approvedUser._id.toString()) {
                 updatePendingDevelopers = index
             }
         })
-
         if (updatePendingDevelopers !== -1) {
             updatePendingDevelopersArray.splice(updatePendingDevelopers, 1);
+        }
+
+        updateAppliedToDevelopersArray.forEach(function (appliedToDeveloperId, index) {
+            if (appliedToDeveloperId.toString() === approvedUser._id.toString()) {
+                updateAppliedDevelopers = index
+            }
+        })
+        if (updateAppliedDevelopers !== -1) {
+            updateAppliedToDevelopersArray.splice(updateAppliedDevelopers, 1);
         }
 
         const query = { name };
@@ -384,16 +394,28 @@ const approveUser = async (req, res) => {
 
         //update pendingProjects in users
         let updateAppliedToProjectsArray = approvedUser.appliedToProjects;
+        let updatePendingProjectsArray = approvedUser.pendingProjects;
         approvedUser.workingProjects.push(selectedProject._id);
         let updateAppliedToProjects = -1
-        updateAppliedToProjectsArray.forEach(function (pendingDeveloperId, index) {
-            if (pendingDeveloperId.toString() === selectedProject._id.toString()) {
+        let updatePendingProjects = -1
+        updateAppliedToProjectsArray.forEach(function (appliedDeveloperId, index) {
+            if (appliedDeveloperId.toString() === selectedProject._id.toString()) {
                 updateAppliedToProjects = index
             }
         })
 
         if (updateAppliedToProjects !== -1) {
             updateAppliedToProjectsArray.splice(updateAppliedToProjects, 1);
+        }
+
+        updatePendingProjectsArray.forEach(function (pendingDeveloperId, index) {
+            if (pendingDeveloperId.toString() === selectedProject._id.toString()) {
+                updatePendingProjects = index
+            }
+        })
+
+        if (updatePendingProjects !== -1) {
+            updatePendingProjectsArray.splice(updatePendingProjects, 1);
         }
 
         const queryUser = { email };

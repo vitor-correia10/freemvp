@@ -10,6 +10,7 @@ const EachProject = ({ project, children }) => {
   const loggedUserappliedToProjects = useSelector((state) => state.LoggedUser.appliedToProjects);
   const loggedUserId = useSelector((state) => state.LoggedUser._id);
   const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
+  const loggedPendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
   const [appliedToProjects, setAppliedToProjects] = React.useState(loggedUserappliedToProjects);
 
   let str = project.description;
@@ -63,7 +64,7 @@ const EachProject = ({ project, children }) => {
         <OwnProjectP>
           Your project
         </OwnProjectP>
-        : appliedToProjects.includes(project._id) ?
+        : appliedToProjects.includes(project._id) || loggedPendingProjects.includes(project._id) ?
           <OwnProjectP>
             Pending request
           </OwnProjectP>
