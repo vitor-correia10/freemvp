@@ -12,11 +12,14 @@ const NotLoggedProfile = () => {
     const dispatch = useDispatch();
     const { email } = useParams();
     const loggedProject = useSelector((state) => state.Project);
+    const currentUser = useSelector((state) => state.LoggedUser);
     const [project, setProject] = React.useState({});
     const [user, setUser] = React.useState({});
     const [loading, setLoading] = React.useState(true);
     const projectAppliedToDevelopers = useSelector((state) => state.Project.appliedToDevelopers);
     const [appliedToDevelopers, setAppliedToDevelopers] = React.useState(projectAppliedToDevelopers);
+
+    console.log('currentUser', currentUser)
 
     const fetchUser = async () => {
         const response = await fetch(`http://localhost:8080/user/${email}`, {
@@ -80,16 +83,22 @@ const NotLoggedProfile = () => {
                     )
                     }
                 </TecParagraph>
-                {appliedToDevelopers.includes(user._id) ?
-                    <OwnProjectP>
-                        Pending request
+                {currentUser.email === user.email || loggedProject.workingDevelopers.includes(user._id) ?
+                    ''
+                    :
+                    appliedToDevelopers.includes(user._id) ?
+                        <OwnProjectP>
+                            Pending request
                     </OwnProjectP>
-                    : <SubmitButtonDiv>
-                        <ApplyButton onClick={() => {
-                            matchUser(loggedProject.name, user.email);
-                        }}>Match</ApplyButton>
+                        :
+                        <SubmitButtonDiv>
+                            <ApplyButton onClick={() => {
+                                matchUser(loggedProject.name, user.email);
+                            }}>
+                                Match
+                        </ApplyButton>
 
-                    </SubmitButtonDiv>
+                        </SubmitButtonDiv>
                 }
             </ProductDetails>
         </Wrapper>

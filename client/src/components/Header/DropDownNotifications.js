@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { THEME } from '../style/Theme';
 import { useSelector, useDispatch } from "react-redux";
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
-import { updateProject } from '../../Actions';
+import { updateProject, updateWorkingDevelopers } from '../../Actions';
 
 const IconDim = { height: "25px", width: "25px" };
 
@@ -12,9 +12,10 @@ const DropDownNotifications = ({ notifications }) => {
 
     const project = useSelector((state) => state.Project);
     const pendingDevelopers = useSelector((state) => state.Project.pendingDevelopers);
-    const approvedDevelopers = useSelector((state) => state.Project.developers);
-    const [addApprovedDevelopers, setAddApprovedDevelopers] = React.useState(approvedDevelopers);
+    const workingDevelopers = useSelector((state) => state.WorkingDevelopers);
+    const [addWorkingDevelopers, setAddWorkingDevelopers] = React.useState(workingDevelopers);
     const [updatePendingDevelopers, setUpdatePendingDevelopers] = React.useState(pendingDevelopers);
+
 
     const rejectAction = (rejectDeveloper, projectName) => {
         fetch('http://localhost:8080/rejectuser', {
@@ -29,8 +30,11 @@ const DropDownNotifications = ({ notifications }) => {
         })
             .then(res => res.json())
             .then((responseBody) => {
-                const { status, projectData } = responseBody;
+                const { status, projectData, workingDevelopersData } = responseBody;
                 if (status === 'success') {
+                    setAddWorkingDevelopers(workingDevelopersData);
+                    dispatch(updateWorkingDevelopers(workingDevelopersData));
+
                     setUpdatePendingDevelopers(projectData.pendingDevelopers);
                     dispatch(updateProject(projectData.pendingDevelopers, 'pendingDevelopers'));
                 } else {
@@ -54,8 +58,8 @@ const DropDownNotifications = ({ notifications }) => {
             .then((responseBody) => {
                 const { status, projectData } = responseBody;
                 if (status === 'success') {
-                    setAddApprovedDevelopers(projectData.developers);
-                    dispatch(updateProject(projectData.developers, 'developers'));
+                    setAddWorkingDevelopers(projectData.workingDevelopers);
+                    dispatch(updateProject(projectData.workingDevelopers, 'workingDevelopers'));
 
                     setUpdatePendingDevelopers(projectData.pendingDevelopers);
                     dispatch(updateProject(projectData.pendingDevelopers, 'pendingDevelopers'));

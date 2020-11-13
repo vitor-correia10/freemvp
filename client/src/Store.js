@@ -8,11 +8,13 @@ function saveToLocalStorage(state) {
         const serializedStateRelatedProjects = JSON.stringify(state.RelatedProjects)
         const serializedStateRelatedUsers = JSON.stringify(state.RelatedUsers)
         const serializedStateWorkingProjects = JSON.stringify(state.WorkingProjects)
+        const serializedStateWorkingDevelopers = JSON.stringify(state.WorkingDevelopers)
         localStorage.setItem('LoggedUser', serializedState)
         localStorage.setItem('Project', serializedStateProject)
         localStorage.setItem('RelatedProjects', serializedStateRelatedProjects)
         localStorage.setItem('RelatedUsers', serializedStateRelatedUsers)
         localStorage.setItem('WorkingProjects', serializedStateWorkingProjects)
+        localStorage.setItem('WorkingDevelopers', serializedStateWorkingDevelopers)
     } catch (err) {
         console.log(err)
     }
@@ -25,6 +27,7 @@ function loadFromLocalStorage() {
         const serializedStateRelatedProjects = localStorage.getItem('RelatedProjects')
         const serializedStateRelatedUsers = localStorage.getItem('RelatedUsers')
         const serializedStateWorkingProjects = localStorage.getItem('WorkingProjects')
+        const serializedStateWorkingDevelopers = localStorage.getItem('WorkingDevelopers')
 
         if (serializedStateUser === null) {
             return undefined
@@ -39,6 +42,7 @@ function loadFromLocalStorage() {
                     JSON.parse(serializedStateRelatedProjects),
                     JSON.parse(serializedStateRelatedUsers),
                     JSON.parse(serializedStateWorkingProjects),
+                    JSON.parse(serializedStateWorkingDevelopers),
                 ]
             }
         }
@@ -59,6 +63,7 @@ export default function configureStore(initialState) {
             RelatedProjects: persistedState[2],
             RelatedUsers: persistedState[3],
             WorkingProjects: persistedState[4],
+            WorkingDevelopers: persistedState[5],
         }
     }
 

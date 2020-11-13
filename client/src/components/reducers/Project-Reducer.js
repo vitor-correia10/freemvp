@@ -4,7 +4,7 @@ const initialState = {
     image: "",
     technologies: {},
     admin: null,
-    developers: [],
+    workingDevelopers: [],
     pendingDevelopers: [],
     appliedToDevelopers: [],
     isCompleted: false,

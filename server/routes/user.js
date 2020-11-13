@@ -114,8 +114,11 @@ const login = async (req, res) => {
 
             const objectId = mongo.ObjectID(projectId);
             let findProject = await db.collection("projects").findOne({ _id: objectId })
+            const workingDevelopersArray = findProject.workingDevelopers;
+
             let findRelatedProject = [];
             let findWorkingProjects = [];
+            let findWorkingDevelopers = [];
             let findRelatedUser = [];
 
             function getRelatedIds(array) {
@@ -125,16 +128,20 @@ const login = async (req, res) => {
             }
 
             if (relatedProjectsArray) {
-
                 findRelatedProject = await db.collection("projects")
                     .find({ _id: { $in: getRelatedIds(relatedProjectsArray) } })
                     .toArray();
             }
 
             if (workingProjectsArray) {
-
                 findWorkingProjects = await db.collection("projects")
                     .find({ _id: { $in: getRelatedIds(workingProjectsArray) } })
+                    .toArray();
+            }
+
+            if (workingDevelopersArray) {
+                findWorkingDevelopers = await db.collection("users")
+                    .find({ _id: { $in: getRelatedIds(workingDevelopersArray) } })
                     .toArray();
             }
 
@@ -154,12 +161,12 @@ const login = async (req, res) => {
                         findRelatedProject,
                         findRelatedUser,
                         findWorkingProjects,
+                        findWorkingDevelopers
                     }
                 })
             } else (
-                res.status(200).json({ status: "success", data: { findUser, findRelatedProject, findWorkingProjects } })
+                res.status(200).json({ status: "success", data: { findUser, findRelatedProject, findWorkingProjects, findWorkingDevelopers } })
             )
-
 
         } else {
             res.status(404).json({ status: "invalid", message: "Invalid data" })
@@ -356,7 +363,7 @@ const approveUser = async (req, res) => {
 
         // update Developers in projects
         let updatePendingDevelopersArray = selectedProject.pendingDevelopers;
-        selectedProject.developers.push(approvedUser._id);
+        selectedProject.workingDevelopers.push(approvedUser._id);
         let updatePendingDevelopers = -1
         updatePendingDevelopersArray.forEach(function (pendingDeveloperId, index) {
             if (pendingDeveloperId.toString() === approvedUser._id.toString()) {

@@ -41,8 +41,8 @@ const ProjectSection = () => {
 
                 </ProjectDescription>
             </ProjectBox >
-            {userProject.developers.length ?
-                userProject.developers.map((developer) =>
+            {userProject.workingDevelopers.length ?
+                userProject.workingDevelopers.map((developer) =>
                     <div key={`${developer._id}`} >
                         {developer.firstName}
                     </div>

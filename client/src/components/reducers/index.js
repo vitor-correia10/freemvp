@@ -7,6 +7,7 @@ import LoggedUser from "./LoggedUser";
 import RelatedProjects from "./RelatedProjects-Reducer";
 import RelatedUsers from "./RelatedUsers-Reducer";
 import WorkingProjects from "./WorkingProjects-Reducer";
+import WorkingDevelopers from "./WorkingDevelopersByProject-Reducer";
 
 const allReducers = combineReducers({
     User,
@@ -15,6 +16,7 @@ const allReducers = combineReducers({
     RelatedProjects,
     RelatedUsers,
     WorkingProjects,
+    WorkingDevelopers,
     modal: modalTogglerReducer,
 });
 

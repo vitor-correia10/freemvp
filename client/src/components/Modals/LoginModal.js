@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { THEME } from "../style/Theme";
 import { FormLabel } from '../Labels';
 import { FormSubmitButton } from '../style/Buttons';
-import { addLoggedInUser, addLoggedInProject, toggleModal, addRelatedProjects, addRelatedUsers, addWorkingProjects } from '../../Actions';
+import { addLoggedInUser, addLoggedInProject, toggleModal, addRelatedProjects, addRelatedUsers, addWorkingProjects, addWorkingDevelopers } from '../../Actions';
 import { useHistory } from 'react-router-dom';
 import { ErrorMessage } from '../style/ErrorMessage';
 
@@ -35,11 +35,11 @@ const LoginModal = ({ onClick }) => {
       .then((responseBody) => {
         const { status, data } = responseBody;
         if (status === 'success') {
-          console.log('findWorkingProjects', data.findWorkingProjects)
           dispatch(addLoggedInUser(data.findUser));
           dispatch(addLoggedInProject(data.findProject));
           dispatch(addRelatedProjects(data.findRelatedProject));
           dispatch(addWorkingProjects(data.findWorkingProjects));
+          dispatch(addWorkingDevelopers(data.findWorkingDevelopers));
           dispatch(addRelatedUsers(data.findRelatedUser));
           history.push(`/user`);
           dispatch(toggleModal());

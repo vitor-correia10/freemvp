@@ -34,7 +34,7 @@ const createProject = async (req, res) => {
             technologies,
             admin,
             isCompleted,
-            developers,
+            workingDevelopers,
             pendingDevelopers,
             appliedToDevelopers,
             relatedUsers,
@@ -57,7 +57,7 @@ const createProject = async (req, res) => {
             description,
             technologies: JSON.parse(technologies),
             admin: currentUser._id,
-            developers: [],
+            workingDevelopers: [],
             pendingDevelopers: [],
             appliedToDevelopers: [],
             isCompleted: false,
@@ -240,7 +240,7 @@ const approveProject = async (req, res) => {
 
         // update Developers in projects
         let updateAppliedDevelopersArray = approvedProject.appliedToDevelopers;
-        approvedProject.developers.push(currentUser._id);
+        approvedProject.workingDevelopers.push(currentUser._id);
         let updatePendingDevelopers = -1
         updateAppliedDevelopersArray.forEach(function (appliedDeveloperId, index) {
             if (appliedDeveloperId.toString() === currentUser._id.toString()) {

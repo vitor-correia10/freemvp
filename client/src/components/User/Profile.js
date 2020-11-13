@@ -7,15 +7,19 @@ import { useHistory } from 'react-router-dom';
 import AsideSection from './AsideSection';
 import ProjectSection from './ProjectSection';
 import RelatedProjects from './RelatedProjects';
-import WorkingProjects from './WorkingProjects'
+import WorkingProjects from './WorkingProjects';
+import WorkingDevelopers from './WorkingDevelopers';
 import { FormSubmitButton } from '../style/Buttons';
 import { THEME } from '../style/Theme';
 
 const Profile = () => {
     const history = useHistory();
     const userProfile = useSelector((state) => state.LoggedUser);
+    const currentUserProject = useSelector((state) => state.Project);
     const [technologies, setTechnologies] = React.useState(Object.keys(userProfile.technologies));
     const initialTechnologies = ['Node', 'Javascript', 'React', 'Mongo'];
+
+    console.log('currentUserProject', currentUserProject.workingDevelopers)
 
     return (
         <Wrapper>
@@ -62,12 +66,16 @@ const Profile = () => {
                         ?
                         <>
                             <ProjectSection />
+                            {currentUserProject.workingDevelopers.length ?
+                                <WorkingDevelopers />
+                                : ''
+                            }
                         </>
                         :
                         <SubmitButtonDiv>
                             <FormSubmitButton onClick={() => history.push("/form-project-2")} >
                                 Add a Project
-                        </FormSubmitButton>
+                                </FormSubmitButton>
                         </SubmitButtonDiv>
                     }
                 </MyProject>

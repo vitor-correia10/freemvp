@@ -88,7 +88,7 @@ const Project = () => {
           }
         </TecParagraph>
         <div>
-          {project.developers.length ?
+          {project.workingDevelopers.length ?
             <Developer>  Display developers  </Developer>
             : ''
           }
