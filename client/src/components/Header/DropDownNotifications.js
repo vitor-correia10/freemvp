@@ -30,7 +30,7 @@ const DropDownNotifications = ({ notifications }) => {
         })
             .then(res => res.json())
             .then((responseBody) => {
-                const { status, projectData, workingDevelopersData } = responseBody;
+                const { status, projectData } = responseBody;
                 if (status === 'success') {
                     setUpdatePendingDevelopers(projectData.pendingDevelopers);
                     dispatch(updateProject(projectData.pendingDevelopers, 'pendingDevelopers'));
@@ -53,10 +53,14 @@ const DropDownNotifications = ({ notifications }) => {
         })
             .then(res => res.json())
             .then((responseBody) => {
-                const { status, projectData } = responseBody;
+                const { status, projectData, workingDevelopersData } = responseBody;
                 if (status === 'success') {
-                    setAddWorkingDevelopers(projectData.workingDevelopers);
-                    dispatch(updateProject(projectData.workingDevelopers, 'workingDevelopers'));
+                    const obj = Object.assign({}, workingDevelopersData);
+
+                    console.log('workingDevelopersData', workingDevelopersData);
+
+                    setAddWorkingDevelopers(obj);
+                    dispatch(updateWorkingDevelopers(obj));
 
                     setUpdatePendingDevelopers(projectData.pendingDevelopers);
                     dispatch(updateProject(projectData.pendingDevelopers, 'pendingDevelopers'));

@@ -131,7 +131,6 @@ export const updateWorkingProjects = (value) => {
     };
 };
 
-
 export const removeWorkingProjects = (value, key) => {
     return {
         type: "REMOVE-WORKING-PROJECTS",
@@ -148,14 +147,12 @@ export const addWorkingDevelopers = (value, key) => {
     };
 };
 
-export const updateWorkingDevelopers = (value, key) => {
+export const updateWorkingDevelopers = (value) => {
     return {
         type: "UPDATE-WORKING-DEVELOPERS",
-        key,
         value,
     };
 };
-
 
 export const removeWorkingDevelopers = (value, key) => {
     return {

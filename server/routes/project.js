@@ -271,12 +271,11 @@ const approveProject = async (req, res) => {
 
         let findWorkingProjects = [];
         if (currentUser.workingProjects.length) {
-            console.log('***', currentUser.workingProjects)
             findWorkingProjects = await db.collection("projects")
                 .find({ _id: { $in: getRelatedIds(currentUser.workingProjects) } })
                 .toArray();
         }
-        console.log('findWorkingProjects', findWorkingProjects)
+
         let updatePendingProjects = -1
         updatePendingProjectsArray.forEach(function (pendingProjectId, index) {
             if (pendingProjectId.toString() === approvedProject._id.toString()) {

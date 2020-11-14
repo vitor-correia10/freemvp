@@ -10,8 +10,7 @@ const WorkingDevelopers = (state = initialState, action) => {
         }
         case 'UPDATE-WORKING-DEVELOPERS': {
             return {
-                ...state,
-                [action.key]: action.value
+                ...action.value
             }
         }
         case 'REMOVE-WORKING-DEVELOPERS': {

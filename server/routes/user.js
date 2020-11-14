@@ -413,6 +413,18 @@ const approveUser = async (req, res) => {
             }
         })
 
+        function getRelatedIds(array) {
+            return array.map(id =>
+                mongo.ObjectID(id)
+            )
+        }
+
+        let findWorkingDevelopers = [];
+        if (selectedProject.workingDevelopers.length) {
+            findWorkingDevelopers = await db.collection("users")
+                .find({ _id: { $in: getRelatedIds(selectedProject.workingDevelopers) } })
+                .toArray();
+        }
         if (updatePendingProjects !== -1) {
             updatePendingProjectsArray.splice(updatePendingProjects, 1);
         }
@@ -424,7 +436,7 @@ const approveUser = async (req, res) => {
         assert.strictEqual(1, uu.matchedCount);
         assert.strictEqual(1, uu.modifiedCount);
 
-        res.status(200).json({ status: 'success', projectData: selectedProject });
+        res.status(200).json({ status: 'success', projectData: selectedProject, workingDevelopersData: findWorkingDevelopers });
     } catch (err) {
         res.status(500).json({ status: 'error', message: err.message });
     }
