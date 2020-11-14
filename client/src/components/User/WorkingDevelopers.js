@@ -7,7 +7,6 @@ import { THEME } from "../style/Theme";
 const WorkingDevelopers = () => {
   const workingDevelopers = useSelector((state) => state.WorkingDevelopers);
 
-
   const history = useHistory();
 
   const viewDeveloper = (email) => {
@@ -72,7 +71,6 @@ const Row = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     flex: 1;
-
   }
 `;
 

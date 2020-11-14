@@ -114,7 +114,6 @@ const login = async (req, res) => {
 
             const objectId = mongo.ObjectID(projectId);
             let findProject = await db.collection("projects").findOne({ _id: objectId })
-            const workingDevelopersArray = findProject.workingDevelopers;
 
             let findRelatedProject = [];
             let findWorkingProjects = [];
@@ -139,9 +138,9 @@ const login = async (req, res) => {
                     .toArray();
             }
 
-            if (workingDevelopersArray) {
+            if (findProject && findProject.workingDevelopers) {
                 findWorkingDevelopers = await db.collection("users")
-                    .find({ _id: { $in: getRelatedIds(workingDevelopersArray) } })
+                    .find({ _id: { $in: getRelatedIds(findProject.workingDevelopers) } })
                     .toArray();
             }
 

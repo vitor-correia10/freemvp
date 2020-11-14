@@ -11,6 +11,7 @@ const EachProject = ({ project, children }) => {
   const loggedUserId = useSelector((state) => state.LoggedUser._id);
   const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
   const loggedPendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
+  const loggedWorkingProjects = useSelector((state) => state.LoggedUser.workingProjects);
   const [appliedToProjects, setAppliedToProjects] = React.useState(loggedUserappliedToProjects);
 
   let str = project.description;
@@ -64,15 +65,19 @@ const EachProject = ({ project, children }) => {
         <OwnProjectP>
           Your project
         </OwnProjectP>
-        : appliedToProjects.includes(project._id) || loggedPendingProjects.includes(project._id) ?
+        : loggedWorkingProjects.includes(project._id) ?
           <OwnProjectP>
-            Pending request
+            Working project
           </OwnProjectP>
-          : <SubmitButtonDiv>
-            <ApplyButton onClick={() => {
-              matchProject(project.name, loggedUserEmail);
-            }}>Apply</ApplyButton>
-          </SubmitButtonDiv>
+          : appliedToProjects.includes(project._id) || loggedPendingProjects.includes(project._id) ?
+            <OwnProjectP>
+              Pending request
+          </OwnProjectP>
+            : <SubmitButtonDiv>
+              <ApplyButton onClick={() => {
+                matchProject(project.name, loggedUserEmail);
+              }}>Apply</ApplyButton>
+            </SubmitButtonDiv>
       }
     </Wrapper>
   );
