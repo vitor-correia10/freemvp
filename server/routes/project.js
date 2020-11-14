@@ -111,7 +111,20 @@ const getProject = async (req, res) => {
         const objectId = await mongo.ObjectID(projectObj.admin);
         const findUser = await db.collection("users").findOne({ _id: objectId })
 
-        res.status(200).json({ status: 'success', projectData: projectObj, userData: findUser })
+        function getRelatedIds(array) {
+            return array.map(id =>
+                mongo.ObjectID(id)
+            )
+        }
+
+        let findWorkingDevelopers = [];
+        if (projectObj.workingDevelopers.length) {
+            findWorkingDevelopers = await db.collection("users")
+                .find({ _id: { $in: getRelatedIds(projectObj.workingDevelopers) } })
+                .toArray();
+        }
+
+        res.status(200).json({ status: 'success', projectData: projectObj, userData: findUser, workingDevelopersData: findWorkingDevelopers })
     } else {
         res.status(404).json({ status: 'error', data: "Not Found" });
     }

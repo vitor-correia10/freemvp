@@ -6,6 +6,7 @@ import Image from "./Image";
 import { FormSubmitButton } from '../style/Buttons';
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from '../../Actions';
+import WorkingDevelopersNotLogged from './WorkingDevelopersNotLogged';
 
 const Project = () => {
   const { name } = useParams();
@@ -16,6 +17,7 @@ const Project = () => {
   const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
   const loggedUserappliedToProjects = useSelector((state) => state.LoggedUser.appliedToProjects);
   const [appliedToProjects, setAppliedToProjects] = React.useState(loggedUserappliedToProjects);
+  const [workingDevelopers, setWorkingDevelopers] = React.useState([]);
 
   const fetchProject = async () => {
     const response = await fetch(`http://localhost:8080/project/${name}`, {
@@ -24,11 +26,12 @@ const Project = () => {
     })
       .then(res => res.json())
       .then((responseBody) => {
-        const { status, projectData, userData } = responseBody;
+        const { status, projectData, userData, workingDevelopersData } = responseBody;
         if (status === 'success') {
           setProject(projectData);
           setUser(userData);
           setLoading(false);
+          setWorkingDevelopers(workingDevelopersData);
         } else {
           console.log('Error');
         }
@@ -41,6 +44,17 @@ const Project = () => {
   const viewProject = (name) => {
     history.push("/project/" + name);
   };
+
+  const viewDeveloper = (email) => {
+    history.push("/user/" + email);
+  };
+
+  function countStr(str) {
+    if (str.length > 85) {
+      str = str.substring(0, 85) + ' ...';
+    }
+    return str;
+  }
 
   const matchProject = (name, email) => {
     fetch('http://localhost:8080/matchproject', {
@@ -72,44 +86,50 @@ const Project = () => {
     return loading;
   }
 
+  console.log('workingDevelopers', workingDevelopers);
+
   return (
-    <Wrapper>
-      <Image itemSrc={"/uploads/" + project.image} />
-      <ProductDetails>
-        <AlignBox>
-          <h1>{project.name}</h1>
-          <ProjectManager>Project Manager: <a href={"/user/" + user.email}>{user.firstName} {user.lastName}</a></ProjectManager>
-        </AlignBox>
-        <Paragraph>{project.description}</Paragraph>
-        <TecParagraph>
-          {Object.keys(project.technologies).map((technology) =>
-            <SpanTec key={technology}>{technology}</SpanTec>
-          )}
-        </TecParagraph>
-        <div>
-          {project.workingDevelopers.length ?
-            <Developer>  Display developers  </Developer>
-            : ''
-          }
-        </div>
+    <>
+      <Wrapper>
+        <Image itemSrc={"/uploads/" + project.image} />
+        <ProductDetails>
+          <AlignBox>
+            <h1>{project.name}</h1>
+            <ProjectManager>Project Manager: <a href={"/user/" + user.email}>{user.firstName} {user.lastName}</a></ProjectManager>
+          </AlignBox>
+          <Paragraph>{project.description}</Paragraph>
+          <TecParagraph>
+            {Object.keys(project.technologies).map((technology) =>
+              <SpanTec key={technology}>{technology}</SpanTec>
+            )}
+          </TecParagraph>
 
-
-        {loggedUserId === project.admin ?
-          <OwnProjectP>
-            Your project
-            </OwnProjectP>
-          : appliedToProjects.includes(project._id) ?
+          {loggedUserId === project.admin ?
             <OwnProjectP>
-              Pending request
+              Your project
+            </OwnProjectP>
+            : appliedToProjects.includes(project._id) ?
+              <OwnProjectP>
+                Pending request
               </OwnProjectP>
-            : <SubmitButtonDiv>
-              <ApplyButton onClick={() => {
-                matchProject(project.name, loggedUserEmail);
-              }}>Apply</ApplyButton>
-            </SubmitButtonDiv>
+              : <SubmitButtonDiv>
+                <ApplyButton onClick={() => {
+                  matchProject(project.name, loggedUserEmail);
+                }}>Apply</ApplyButton>
+              </SubmitButtonDiv>
+          }
+
+        </ProductDetails>
+      </Wrapper>
+      <div>
+        {project.workingDevelopers.length ?
+          <>
+            <WorkingDevelopersNotLogged workingDevelopersArray={workingDevelopers} />
+          </>
+          : ''
         }
-      </ProductDetails>
-    </Wrapper>
+      </div>
+    </>
   )
 }
 
@@ -117,7 +137,7 @@ const Wrapper = styled.div`
   display: block;
 
   @media (min-width: ${THEME.mobile}) {
-                    display: flex;
+          display: flex;
     margin: 0 40px 40px 40px;
   }
 `;
@@ -132,6 +152,8 @@ const ProductDetails = styled.div`
   @media (max-width: ${THEME.mobile}) {
     margin-top: 10px;
     padding: 0 20px;
+    width: 100%;
+    align-items: center;
   }
 `;
 
@@ -145,9 +167,14 @@ const Paragraph = styled.p`
 
 const AlignBox = styled.div`
   display: flex;
-  align-items: end;
+  align-items: center;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+
+  @media (min-width: ${THEME.mobile}) {
+    align-items: end;
+    margin-bottom: 20px;
+  }
 `;
 
 const ProjectManager = styled.p`
@@ -161,9 +188,6 @@ const OwnProjectP = styled.p`
   padding: 5px 10px;
   color: gray;
   font-style: italic;
-`
-
-const Developer = styled.p`
 `
 
 const TecParagraph = styled.p`
@@ -185,5 +209,50 @@ const ApplyButton = styled(FormSubmitButton)`
 const SubmitButtonDiv = styled.div`
   text-align: center;
 `
+
+const WorkingProjectContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 24px 5px;
+  flex: 1 0 30%;
+
+  @media (min-width: ${THEME.mobile}){
+    max-width: 30%;
+  }
+`
+
+const ProjectName = styled.h3`
+  margin-top: 16px;
+  font-size: 20px;
+  text-align: center;
+`;
+
+
+const ProjectDescription = styled.p`
+  margin-top: 4px;
+  font-size: 16px;
+  height: 60px;
+  overflow: auto;
+  padding: 0 10px;
+`;
+
+const ProjectBtn = styled.button`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  @media (min-width: ${THEME.mobile}) {
+    &:hover {
+      transform: scale(1.05);
+      transition: 0.5s ease-in;
+    }
+  }
+`;
 
 export default Project;

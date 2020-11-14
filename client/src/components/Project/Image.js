@@ -3,17 +3,17 @@ import styled from "styled-components/macro";
 import { THEME } from "../style/Theme";
 
 export const Image = ({ itemSrc }) => {
-    return (
-        <Wrapper>
-            <ItemImage src={itemSrc} />
-        </Wrapper>
-    );
+  return (
+    <Wrapper>
+      <ItemImage src={itemSrc} />
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.div`
   text-align: center;
   width: 100%;
-  padding: 70px 0;
+  padding: 30px 0;
 
   @media (min-width: ${THEME.mobile}) {
     width: 50%;

@@ -87,7 +87,10 @@ const WorkingProjectContainer = styled.div`
   justify-content: center;
   margin: 24px 5px;
   flex: 1 0 30%;
-  max-width: 30%;
+
+  @media (min-width: ${THEME.mobile}){
+    max-width: 30%;
+  }
 `
 
 const SpanTec = styled.span`

@@ -13,10 +13,16 @@ const NotLoggedProfile = () => {
     const { email } = useParams();
     const loggedProject = useSelector((state) => state.Project);
     const currentUser = useSelector((state) => state.LoggedUser);
+    const workingDevelopers = useSelector((state) => state.WorkingDevelopers);
     const [project, setProject] = React.useState({});
     const [user, setUser] = React.useState({});
     const [loading, setLoading] = React.useState(true);
     const projectAppliedToDevelopers = useSelector((state) => state.Project.appliedToDevelopers);
+
+    let workingDevelopersArray = Object.keys(workingDevelopers).map(function (k) { return workingDevelopers[k] });
+
+    let workingDevelopersArrayById = [];
+    workingDevelopersArray.map(value => workingDevelopersArrayById.push(value._id));
 
     const fetchUser = async () => {
         const response = await fetch(`http://localhost:8080/user/${email}`, {
@@ -79,7 +85,7 @@ const NotLoggedProfile = () => {
                     )
                     }
                 </TecParagraph>
-                {currentUser.email === user.email || loggedProject.workingDevelopers.includes(user._id) || loggedProject.name.length < 1 ?
+                {currentUser.email === user.email || workingDevelopersArrayById.includes(user._id) || loggedProject.name.length < 1 ?
                     ''
                     :
                     projectAppliedToDevelopers.includes(user._id) || loggedProject.pendingDevelopers.includes(user._id) ?

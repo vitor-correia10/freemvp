@@ -238,7 +238,6 @@ const Modal = styled.div`
 
   @media (max-width: ${THEME.mobile}) {
     width: 50%;
-    min-width: 250px;
     padding: 10px;
   }
 `;

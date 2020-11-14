@@ -35,11 +35,17 @@ const ProjectSection = () => {
     return (
         <>
             <ProjectBox>
-                <ImageAnchor onClick={() => {
-                    viewProject(userProject.name);
-                }} >
-                    <ProjectImage src={"/uploads/" + userProject.image} />
-                </ImageAnchor>
+                <ProjectLeftSection>
+                    <a onClick={() => {
+                        viewProject(userProject.name);
+                    }} >
+                        <ProjectImage src={"/uploads/" + userProject.image} />
+                    </a>
+
+                    <IsCompletedDiv>
+                        Complete?
+                </IsCompletedDiv>
+                </ProjectLeftSection>
 
                 <ProjectDescription>
                     <HeaderProject>{userProject.name}</HeaderProject>
@@ -70,7 +76,7 @@ const ProjectImage = styled.img`
     min-width: 250px;
 `
 
-const ImageAnchor = styled.a`
+const ProjectLeftSection = styled.div`
     margin-right: 15px;
     cursor: pointer;
     min-width: 250px;
@@ -94,6 +100,7 @@ const SpanTec = styled.span`
 `
 
 const ProjectBox = styled.div`
+    margin-bottom: 20px;
 
     @media (min-width: ${THEME.mobile}){
         display: flex;
@@ -116,6 +123,10 @@ const ProjectDescription = styled.div`
     flex-direction: column;
     justify-content: space-around;
     width: 100%;
+`
+
+const IsCompletedDiv = styled.div`
+
 `
 
 
