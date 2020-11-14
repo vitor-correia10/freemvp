@@ -42,8 +42,7 @@ const WorkingProjects = () => {
               <Paragraph>
                 {Object.keys(project.technologies).map((technology) =>
                   <SpanTec key={technology}>{technology}</SpanTec>
-                )
-                }
+                )}
               </Paragraph>
               <ProjectDescription>{countStr(project.description)}</ProjectDescription>
             </WorkingProjectContainer>

@@ -7,7 +7,6 @@ import { THEME } from "../style/Theme";
 const WorkingDevelopers = () => {
   const workingDevelopers = useSelector((state) => state.WorkingDevelopers);
 
-  console.log('workingDevelopers', workingDevelopers);
 
   const history = useHistory();
 
@@ -100,7 +99,7 @@ const SpanTec = styled.span`
 const Paragraph = styled.p`
   display: flex;
   justify-content: space-around;
-  background: ${THEME.primary};
+  background: ${THEME.secondary};
   margin-bottom: 10px;
 `
 

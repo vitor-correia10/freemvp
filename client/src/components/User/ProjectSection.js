@@ -5,10 +5,12 @@ import { useHistory, useParams } from "react-router-dom";
 import { FormSubmitButton } from "../style/Buttons";
 import { THEME } from "../style/Theme";
 import RelatedUsersPerProject from './RelatedUsersPerProject';
+// import ToggleSwitch from '../style/ToggleSwitch'
 
 const ProjectSection = () => {
     const { name } = useParams();
     const userProject = useSelector((state) => state.Project);
+    const currentUser = useSelector((state) => state.LoggedUser);
     const history = useHistory();
 
     const viewProject = (name) => {
@@ -35,10 +37,16 @@ const ProjectSection = () => {
                 }} >
                     <ProjectImage src={"/uploads/" + userProject.image} />
                 </ImageAnchor>
+
                 <ProjectDescription>
                     <HeaderProject>{userProject.name}</HeaderProject>
                     <p>{userProject.description}</p>
-
+                    <Paragraph>
+                        {Object.keys(currentUser.technologies).map((technology) =>
+                            <SpanTec key={technology}>{technology}</SpanTec>
+                        )
+                        }
+                    </Paragraph>
                 </ProjectDescription>
             </ProjectBox >
             {userProject.workingDevelopers.length ?
@@ -72,6 +80,17 @@ const ImageAnchor = styled.a`
   }
 `
 
+const Paragraph = styled.p`
+  display: flex;
+  justify-content: space-around;
+  background: ${THEME.primary};
+  margin-bottom: 10px;
+`
+
+const SpanTec = styled.span`
+  margin: 5px;
+`
+
 const ProjectBox = styled.div`
 
     @media (min-width: ${THEME.mobile}){
@@ -94,6 +113,7 @@ const ProjectDescription = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    width: 100%;
 `
 
 

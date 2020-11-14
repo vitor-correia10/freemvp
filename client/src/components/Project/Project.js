@@ -84,8 +84,7 @@ const Project = () => {
         <TecParagraph>
           {Object.keys(project.technologies).map((technology) =>
             <SpanTec key={technology}>{technology}</SpanTec>
-          )
-          }
+          )}
         </TecParagraph>
         <div>
           {project.workingDevelopers.length ?

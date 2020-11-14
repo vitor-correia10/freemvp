@@ -24,6 +24,7 @@ const Navbar = () => {
     const pendingProjectsIds = useSelector((state) => state.LoggedUser.pendingProjects);
     const [devNotification, setDevNotification] = React.useState([]);
     const [projectsNotification, setProjectsNotification] = React.useState([]);
+    const notificationCount = pendingProjectsIds.length + pendingDevelopersIds.length;
 
     const fetchPendingDevelopers = async () => {
         const response = await fetch(`http://localhost:8080/pendingdevelopers`, {
@@ -62,6 +63,7 @@ const Navbar = () => {
                             <nav>
                                 <NavUnordedList>
                                     <NavItem>
+                                        <NotificationIconCount>{notificationCount}</NotificationIconCount>
                                         <Anchor onClick={() =>
                                             (setDropdownNotification(!dropdownNotification),
                                                 setDropdownOpen(false),
@@ -135,14 +137,22 @@ const Image = styled.img`
     border-radius: 50%;
 `
 
-const NavUser = styled.nav`
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-`
-
 const StyledNotificationIcon = styled(GrNotification)`
     font-size: 25px;
+`;
+
+const NotificationIconCount = styled.span`
+  height: 20px;
+    width: 20px;
+    font-size: 12px;
+    background: #ff0000;
+    color: #fff;
+    padding: 4px 7px 4px 7px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: 90px;
+    z-index: 2;
 `;
 
 const NavUnordedList = styled.ul`
