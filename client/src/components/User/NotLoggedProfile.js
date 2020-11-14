@@ -17,8 +17,6 @@ const NotLoggedProfile = () => {
     const [user, setUser] = React.useState({});
     const [loading, setLoading] = React.useState(true);
     const projectAppliedToDevelopers = useSelector((state) => state.Project.appliedToDevelopers);
-    const [appliedToDevelopers, setAppliedToDevelopers] = React.useState(projectAppliedToDevelopers);
-
 
     const fetchUser = async () => {
         const response = await fetch(`http://localhost:8080/user/${email}`, {
@@ -55,7 +53,6 @@ const NotLoggedProfile = () => {
                 const { status, projectData } = responseBody;
                 if (status === 'success') {
                     dispatch(updateProject(projectData.appliedToDevelopers, 'appliedToDevelopers'));
-                    setAppliedToDevelopers(...appliedToDevelopers, projectData.appliedToDevelopers);
                 } else {
                     console.log('Error')
                 }
@@ -85,7 +82,7 @@ const NotLoggedProfile = () => {
                 {currentUser.email === user.email || loggedProject.workingDevelopers.includes(user._id) || loggedProject.name.length < 1 ?
                     ''
                     :
-                    appliedToDevelopers.includes(user._id) || loggedProject.pendingDevelopers.includes(user._id) ?
+                    projectAppliedToDevelopers.includes(user._id) || loggedProject.pendingDevelopers.includes(user._id) ?
                         <OwnProjectP>
                             Pending request
                     </OwnProjectP>

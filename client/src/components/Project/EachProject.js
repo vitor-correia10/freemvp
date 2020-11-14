@@ -12,7 +12,6 @@ const EachProject = ({ project, children }) => {
   const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
   const loggedPendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
   const loggedWorkingProjects = useSelector((state) => state.LoggedUser.workingProjects);
-  const [appliedToProjects, setAppliedToProjects] = React.useState(loggedUserappliedToProjects);
 
   let str = project.description;
   if (str.length > 150) str = str.substring(0, 150) + ' ...';
@@ -39,7 +38,6 @@ const EachProject = ({ project, children }) => {
       .then((responseBody) => {
         const { status, userData } = responseBody;
         if (status === 'success') {
-          setAppliedToProjects(...appliedToProjects, userData.appliedToProjects);
           dispatch(updateUser(userData.appliedToProjects, 'appliedToProjects'))
         } else {
           console.log('Error')
@@ -69,7 +67,7 @@ const EachProject = ({ project, children }) => {
           <OwnProjectP>
             Working project
           </OwnProjectP>
-          : appliedToProjects.includes(project._id) || loggedPendingProjects.includes(project._id) ?
+          : loggedUserappliedToProjects.includes(project._id) || loggedPendingProjects.includes(project._id) ?
             <OwnProjectP>
               Pending request
           </OwnProjectP>
