@@ -57,8 +57,6 @@ const DropDownNotifications = ({ notifications }) => {
                 if (status === 'success') {
                     const obj = Object.assign({}, workingDevelopersData);
 
-                    console.log('workingDevelopersData', workingDevelopersData);
-
                     setAddWorkingDevelopers(obj);
                     dispatch(updateWorkingDevelopers(obj));
 

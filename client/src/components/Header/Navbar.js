@@ -51,7 +51,7 @@ const Navbar = () => {
 
     React.useEffect(() => {
         fetchPendingDevelopers();
-    }, []);
+    }, [pendingDevelopersIds, pendingProjectsIds]);
 
     return (
         <>
