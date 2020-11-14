@@ -19,7 +19,6 @@ const NotLoggedProfile = () => {
     const projectAppliedToDevelopers = useSelector((state) => state.Project.appliedToDevelopers);
     const [appliedToDevelopers, setAppliedToDevelopers] = React.useState(projectAppliedToDevelopers);
 
-    console.log('currentUser', currentUser)
 
     const fetchUser = async () => {
         const response = await fetch(`http://localhost:8080/user/${email}`, {
@@ -83,10 +82,10 @@ const NotLoggedProfile = () => {
                     )
                     }
                 </TecParagraph>
-                {currentUser.email === user.email || loggedProject.workingDevelopers.includes(user._id) ?
+                {currentUser.email === user.email || loggedProject.workingDevelopers.includes(user._id) || loggedProject.name.length < 1 ?
                     ''
                     :
-                    appliedToDevelopers.includes(user._id) ?
+                    appliedToDevelopers.includes(user._id) || loggedProject.pendingDevelopers.includes(user._id) ?
                         <OwnProjectP>
                             Pending request
                     </OwnProjectP>

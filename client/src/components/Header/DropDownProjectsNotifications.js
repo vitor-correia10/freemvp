@@ -54,9 +54,10 @@ const DropDownProjectsNotifications = ({ notifications }) => {
             .then((responseBody) => {
                 const { status, userData, workingProjectsData } = responseBody;
                 if (status === 'success') {
-                    setAddWorkingProjects(workingProjectsData);
+                    const obj = Object.assign({}, workingProjectsData);
 
-                    dispatch(updateWorkingProjects(workingProjectsData));
+                    setAddWorkingProjects(obj);
+                    dispatch(updateWorkingProjects(obj));
 
                     setUpdatePendingProjects(userData.pendingProjects);
                     dispatch(updateUser(userData.pendingProjects, 'pendingProjects'));

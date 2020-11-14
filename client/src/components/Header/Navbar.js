@@ -194,14 +194,16 @@ const Anchor = styled.a`
 const DropdownMenuNotifications = styled.div`
     position: absolute;
     top: 70px;
-    width: 300px;
+    width: 310px;
     transform: translateX(-28%);
     background: ${THEME.black};
     border: 1px solid black;
     border-radius: 5px;
-    padding: 5px 15px;
+    padding: 5px 10px;
     overflow: hidden;
     color: white;
+    max-height: 75vh;
+    overflow: auto;
 `
 
 const NotificationP = styled.p`

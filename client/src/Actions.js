@@ -124,10 +124,9 @@ export const addWorkingProjects = (value, key) => {
     };
 };
 
-export const updateWorkingProjects = (value, key) => {
+export const updateWorkingProjects = (value) => {
     return {
         type: "UPDATE-WORKING-PROJECTS",
-        key,
         value,
     };
 };

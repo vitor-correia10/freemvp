@@ -10,8 +10,7 @@ const WorkingProjects = (state = initialState, action) => {
         }
         case 'UPDATE-WORKING-PROJECTS': {
             return {
-                ...state,
-                [action.key]: action.value
+                ...action.value
             }
         }
         case 'REMOVE-WORKING-PROJECTS': {

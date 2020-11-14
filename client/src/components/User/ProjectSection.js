@@ -10,8 +10,11 @@ import RelatedUsersPerProject from './RelatedUsersPerProject';
 const ProjectSection = () => {
     const { name } = useParams();
     const userProject = useSelector((state) => state.Project);
+    const workingDevelopers = useSelector((state) => state.WorkingDevelopers);
     const currentUser = useSelector((state) => state.LoggedUser);
     const history = useHistory();
+
+    let workingDevelopersArray = Object.keys(workingDevelopers).map(function (k) { return workingDevelopers[k] });
 
     const viewProject = (name) => {
         fetch(`http://localhost:8080/project/${name}`, {
@@ -49,10 +52,9 @@ const ProjectSection = () => {
                     </Paragraph>
                 </ProjectDescription>
             </ProjectBox >
-            {userProject.workingDevelopers.length ?
-                userProject.workingDevelopers.map((developer) =>
+            {workingDevelopersArray.length ?
+                workingDevelopersArray.map((developer) =>
                     <div key={`${developer._id}`} >
-                        {developer.firstName}
                     </div>
                 )
                 : userProject.relatedUsers.length ?
