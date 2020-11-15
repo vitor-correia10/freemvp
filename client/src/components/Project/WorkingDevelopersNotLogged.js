@@ -4,65 +4,56 @@ import { useHistory } from "react-router-dom";
 import { THEME } from "../style/Theme";
 
 const WorkingDevelopersNotLogged = ({ workingDevelopersArray }) => {
-    const history = useHistory();
+  const history = useHistory();
 
-    const viewDeveloper = (email) => {
-        history.push("/user/" + email);
-    };
+  const viewDeveloper = (email) => {
+    history.push("/user/" + email);
+  };
 
-    function countStr(str) {
-        if (str.length > 85) {
-            str = str.substring(0, 85) + ' ...';
-        }
-        return str;
+  function countStr(str) {
+    if (str.length > 85) {
+      str = str.substring(0, 85) + ' ...';
     }
+    return str;
+  }
 
-    return (
-        <>
-            <Header>Project's Team</Header>
-            <Wrapper>
-                <Row>
-                    {
-                        workingDevelopersArray.map((developer, index) =>
-                            <WorkingProjectContainer>
-                                <ProjectBtn
-                                    onClick={() => {
-                                        viewDeveloper(developer.email);
-                                    }}
-                                    key={`${developer._id}`} developer={developer}
-                                >
-                                    <Image src={"/uploads/" + developer.image} />
-                                </ProjectBtn>
-                                <ProjectName>{developer.firstName} {developer.lastName}</ProjectName>
-                            </WorkingProjectContainer>
-                        )
-                    }
-                </Row>
-            </Wrapper>
-        </>
-    )
+  return (
+    <>
+      <Header>Project's Team</Header>
+      <Wrapper>
+        <Row>
+          {
+            workingDevelopersArray.map((developer, index) =>
+              <WorkingProjectContainer>
+                <ProjectBtn
+                  onClick={() => {
+                    viewDeveloper(developer.email);
+                  }}
+                  key={`${developer._id}`} developer={developer}
+                >
+                  <Image src={"/uploads/" + developer.image} />
+                </ProjectBtn>
+                <ProjectName>{developer.firstName} {developer.lastName}</ProjectName>
+              </WorkingProjectContainer>
+            )
+          }
+        </Row>
+      </Wrapper>
+    </>
+  )
 }
 
 const Wrapper = styled.div`
-  display: block;
-
-  @media (min-width: ${THEME.mobile}) {
     display: flex;
     flex-direction: row;
-  }
 `;
 
 const Row = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  @media (min-width: ${THEME.mobile}) {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     flex: 1;
-  }
 `;
 
 const Header = styled.h2`
@@ -72,8 +63,8 @@ const Header = styled.h2`
 
 const Image = styled.img`
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
 `
 
 const WorkingProjectContainer = styled.div`
@@ -82,10 +73,10 @@ const WorkingProjectContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   margin: 24px 5px;
-  flex: 1 0 30%;
+  flex: 1 0 45%;
 
   @media (min-width: ${THEME.mobile}){
-    max-width: 30%;
+    max-width: 20%;
   }
 `
 

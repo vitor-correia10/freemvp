@@ -34,7 +34,6 @@ const EachUser = ({ user, children }) => {
         const { status, projectData } = responseBody;
         if (status === 'success') {
           dispatch(updateProject(projectData.appliedToDevelopers, 'appliedToDevelopers'));
-          setAppliedToDevelopers(...appliedToDevelopers, projectData.appliedToDevelopers);
         } else {
           console.log('Error')
         }
@@ -58,7 +57,7 @@ const EachUser = ({ user, children }) => {
         <UserDescription>{user.description}</UserDescription>
         : ''
       }
-      {appliedToDevelopers.includes(user._id) ?
+      {projectAppliedToDevelopers.includes(user._id) ?
         <OwnProjectP>
           Pending request
       </OwnProjectP>

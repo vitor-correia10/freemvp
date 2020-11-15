@@ -138,7 +138,7 @@ const Wrapper = styled.div`
 
   @media (min-width: ${THEME.mobile}) {
           display: flex;
-    margin: 0 40px 40px 40px;
+    margin: 30px 20px;
   }
 `;
 
@@ -195,6 +195,7 @@ const TecParagraph = styled.p`
   justify-content: space-around;
   background: ${THEME.primary};
   margin: 10px 0;
+  width: 100%;
 `
 
 const SpanTec = styled.span`

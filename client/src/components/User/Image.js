@@ -13,7 +13,7 @@ export const Image = ({ itemSrc }) => {
 const Wrapper = styled.div`
   text-align: center;
   width: 100%;
-  padding: 70px 0;
+  padding: 30px 0;
 
   @media (min-width: ${THEME.mobile}) {
     width: 30%;

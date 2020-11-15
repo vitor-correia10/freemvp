@@ -13,7 +13,7 @@ export const Image = ({ itemSrc }) => {
 const Wrapper = styled.div`
   text-align: center;
   width: 100%;
-  padding: 30px 0;
+  padding: 30px 20px;
 
   @media (min-width: ${THEME.mobile}) {
     width: 50%;
@@ -23,8 +23,12 @@ const Wrapper = styled.div`
 
 const ItemImage = styled.img`
   min-width: 200px;
-  width: 70%;
+  width: 100%;
   height: auto;
+
+  @media (min-width: ${THEME.mobile}) {
+    width: 70%;
+  }
 `;
 
 export default Image;

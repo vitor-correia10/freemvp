@@ -126,6 +126,8 @@ const ProductDetails = styled.div`
       @media (max-width: ${THEME.mobile}) {
         margin-top: 10px;
         padding: 0 20px;
+        width: 100%;
+        align-items: center;
       }
     `;
 
@@ -134,6 +136,7 @@ const Paragraph = styled.p`
     
       @media (max-width: ${THEME.mobile}) {
         margin-top: 10px;
+        text-align: center;
       }
     `;
 
@@ -149,6 +152,7 @@ const TecParagraph = styled.p`
       justify-content: space-around;
       background: ${THEME.secondary};
       margin: 10px 0;
+      width: 100%;
     `
 
 const SpanTec = styled.span`

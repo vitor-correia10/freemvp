@@ -86,26 +86,35 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 24px 5px;
   flex: 1 0 30%;
-  max-width: 30%;
+  margin: 24px 20px;
+
+  @media (min-width: ${THEME.mobile}) {
+    max-width: 30%;
+    margin: 24px 5px;
+  }
 `;
 
 const ImageWrapper = styled.div`
   max-width: 100%;
   display: flex;
   justify-content: center;
-  height: 180px;
   text-align: center;
   position: relative;
-  padding: 8px;
   border-radius: 4px;
+
+  @media (min-width: ${THEME.mobile}) {
+    height: 180px;
+  }
 `;
 
 const ProjectImage = styled.img`
-  max-width: 250px;
   width: 100%;
   height: auto;
+
+  @media (min-width: ${THEME.mobile}) {
+    max-width: 250px;
+  }
 `;
 
 const ProjectName = styled.h3`
@@ -126,6 +135,7 @@ const ProjectBtn = styled.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
+  padding: 0;
 
   &:focus {
     outline: none;
