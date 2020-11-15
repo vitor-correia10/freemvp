@@ -407,8 +407,27 @@ const editProject = async (req, res) => {
     client.close();
 }
 
+const getCompletedProjects = async (req, res) => {
+    const client = await MongoClient(MONGO_URI, options);
+
+    await client.connect();
+    const db = client.db('freemvp');
+
+    const projectsCompleted = await db.collection("projects").find({ isCompleted: { $eq: true } }).toArray();
+    if (projectsCompleted) {
+        res.status(200).json({ status: "success", data: projectsCompleted })
+
+    } else {
+        res.status(404).json({ status: 'error', data: "Not Found" });
+        return
+    }
+
+    client.close();
+};
+
 
 //Project endpoint
+router.get('/', getCompletedProjects)
 router.post('/project', upload.single('image'), createProject)
 router.get('/project/:name', getProject)
 router.get('/projects', getProjects)

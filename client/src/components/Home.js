@@ -1,22 +1,53 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
+import {
+    addCompletedProjects
+} from '../Actions';
+
+import ProjectsCompletedSection from "./Project/ProjectsCompletedSection";
+
 import ProjectSrc from './../assets/project_img.jpg';
 import DeveloperSrc from './../assets/developer_img.jpg';
 import SlideshowSrc from './../assets/slideshow.jpg';
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FcIdea } from "react-icons/fc";
 import { GoRocket } from "react-icons/go";
 import { MdDeveloperMode } from "react-icons/md";
 import { THEME } from "./style/Theme";
 
-import ProjectsCompletedSection from "./Project/ProjectsCompletedSection";
-
 const socialIconDim = { fontSize: "60px" };
 
 const Home = () => {
+    const [loading, setLoading] = React.useState(true);
+    const dispatch = useDispatch();
+
     const isLogin = useSelector((state) => !!state.LoggedUser.email);
+
+    const fetchCompletedProjects = async () => {
+        const response = await fetch(`http://localhost:8080/`, {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then((responseBody) => {
+                const { status, data } = responseBody;
+                if (status === 'success') {
+                    dispatch(addCompletedProjects(data));
+                    setLoading(false);
+                } else {
+                    console.log('Error');
+                }
+            })
+    };
+
+    React.useEffect(() => {
+        fetchCompletedProjects();
+    }, []);
+    if (loading) {
+        return loading;
+    }
+
     return (
         <>
             {isLogin ? (
@@ -193,10 +224,7 @@ const Content = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    &:not(:last-child){
-        border-right: 1px black dashed;
-    }
+    box-shadow: 0px 0px 3px 0px;
 
     @media (min-width: ${THEME.mobile}){
         height: 100%;

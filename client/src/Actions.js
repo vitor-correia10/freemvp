@@ -177,3 +177,11 @@ export const updateCompletedProjects = (value, key) => {
         value,
     };
 };
+
+export const removeCompletedProjects = (value, key) => {
+    return {
+        type: "REMOVE-COMPLETED-PROJECTS",
+        key,
+        value,
+    };
+};

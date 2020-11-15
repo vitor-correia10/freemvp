@@ -14,8 +14,7 @@ import {
   addRelatedProjects,
   addRelatedUsers,
   addWorkingProjects,
-  addWorkingDevelopers,
-  addCompletedProjects
+  addWorkingDevelopers
 } from '../../Actions';
 
 import { useHistory } from 'react-router-dom';
@@ -52,7 +51,6 @@ const LoginModal = ({ onClick }) => {
           dispatch(addWorkingProjects(data.findWorkingProjects));
           dispatch(addWorkingDevelopers(data.findWorkingDevelopers));
           dispatch(addRelatedUsers(data.findRelatedUser));
-          dispatch(addCompletedProjects(data.projectsCompleted));
           history.push(`/user`);
           dispatch(toggleModal());
         } else if (status === 'invalid') {

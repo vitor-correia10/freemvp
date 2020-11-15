@@ -14,6 +14,11 @@ const CompletedProjects = (state = initialState, action) => {
                 ...action.value,
             }
         }
+        case 'REMOVE-COMPLETED-PROJECTS': {
+            return {
+                ...initialState,
+            }
+        }
         default: {
             return state;
         }
