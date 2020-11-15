@@ -8,6 +8,7 @@ import RelatedProjects from "./RelatedProjects-Reducer";
 import RelatedUsers from "./RelatedUsers-Reducer";
 import WorkingProjects from "./WorkingProjects-Reducer";
 import WorkingDevelopers from "./WorkingDevelopersByProject-Reducer";
+import CompletedProjects from "./CompletedProjects";
 
 const allReducers = combineReducers({
     User,
@@ -18,6 +19,7 @@ const allReducers = combineReducers({
     WorkingProjects,
     WorkingDevelopers,
     modal: modalTogglerReducer,
+    IsCompleted: CompletedProjects,
 });
 
 export default allReducers;

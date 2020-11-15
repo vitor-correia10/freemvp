@@ -2,17 +2,15 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from "react-router-dom";
-import { FormSubmitButton } from "../style/Buttons";
 import { THEME } from "../style/Theme";
 import RelatedUsersPerProject from './RelatedUsersPerProject';
-// import ToggleSwitch from '../style/ToggleSwitch'
 
 const ProjectSection = () => {
-    const { name } = useParams();
+    const history = useHistory();
     const userProject = useSelector((state) => state.Project);
     const workingDevelopers = useSelector((state) => state.WorkingDevelopers);
     const currentUser = useSelector((state) => state.LoggedUser);
-    const history = useHistory();
+    const [isCompleted, setIsCompleted] = React.useState(userProject.isCompleted);
 
     let workingDevelopersArray = Object.keys(workingDevelopers).map(function (k) { return workingDevelopers[k] });
 
@@ -32,19 +30,53 @@ const ProjectSection = () => {
             })
     };
 
+    function handleIsCompletedChanges(e) {
+        setIsCompleted(!isCompleted);
+
+        console.log('isCompleted inside', isCompleted);
+        // console.log('isCompleted inside+++', !!e.target.value);
+
+        fetch('http://localhost:8080/editproject', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: userProject.name,
+                isCompleted
+            }),
+        })
+            .then(res => res.json())
+            .then((responseBody) => {
+                const { status } = responseBody;
+                if (status === 'success') {
+                    console.log('Success')
+                } else {
+                    console.log('Error')
+                }
+            })
+    }
+
     return (
         <>
             <ProjectBox>
                 <ProjectLeftSection>
-                    <a onClick={() => {
-                        viewProject(userProject.name);
-                    }} >
-                        <ProjectImage src={"/uploads/" + userProject.image} />
-                    </a>
+                    <ProjectImageDiv >
+                        <a
+                            onClick={() => {
+                                viewProject(userProject.name);
+                            }} >
+                            <ProjectImage src={"/uploads/" + userProject.image} />
+                        </a>
+                    </ProjectImageDiv>
 
                     <IsCompletedDiv>
                         Complete?
-                </IsCompletedDiv>
+                        <InputCheckbox type="checkbox" name="technologies"
+                            onChange={handleIsCompletedChanges}
+                            checked={isCompleted}
+                            value={isCompleted} />
+                    </IsCompletedDiv>
                 </ProjectLeftSection>
 
                 <ProjectDescription>
@@ -78,6 +110,11 @@ const ProjectImage = styled.img`
 
 const ProjectLeftSection = styled.div`
     margin-right: 15px;
+    min-width: 250px;
+    width: 30%;
+`
+
+const ProjectImageDiv = styled.div`
     cursor: pointer;
     min-width: 250px;
     width: 30%;
@@ -126,7 +163,12 @@ const ProjectDescription = styled.div`
 `
 
 const IsCompletedDiv = styled.div`
+    text-align: center;
+    background: lightgray;
+`
 
+const InputCheckbox = styled.input`
+    margin-left: 20px;
 `
 
 

@@ -161,3 +161,19 @@ export const removeWorkingDevelopers = (value, key) => {
         value,
     };
 };
+
+export const addCompletedProjects = (value, key) => {
+    return {
+        type: "ADD-COMPLETED-PROJECTS",
+        key,
+        value,
+    };
+};
+
+export const updateCompletedProjects = (value, key) => {
+    return {
+        type: "UPDATE-COMPLETED-PROJECTS",
+        key,
+        value,
+    };
+};

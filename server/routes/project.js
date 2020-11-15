@@ -376,12 +376,45 @@ const rejectProject = async (req, res) => {
     client.close();
 }
 
+const editProject = async (req, res) => {
+    const client = await MongoClient(MONGO_URI, options);
+
+    try {
+        let {
+            name,
+            isCompleted,
+        } = req.body;
+
+        await client.connect();
+        const db = client.db('freemvp');
+
+        const query = { name };
+        const newValues = {
+            $set: {
+                isCompleted
+            }
+        };
+
+        const u = await db.collection("projects").updateOne(query, newValues);
+        assert.strictEqual(1, u.matchedCount);
+        assert.strictEqual(1, u.modifiedCount);
+        res.status(200).json({ status: "success", data: req.body });
+
+    } catch (err) {
+        console.log(err.stack);
+        res.status(500).json({ status: "error", data: req.body, message: err.message });
+    }
+    client.close();
+}
+
+
 //Project endpoint
 router.post('/project', upload.single('image'), createProject)
 router.get('/project/:name', getProject)
 router.get('/projects', getProjects)
 router.delete('/project/:name', deleteProject)
 router.put('/project/:name', updateProject)
+router.put('/editproject', editProject)
 router.put('/matchproject', matchProject)
 router.put('/approveproject', approveProject)
 router.put('/rejectproject', rejectProject)

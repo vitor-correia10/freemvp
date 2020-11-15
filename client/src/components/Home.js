@@ -11,6 +11,8 @@ import { GoRocket } from "react-icons/go";
 import { MdDeveloperMode } from "react-icons/md";
 import { THEME } from "./style/Theme";
 
+import ProjectsCompletedSection from "./Project/ProjectsCompletedSection";
+
 const socialIconDim = { fontSize: "60px" };
 
 const Home = () => {
@@ -66,6 +68,7 @@ const Home = () => {
                     <p>Let's launch a project together!</p>
                 </Content>
             </MainSection>
+            <ProjectsCompletedSection />
         </>
     )
 }

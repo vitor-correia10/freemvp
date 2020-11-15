@@ -120,6 +120,7 @@ const login = async (req, res) => {
             let findWorkingDevelopers = [];
             let findRelatedUser = [];
 
+            const projectsCompleted = await db.collection("projects").find({ isCompleted: { $eq: true } }).toArray();
             function getRelatedIds(array) {
                 return array.map(id =>
                     mongo.ObjectID(id)
@@ -160,11 +161,12 @@ const login = async (req, res) => {
                         findRelatedProject,
                         findRelatedUser,
                         findWorkingProjects,
-                        findWorkingDevelopers
+                        findWorkingDevelopers,
+                        projectsCompleted
                     }
                 })
             } else (
-                res.status(200).json({ status: "success", data: { findUser, findRelatedProject, findWorkingProjects, findWorkingDevelopers } })
+                res.status(200).json({ status: "success", data: { findUser, findRelatedProject, findWorkingProjects, findWorkingDevelopers, projectsCompleted } })
             )
 
         } else {
