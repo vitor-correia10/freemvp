@@ -73,7 +73,7 @@ const ProjectSection = () => {
                     </ProjectImageDiv>
 
                     <IsCompletedDiv>
-                        Complete?
+                        Completed ?
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={handleIsCompletedChanges}
                             checked={isCompleted}

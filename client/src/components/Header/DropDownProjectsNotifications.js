@@ -11,10 +11,8 @@ const DropDownProjectsNotifications = ({ notifications }) => {
     const dispatch = useDispatch();
 
     const loggedUser = useSelector((state) => state.LoggedUser);
-    const pendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
-    const workingProjects = useSelector((state) => state.WorkingProjects);
-    const [addWorkingProjects, setAddWorkingProjects] = React.useState(workingProjects);
-    const [updatePendingProjects, setUpdatePendingProjects] = React.useState(pendingProjects);
+    let pendingProjects = useSelector((state) => state.LoggedUser.pendingProjects);
+    let workingProjects = useSelector((state) => state.WorkingProjects);
 
     const rejectAction = (currentDeveloper, projectName) => {
         fetch('http://localhost:8080/rejectproject', {
@@ -31,7 +29,7 @@ const DropDownProjectsNotifications = ({ notifications }) => {
             .then((responseBody) => {
                 const { status, userData } = responseBody;
                 if (status === 'success') {
-                    setUpdatePendingProjects(userData.pendingProjects);
+                    pendingProjects = userData.pendingProjects;
                     dispatch(updateUser(userData.pendingProjects, 'pendingProjects'));
                 } else {
                     console.log('Error')
@@ -56,10 +54,10 @@ const DropDownProjectsNotifications = ({ notifications }) => {
                 if (status === 'success') {
                     const obj = Object.assign({}, workingProjectsData);
 
-                    setAddWorkingProjects(obj);
+                    workingProjects = obj;
                     dispatch(updateWorkingProjects(obj));
 
-                    setUpdatePendingProjects(userData.pendingProjects);
+                    pendingProjects = userData.pendingProjects;
                     dispatch(updateUser(userData.pendingProjects, 'pendingProjects'));
                 } else {
                     console.log('Error')
@@ -79,7 +77,7 @@ const DropDownProjectsNotifications = ({ notifications }) => {
                                     {project.name}
                                 </Anchor>
 
-                                <ActionsDiv>
+                                <div>
                                     <ActionAnchor onClick={() => {
                                         rejectAction(loggedUser.email, project.name);
                                     }}>
@@ -90,7 +88,7 @@ const DropDownProjectsNotifications = ({ notifications }) => {
                                     }}>
                                         <Approve />
                                     </ActionAnchor>
-                                </ActionsDiv>
+                                </div>
                             </DropdownItem>
                         )
                     }
@@ -120,19 +118,6 @@ const Anchor = styled.a`
     &:hover{
        background: ${THEME.primary};
     }
-`
-
-const NotificationP = styled.p`
-    text-align: center;
-    margin: 22px;
-    font-size: 18px;
-    padding: 5px 10px;
-    color: white;
-    font-style: italic;
-`
-
-const ActionsDiv = styled.div`
-
 `
 
 const Approve = styled(AiOutlineCheckCircle)`

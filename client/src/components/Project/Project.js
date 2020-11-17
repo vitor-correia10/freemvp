@@ -7,6 +7,9 @@ import { FormSubmitButton } from '../style/Buttons';
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from '../../Actions';
 import WorkingDevelopersNotLogged from './WorkingDevelopersNotLogged';
+import { AiFillCheckCircle } from "react-icons/ai";
+
+const checkedIcon = { height: "20px", width: "20px" };
 
 const Project = () => {
   const { name } = useParams();
@@ -109,15 +112,19 @@ const Project = () => {
                 <OwnProjectP>
                   Your project
             </OwnProjectP>
-                : appliedToProjects.includes(project._id) ?
+                : project.isCompleted ?
                   <OwnProjectP>
-                    Pending request
+                    <StyledChecked /> Completed
+                </OwnProjectP>
+                  : appliedToProjects.includes(project._id) ?
+                    <OwnProjectP>
+                      Pending request
               </OwnProjectP>
-                  : <SubmitButtonDiv>
-                    <ApplyButton onClick={() => {
-                      matchProject(project.name, loggedUserEmail);
-                    }}>Apply</ApplyButton>
-                  </SubmitButtonDiv>
+                    : <SubmitButtonDiv>
+                      <ApplyButton onClick={() => {
+                        matchProject(project.name, loggedUserEmail);
+                      }}>Apply</ApplyButton>
+                    </SubmitButtonDiv>
           }
 
         </ProductDetails>
@@ -183,12 +190,14 @@ const ProjectManager = styled.p`
 `
 
 const OwnProjectP = styled.p`
-  text-align: center;
   margin: 22px;
   font-size: 18px;
   padding: 5px 10px;
   color: gray;
   font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const TecParagraph = styled.p`
@@ -212,49 +221,10 @@ const SubmitButtonDiv = styled.div`
   text-align: center;
 `
 
-const WorkingProjectContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 24px 5px;
-  flex: 1 0 30%;
-
-  @media (min-width: ${THEME.mobile}){
-    max-width: 30%;
-  }
-`
-
-const ProjectName = styled.h3`
-  margin-top: 16px;
-  font-size: 20px;
-  text-align: center;
-`;
-
-
-const ProjectDescription = styled.p`
-  margin-top: 4px;
-  font-size: 16px;
-  height: 60px;
-  overflow: auto;
-  padding: 0 10px;
-`;
-
-const ProjectBtn = styled.button`
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
-
-  @media (min-width: ${THEME.mobile}) {
-    &:hover {
-      transform: scale(1.05);
-      transition: 0.5s ease-in;
-    }
-  }
+const StyledChecked = styled(AiFillCheckCircle)`
+  width: ${checkedIcon.width};
+  height: ${checkedIcon.height};
+  margin-right: 5px;
 `;
 
 export default Project;

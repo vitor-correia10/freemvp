@@ -4,7 +4,10 @@ import { useHistory } from "react-router-dom";
 import { THEME } from "../style/Theme";
 import { useSelector, useDispatch } from "react-redux";
 import { FormSubmitButton } from '../style/Buttons';
-import { updateUser } from '../../Actions';
+import { updateUser, toggleModal } from '../../Actions';
+import { AiFillCheckCircle } from "react-icons/ai";
+
+const checkedIcon = { height: "20px", width: "20px" };
 
 const EachProject = ({ project, children }) => {
   const loggedUserappliedToProjects = useSelector((state) => state.LoggedUser.appliedToProjects);
@@ -63,19 +66,31 @@ const EachProject = ({ project, children }) => {
         <OwnProjectP>
           Your project
         </OwnProjectP>
-        : loggedWorkingProjects.includes(project._id) ?
+        : project.isCompleted ?
           <OwnProjectP>
-            Working project
+            <StyledChecked /> Completed
           </OwnProjectP>
-          : loggedUserappliedToProjects.includes(project._id) || loggedPendingProjects.includes(project._id) ?
+          : loggedWorkingProjects.includes(project._id) ?
             <OwnProjectP>
-              Pending request
+              Working project
           </OwnProjectP>
-            : <SubmitButtonDiv>
-              <ApplyButton onClick={() => {
-                matchProject(project.name, loggedUserEmail);
-              }}>Apply</ApplyButton>
-            </SubmitButtonDiv>
+            : loggedUserappliedToProjects.includes(project._id) || loggedPendingProjects.includes(project._id) ?
+              <OwnProjectP>
+                Pending request
+          </OwnProjectP>
+              :
+              loggedUserId.length < 1 ?
+                <SubmitButtonDiv>
+                  <ApplyButton
+                    onClick={() => dispatch(toggleModal())}
+                  >Apply</ApplyButton>
+                </SubmitButtonDiv>
+                :
+                <SubmitButtonDiv>
+                  <ApplyButton onClick={() => {
+                    matchProject(project.name, loggedUserEmail);
+                  }}>Apply</ApplyButton>
+                </SubmitButtonDiv>
       }
     </Wrapper>
   );
@@ -158,11 +173,19 @@ const SubmitButtonDiv = styled.div`
 `
 
 const OwnProjectP = styled.p`
-  text-align: center;
   margin: 22px;
   font-size: 18px;
   padding: 5px 10px;
   color: gray;
   font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
+const StyledChecked = styled(AiFillCheckCircle)`
+  width: ${checkedIcon.width};
+  height: ${checkedIcon.height};
+  margin-right: 5px;
+`;
+
 export default EachProject;

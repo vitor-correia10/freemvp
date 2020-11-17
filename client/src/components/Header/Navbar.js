@@ -110,7 +110,6 @@ const Navbar = () => {
                                                 <DropdownItem>
                                                     <AnchorList href="/">
                                                         <LogOutButton onClick={() => {
-
                                                             dispatch(removeLoggedInUser())
                                                             dispatch(removeLoggedInProject())
                                                             dispatch(removeRelatedProjects())
