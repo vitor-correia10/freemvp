@@ -10,13 +10,6 @@ const WorkingDevelopersNotLogged = ({ workingDevelopersArray }) => {
     history.push("/user/" + email);
   };
 
-  function countStr(str) {
-    if (str.length > 85) {
-      str = str.substring(0, 85) + ' ...';
-    }
-    return str;
-  }
-
   return (
     <>
       <Header>Project's Team</Header>

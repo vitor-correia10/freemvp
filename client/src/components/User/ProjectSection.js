@@ -18,8 +18,6 @@ const ProjectSection = () => {
 
     let workingDevelopersArray = Object.keys(workingDevelopers).map(function (k) { return workingDevelopers[k] });
 
-    console.log('isCompleted 1', isCompleted);
-    console.log('userProject.isCompleted 1', userProject.isCompleted);
     const viewProject = (name) => {
         fetch(`http://localhost:8080/project/${name}`, {
             method: 'GET',

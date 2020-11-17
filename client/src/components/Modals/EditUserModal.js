@@ -9,6 +9,7 @@ import { FormSubmitButton } from '../style/Buttons';
 import { addLoggedInUser, addUserTechnologies, toggleModal, updateUser } from '../../Actions';
 import { useHistory } from 'react-router-dom';
 import { ErrorMessage } from '../style/ErrorMessage';
+import useKeydown from '../hooks/use-keydown';
 
 const EditUserModal = ({ onClick }) => {
     const { register, errors, handleSubmit } = useForm();
@@ -72,6 +73,9 @@ const EditUserModal = ({ onClick }) => {
             })
     }
 
+    const handleClose = (event) => dispatch(toggleModal(), event.stopPropagation());
+    useKeydown("Escape", handleClose);
+
     return (
         <ModalWrapper onClick={(event) => dispatch(toggleModal())}>
             <Modal
@@ -81,10 +85,7 @@ const EditUserModal = ({ onClick }) => {
             >
                 <ModalHeader>
                     <IconBtn
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            dispatch(toggleModal());
-                        }}
+                        onClick={handleClose}
                     >
                         <AiFillCloseCircle />
                     </IconBtn>

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { THEME } from "../style/Theme";
 import { FormLabel } from '../Labels';
 import { FormSubmitButton } from '../style/Buttons';
+import useKeydown from '../hooks/use-keydown';
 
 import {
   addLoggedInUser,
@@ -64,6 +65,9 @@ const LoginModal = ({ onClick }) => {
       })
   }
 
+  const handleClose = (event) => dispatch(toggleModal(), event.stopPropagation());
+  useKeydown("Escape", handleClose);
+
   return (
     <ModalWrapper onClick={(event) => dispatch(toggleModal())}>
       <Modal
@@ -73,10 +77,7 @@ const LoginModal = ({ onClick }) => {
       >
         <ModalHeader>
           <IconBtn
-            onClick={(event) => {
-              event.stopPropagation();
-              dispatch(toggleModal());
-            }}
+            onClick={handleClose}
           >
             <AiFillCloseCircle />
           </IconBtn>

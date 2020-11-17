@@ -86,8 +86,6 @@ const Project = () => {
     return loading;
   }
 
-  console.log('workingDevelopers', workingDevelopers);
-
   return (
     <>
       <Wrapper>
@@ -104,19 +102,22 @@ const Project = () => {
             )}
           </TecParagraph>
 
-          {loggedUserId === project.admin ?
-            <OwnProjectP>
-              Your project
+          {
+            loggedUserId.length < 1 ?
+              ''
+              : loggedUserId === project.admin ?
+                <OwnProjectP>
+                  Your project
             </OwnProjectP>
-            : appliedToProjects.includes(project._id) ?
-              <OwnProjectP>
-                Pending request
+                : appliedToProjects.includes(project._id) ?
+                  <OwnProjectP>
+                    Pending request
               </OwnProjectP>
-              : <SubmitButtonDiv>
-                <ApplyButton onClick={() => {
-                  matchProject(project.name, loggedUserEmail);
-                }}>Apply</ApplyButton>
-              </SubmitButtonDiv>
+                  : <SubmitButtonDiv>
+                    <ApplyButton onClick={() => {
+                      matchProject(project.name, loggedUserEmail);
+                    }}>Apply</ApplyButton>
+                  </SubmitButtonDiv>
           }
 
         </ProductDetails>

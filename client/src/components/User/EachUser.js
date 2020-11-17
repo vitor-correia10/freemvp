@@ -12,7 +12,6 @@ const EachUser = ({ user, children }) => {
 
   const loggedProject = useSelector((state) => state.Project);
   const projectAppliedToDevelopers = useSelector((state) => state.Project.appliedToDevelopers);
-  const [appliedToDevelopers, setAppliedToDevelopers] = React.useState(projectAppliedToDevelopers);
 
   const viewUser = (email) => {
     history.push("/user/" + email);
