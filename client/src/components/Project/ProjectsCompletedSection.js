@@ -5,50 +5,49 @@ import { useSelector } from 'react-redux';
 import { THEME } from "../style/Theme";
 
 const ProjectCompletedSection = () => {
-    const completedProjects = useSelector((state) => state.IsCompleted);
+  const history = useHistory();
+  const completedProjects = useSelector((state) => state.IsCompleted);
 
-    const history = useHistory();
+  const viewProject = (name) => {
+    history.push("/project/" + name);
+  };
 
-    const viewProject = (name) => {
-        history.push("/project/" + name);
-    };
+  let completedProjectsArray = Object.keys(completedProjects).map(function (k) { return completedProjects[k] });
 
-    let completedProjectsArray = Object.keys(completedProjects).map(function (k) { return completedProjects[k] });
-
-    function countStr(str) {
-        if (str.length > 85) {
-            str = str.substring(0, 85) + ' ...';
-        }
-        return str;
+  function countStr(str) {
+    if (str.length > 85) {
+      str = str.substring(0, 85) + ' ...';
     }
+    return str;
+  }
 
-    return (
-        <>
-            <Header>Some Completed Projects</Header>
-            <Wrapper>
-                <Row>
-                    {
-                        completedProjectsArray.map((project, index) =>
-                            <WorkingProjectContainer>
-                                <ProjectBtn
-                                    onClick={() => {
-                                        viewProject(project.name);
-                                    }}
-                                    key={`${project._id}`} project={project}
-                                >
-                                    <ImageWrapper>
-                                        <ProjectImage src={"/uploads/" + project.image} />
-                                    </ImageWrapper>
-                                </ProjectBtn>
-                                <ProjectName>{project.name}</ProjectName>
-                                <ProjectDescription>{countStr(project.description)}</ProjectDescription>
-                            </WorkingProjectContainer>
-                        )
-                    }
-                </Row>
-            </Wrapper>
-        </>
-    )
+  return (
+    <>
+      <Header>Some Completed Projects</Header>
+      <Wrapper>
+        <Row>
+          {
+            completedProjectsArray.map((project, index) =>
+              <WorkingProjectContainer>
+                <ProjectBtn
+                  onClick={() => {
+                    viewProject(project.name);
+                  }}
+                  key={`${project._id}`} project={project}
+                >
+                  <ImageWrapper>
+                    <ProjectImage src={"/uploads/" + project.image} />
+                  </ImageWrapper>
+                </ProjectBtn>
+                <ProjectName>{project.name}</ProjectName>
+                <ProjectDescription>{countStr(project.description)}</ProjectDescription>
+              </WorkingProjectContainer>
+            )
+          }
+        </Row>
+      </Wrapper>
+    </>
+  )
 }
 
 const Wrapper = styled.div`

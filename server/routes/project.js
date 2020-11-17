@@ -395,14 +395,14 @@ const editProject = async (req, res) => {
             }
         };
 
-        const u = await db.collection("projects").updateOne(query, newValues);
-        assert.strictEqual(1, u.matchedCount);
-        assert.strictEqual(1, u.modifiedCount);
-        res.status(200).json({ status: "success", data: req.body });
+        const up = await db.collection("projects").updateOne(query, newValues);
+        assert.strictEqual(1, up.matchedCount);
+        assert.strictEqual(1, up.modifiedCount);
+        res.status(200).json({ status: "success", data: isCompleted });
 
     } catch (err) {
         console.log(err.stack);
-        res.status(500).json({ status: "error", data: req.body, message: err.message });
+        res.status(500).json({ status: "error", message: err.message });
     }
     client.close();
 }
@@ -414,9 +414,9 @@ const getCompletedProjects = async (req, res) => {
     const db = client.db('freemvp');
 
     const projectsCompleted = await db.collection("projects").find({ isCompleted: { $eq: true } }).toArray();
+
     if (projectsCompleted) {
         res.status(200).json({ status: "success", data: projectsCompleted })
-
     } else {
         res.status(404).json({ status: 'error', data: "Not Found" });
         return

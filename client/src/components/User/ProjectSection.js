@@ -1,19 +1,25 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from "react-router-dom";
 import { THEME } from "../style/Theme";
 import RelatedUsersPerProject from './RelatedUsersPerProject';
+import { updateProject } from '../../Actions';
 
 const ProjectSection = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
+
     const userProject = useSelector((state) => state.Project);
     const workingDevelopers = useSelector((state) => state.WorkingDevelopers);
     const currentUser = useSelector((state) => state.LoggedUser);
+
     const [isCompleted, setIsCompleted] = React.useState(userProject.isCompleted);
 
     let workingDevelopersArray = Object.keys(workingDevelopers).map(function (k) { return workingDevelopers[k] });
 
+    console.log('isCompleted 1', isCompleted);
+    console.log('userProject.isCompleted 1', userProject.isCompleted);
     const viewProject = (name) => {
         fetch(`http://localhost:8080/project/${name}`, {
             method: 'GET',
@@ -33,9 +39,6 @@ const ProjectSection = () => {
     function handleIsCompletedChanges(e) {
         setIsCompleted(!isCompleted);
 
-        console.log('isCompleted inside', isCompleted);
-        // console.log('isCompleted inside+++', !!e.target.value);
-
         fetch('http://localhost:8080/editproject', {
             method: 'PUT',
             headers: {
@@ -43,13 +46,14 @@ const ProjectSection = () => {
             },
             body: JSON.stringify({
                 name: userProject.name,
-                isCompleted
+                isCompleted: !isCompleted,
             }),
         })
             .then(res => res.json())
             .then((responseBody) => {
-                const { status } = responseBody;
+                const { status, data } = responseBody;
                 if (status === 'success') {
+                    dispatch(updateProject(data, 'isCompleted'))
                     console.log('Success')
                 } else {
                     console.log('Error')
