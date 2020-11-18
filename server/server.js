@@ -31,6 +31,9 @@ express()
     .use(require("./routes/project"))
 
     // handle 404s
-    .use((req, res) => res.status(404).type("txt").send("Error 404"))
+    .use('*', (req, res) => {
+        res.render("pages/fourOhFour");
+        res.status(404);
+    })
 
     .listen(PORT, () => console.log(`Listening on port ${PORT}`));

@@ -18,6 +18,7 @@ import FormProject1 from './forms/FormProject1';
 import FormProject2 from './forms/FormProject2';
 import FormUser from './forms/FormUser';
 import Footer from './Footer';
+import FourOhFour from "./style/FourOhFour";
 
 function App() {
   return (
@@ -50,6 +51,9 @@ function App() {
         </Route>
         <Route path="/user/:email">
           <NotLoggedProfile />
+        </Route>
+        <Route path="*">
+          <FourOhFour />
         </Route>
       </Switch>
       <Footer />
