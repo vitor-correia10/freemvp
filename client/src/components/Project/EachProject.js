@@ -17,7 +17,7 @@ const EachProject = ({ project, children }) => {
   const loggedWorkingProjects = useSelector((state) => state.LoggedUser.workingProjects);
 
   let str = project.description;
-  if (str.length > 150) str = str.substring(0, 150) + ' ...';
+  if (str.length > 140) str = str.substring(0, 140) + ' ...';
 
   const dispatch = useDispatch();
   const history = useHistory();

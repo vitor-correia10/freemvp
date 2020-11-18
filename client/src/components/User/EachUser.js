@@ -56,16 +56,19 @@ const EachUser = ({ user, children }) => {
         <UserDescription>{user.description}</UserDescription>
         : ''
       }
-      {projectAppliedToDevelopers.includes(user._id) ?
-        <OwnProjectP>
-          Pending request
+      {loggedProject.isCompleted
+        ?
+        ''
+        : projectAppliedToDevelopers.includes(user._id) ?
+          <OwnProjectP>
+            Pending request
       </OwnProjectP>
-        : <SubmitButtonDiv>
-          <ApplyButton onClick={() => {
-            matchUser(loggedProject.name, user.email);
-          }}>Match</ApplyButton>
+          : <SubmitButtonDiv>
+            <ApplyButton onClick={() => {
+              matchUser(loggedProject.name, user.email);
+            }}>Match</ApplyButton>
 
-        </SubmitButtonDiv>
+          </SubmitButtonDiv>
       }
     </Wrapper>
   );

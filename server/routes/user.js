@@ -76,7 +76,7 @@ const createUser = async (req, res) => {
         }
 
         const findProjects = await db.collection("projects")
-            .find(getTec(userTec))
+            .find({ $and: [getTec(userTec), { isCompleted: { $eq: false } }] })
             .toArray();
 
         let projectsIdsArray = findProjects.slice(0, 3).map(id => id._id);
@@ -166,7 +166,15 @@ const login = async (req, res) => {
                     }
                 })
             } else (
-                res.status(200).json({ status: "success", data: { findUser, findRelatedProject, findWorkingProjects, findWorkingDevelopers, projectsCompleted } })
+                res.status(200).json({
+                    status: "success", data: {
+                        findUser,
+                        findRelatedProject,
+                        findWorkingProjects,
+                        findWorkingDevelopers,
+                        projectsCompleted
+                    }
+                })
             )
 
         } else {

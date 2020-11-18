@@ -36,9 +36,14 @@ const WorkingProjects = () => {
               >
                 <ImageWrapper>
                   <ProjectImage src={"/uploads/" + project.image} />
+                  {project.isCompleted ?
+                    <Span>Completed</Span> : ''
+                  }
                 </ImageWrapper>
               </ProjectBtn>
-              <ProjectName>{project.name}</ProjectName>
+              <ProjectName>
+                {project.name}
+              </ProjectName>
               <Paragraph>
                 {Object.keys(project.technologies).map((technology) =>
                   <SpanTec key={technology}>{technology}</SpanTec>
@@ -107,8 +112,8 @@ const ImageWrapper = styled.div`
   height: 180px;
   text-align: center;
   position: relative;
-  padding: 8px;
-  border-radius: 4px;
+  margin: 8px;
+  overflow: hidden;
 `;
 
 const ProjectImage = styled.img`
@@ -147,5 +152,21 @@ const ProjectBtn = styled.button`
     }
   }
 `;
+
+const Span = styled.span`
+    font-weight: 700;
+    color: black;
+    height: 25px;
+    font-size: 18px;
+    transform: rotate(322deg);
+    width: 290px;
+    top: 80px;
+    background: rgba(59, 173, 103, 0.8);
+    opacity: 0.;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
 
 export default WorkingProjects;

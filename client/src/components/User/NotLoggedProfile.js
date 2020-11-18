@@ -86,7 +86,11 @@ const NotLoggedProfile = () => {
                     )
                     }
                 </TecParagraph>
-                {currentUser.email === user.email || workingDevelopersArrayById.includes(user._id) || loggedProject.name.length < 1 ?
+                {currentUser.email === user.email ||
+                    workingDevelopersArrayById.includes(user._id) ||
+                    loggedProject.name.length < 1 ||
+                    loggedProject.isCompleted
+                    ?
                     ''
                     :
                     projectAppliedToDevelopers.includes(user._id) || loggedProject.pendingDevelopers.includes(user._id) ?
