@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { THEME } from "../style/Theme";
 import Image from "./Image";
 import { FormSubmitButton } from '../style/Buttons';
@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from '../../Actions';
 import WorkingDevelopersNotLogged from './WorkingDevelopersNotLogged';
 import { AiFillCheckCircle } from "react-icons/ai";
+import Loading from '../style/Loading'
 
 const checkedIcon = { height: "20px", width: "20px" };
 
@@ -20,6 +21,7 @@ const Project = () => {
   const loggedUserEmail = useSelector((state) => state.LoggedUser.email);
   const loggedUserappliedToProjects = useSelector((state) => state.LoggedUser.appliedToProjects);
   const [appliedToProjects, setAppliedToProjects] = React.useState(loggedUserappliedToProjects);
+  const loggedWorkingProjects = useSelector((state) => state.LoggedUser.workingProjects);
   const [workingDevelopers, setWorkingDevelopers] = React.useState([]);
 
   const fetchProject = async () => {
@@ -42,22 +44,6 @@ const Project = () => {
   };
 
   const dispatch = useDispatch();
-  const history = useHistory();
-
-  const viewProject = (name) => {
-    history.push("/project/" + name);
-  };
-
-  const viewDeveloper = (email) => {
-    history.push("/user/" + email);
-  };
-
-  function countStr(str) {
-    if (str.length > 85) {
-      str = str.substring(0, 85) + ' ...';
-    }
-    return str;
-  }
 
   const matchProject = (name, email) => {
     fetch('http://localhost:8080/matchproject', {
@@ -85,8 +71,9 @@ const Project = () => {
   React.useEffect(() => {
     fetchProject();
   }, []);
+
   if (loading) {
-    return loading;
+    return <Loading />;
   }
 
   return (
@@ -112,19 +99,23 @@ const Project = () => {
                 <OwnProjectP>
                   Your project
             </OwnProjectP>
-                : project.isCompleted ?
+                : loggedWorkingProjects.includes(project._id) ?
                   <OwnProjectP>
-                    <StyledChecked /> Completed
-                </OwnProjectP>
-                  : appliedToProjects.includes(project._id) ?
-                    <OwnProjectP>
-                      Pending request
+                    Working project
               </OwnProjectP>
-                    : <SubmitButtonDiv>
-                      <ApplyButton onClick={() => {
-                        matchProject(project.name, loggedUserEmail);
-                      }}>Apply</ApplyButton>
-                    </SubmitButtonDiv>
+                  : project.isCompleted ?
+                    <OwnProjectP>
+                      <StyledChecked /> Completed
+                </OwnProjectP>
+                    : appliedToProjects.includes(project._id) ?
+                      <OwnProjectP>
+                        Pending request
+              </OwnProjectP>
+                      : <SubmitButtonDiv>
+                        <ApplyButton onClick={() => {
+                          matchProject(project.name, loggedUserEmail);
+                        }}>Apply</ApplyButton>
+                      </SubmitButtonDiv>
           }
 
         </ProductDetails>

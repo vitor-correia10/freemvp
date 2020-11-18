@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { useParams } from "react-router-dom";
 import { THEME } from "../style/Theme";
-import Image from "./Image";
 import EachProject from "./EachProject";
+import Loading from "../style/Loading"
 
 const Projects = () => {
   const [projects, setProjects] = React.useState({});
@@ -29,7 +28,7 @@ const Projects = () => {
     fetchProjects();
   }, []);
   if (loading) {
-    return loading;
+    return <Loading />;
   }
   return (
     <Wrapper>

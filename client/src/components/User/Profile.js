@@ -15,9 +15,7 @@ import { THEME } from '../style/Theme';
 const Profile = () => {
     const history = useHistory();
     const userProfile = useSelector((state) => state.LoggedUser);
-    const currentUserProject = useSelector((state) => state.Project);
     const workingDevelopers = useSelector((state) => state.WorkingDevelopers);
-    const [technologies, setTechnologies] = React.useState(Object.keys(userProfile.technologies));
     const initialTechnologies = ['Node', 'Javascript', 'React', 'Mongo'];
 
     let workingDevelopersArray = Object.keys(workingDevelopers).map(function (k) { return workingDevelopers[k] });

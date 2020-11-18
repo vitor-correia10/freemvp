@@ -16,6 +16,7 @@ import { FcIdea } from "react-icons/fc";
 import { GoRocket } from "react-icons/go";
 import { MdDeveloperMode } from "react-icons/md";
 import { THEME } from "./style/Theme";
+import Loading from "./style/Loading";
 
 const socialIconDim = { fontSize: "60px" };
 
@@ -45,7 +46,7 @@ const Home = () => {
         fetchCompletedProjects();
     }, []);
     if (loading) {
-        return loading;
+        return <Loading />;
     }
 
     return (

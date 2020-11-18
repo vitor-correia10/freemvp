@@ -1,4 +1,4 @@
-import React, { Profiler } from 'react';
+import React from 'react';
 import GlobalStyles from './style/GlobalStyles';
 import {
   BrowserRouter as Router,

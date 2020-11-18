@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { FormSubmitButton } from '../style/Buttons';
 import { THEME } from "../style/Theme";
 import { updateProject } from '../../Actions';
+import Loading from '../style/Loading';
 
 const NotLoggedProfile = () => {
     const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const NotLoggedProfile = () => {
         fetchUser();
     }, []);
     if (loading) {
-        return loading;
+        return <Loading />;
     }
     return (
         <Wrapper>

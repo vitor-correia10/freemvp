@@ -15,8 +15,8 @@ const ProjectCompletedSection = () => {
   let completedProjectsArray = Object.keys(completedProjects).map(function (k) { return completedProjects[k] });
 
   function countStr(str) {
-    if (str.length > 85) {
-      str = str.substring(0, 85) + ' ...';
+    if (str.length > 160) {
+      str = str.substring(0, 160) + ' ...';
     }
     return str;
   }
