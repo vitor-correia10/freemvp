@@ -85,7 +85,7 @@ const ProjectSection = () => {
                     <HeaderProject>{userProject.name}</HeaderProject>
                     <p>{userProject.description}</p>
                     <Paragraph>
-                        {Object.keys(currentUser.technologies).map((technology) =>
+                        {Object.keys(userProject.technologies).map((technology) =>
                             <SpanTec key={technology}>{technology}</SpanTec>
                         )
                         }
