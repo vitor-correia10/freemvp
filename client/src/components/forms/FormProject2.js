@@ -72,7 +72,7 @@ const FormProject2 = () => {
                 <MainHeader>About Your Project</MainHeader>
 
                 <FormSection>
-                    <FormLabel>Title</FormLabel>
+                    <FormLabel>Title*</FormLabel>
                     <Input
                         type="text"
                         name="name"
@@ -81,11 +81,11 @@ const FormProject2 = () => {
                         }}
                         value={name}
                         ref={register({ required: true })} />
-                    {errors.name && <ErrorMessage>Name is required.</ErrorMessage>}
+                    {errors.name && <ErrorMessage>Title is required.</ErrorMessage>}
                 </FormSection>
 
                 <FormSection>
-                    <FormLabel>Project Image</FormLabel>
+                    <FormLabel>Project Image*</FormLabel>
                     <Input type="file"
                         name="image"
                         accept="image/*"
@@ -98,7 +98,7 @@ const FormProject2 = () => {
                 </FormSection>
 
                 <FormSection>
-                    <FormLabel>Technologies</FormLabel>
+                    <FormLabel>Technologies*</FormLabel>
                     <div>
                         <InputCheckbox type="checkbox" name="technologies"
                             onChange={(event) => {
@@ -124,7 +124,7 @@ const FormProject2 = () => {
                 </FormSection>
 
                 <FormSection>
-                    <FormLabel >About your project</FormLabel>
+                    <FormLabel >About your project*</FormLabel>
                     <TextArea name="description"
                         onChange={(event) => {
                             dispatch(addProject(event.target.value, 'description'));
